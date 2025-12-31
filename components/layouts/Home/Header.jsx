@@ -2,7 +2,7 @@ import React from 'react'
 
 function Header() {
     return (
-        <div className="container px-5 py-1 mx-auto relative w-full min-h-screen flex flex-col md:flex-row-reverse items-center justify-start gap-4">
+        <div className="pb-16 container px-5 py-1 mx-auto relative w-full min-h-screen flex flex-col md:flex-row-reverse items-center justify-start gap-4">
             {/* image */}
             <div className="w-full md:w-1/2 min-h-4/5 xs:h-full md:h-[calc(100vh-1rem)] rounded-2xl overflow-hidden">
                 <img src="Images/HeaderImage.jpg" className="object-cover object-center w-full h-full" alt="" />
