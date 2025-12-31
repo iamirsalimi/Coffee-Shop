@@ -1,6 +1,7 @@
 import Header from '@/components/layouts/Home/Header';
 import FeaturedMenu from '@/components/layouts/Home/FeaturedMenu';
 import MenuTicker from "@/components/layouts/Home/MenuTicker"
+import OurServices from "@/components/layouts/Home/OurServices"
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Header />
       <FeaturedMenu />
       <MenuTicker />
+      <OurServices />
       <div className="h-screen bg-black"></div>
     </div>
   );
