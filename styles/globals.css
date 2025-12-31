@@ -12,7 +12,7 @@
     backdrop-filter: blur(16.9px);
     -webkit-backdrop-filter: blur(16.9px);
   }
-  .menu-title{
+  .menu-title {
     @apply relative z-20 text-white font-bold font-sans text-4xl after:inline-block after:w-5 after:h-5 after:rounded-full  after:absolute after:top-1 after:-left-1 after:-z-10;
   }
 }
@@ -39,4 +39,15 @@ body {
 
 @theme {
   --breakpoint-xs: 25rem;
+
+  --animate-marquee: "marquee 20s linear infinite";
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-500%);
+    }
+  }
 }
