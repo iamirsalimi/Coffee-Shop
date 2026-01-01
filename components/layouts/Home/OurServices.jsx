@@ -9,8 +9,8 @@ import React from 'react'
 
 function OurServices() {
     return (
-        <div className="py-16 w-full min-h-screen bg-black">
-            <div className="container mx-auto px-5 py-10 w-full h-full flex flex-col gap-8 items-start justify-start">
+        <div className="py-10 w-full min-h-screen bg-black">
+            <div className="container mx-auto px-5 pt-10 w-full h-full flex flex-col gap-8 items-start justify-start">
                 <Title title="Our Services" />
                 <p className="text-white text-lg text-center sm:text-justify">More than just coffee — we create a complete café experience.</p>
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-7">

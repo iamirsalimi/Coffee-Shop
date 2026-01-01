@@ -3,12 +3,12 @@ import React from 'react'
 function Footer() {
     return (
         <div className="bg-[#171717]">
-            <div className="container mx-auto flex flex-col gap-2 divide-y divide-gray-800">
+            <div className="container mx-auto flex flex-col gap-2 divide-y divide-black">
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
                     {/* left side of the footer */}
                     <div className="lg:col-start-1 lg:col-end-4 flex flex-col gap-5 py-10">
                         {/* logo */}
-                        <h1 className="text-center font-bold text-3xl sm:text-5xl lg:text-left md:text-[5rem] lg:text-[6rem] xl:text-[7rem] text-white">COFFEE UNI</h1>
+                        <h1 className="text-center font-bold text-3xl xs:text-4xl sm:text-5xl lg:text-left md:text-[5rem] lg:text-[6rem] xl:text-[7rem] mb-5 text-white">COFFEE UNI</h1>
                         {/* links and address */}
                         <div className="grid grid-cols-3 gap-7">
                             <div className="flex flex-col items-center lg:items-start gap-2">
@@ -39,7 +39,7 @@ function Footer() {
                         <p className="text-gray-400 font-sans text-center lg:text-left">Coffee Uni delivers freshly roasted beans crafted with reach flavors and sustainable sourcing. Each cup is designed to inspire warmth,energy and connection.</p>
                         <p className="text-gray-400 font-sans text-center lg:text-left">We craft premium coffee daily, delivering perfect brews with passion, quality and excellence that create memorable stories in every cup.</p>
 
-                        <button className="px-4 py-2 w-fit rounded-xl text-white font-bold bg-blue-500 cursor-pointer block mx-auto lg:mx;0">Get Started</button>
+                        <button className="px-4 py-2 w-fit rounded-xl text-white font-bold bg-blue-500 cursor-pointer block mx-auto lg:mx-0">Get Started</button>
                     </div>
                 </div>
                 <div className="mt-auto py-2 text-white font-bold text-center">

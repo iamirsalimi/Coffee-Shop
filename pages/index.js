@@ -2,6 +2,7 @@ import Header from '@/components/layouts/Home/Header';
 import FeaturedMenu from '@/components/layouts/Home/FeaturedMenu';
 import MenuTicker from "@/components/layouts/Home/MenuTicker"
 import OurServices from "@/components/layouts/Home/OurServices"
+import WhatOurCustomersSay from '@/components/layouts/Home/WhatOurCustomersSay'
 import Footer from '@/components/modules/Footer/Footer'
 
 export default function Home() {
@@ -11,7 +12,7 @@ export default function Home() {
       <FeaturedMenu />
       <MenuTicker />
       <OurServices />
-      <div className="h-screen bg-black"></div>
+      <WhatOurCustomersSay />
       <Footer />
     </div>
   );
