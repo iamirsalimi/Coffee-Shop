@@ -12,6 +12,13 @@
     backdrop-filter: blur(16.9px);
     -webkit-backdrop-filter: blur(16.9px);
   }
+
+  .glass-effect-top-layer {
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+  }
   .menu-title {
     @apply relative z-20 text-white font-bold font-sans text-4xl after:inline-block after:w-5 after:h-5 after:rounded-full  after:absolute after:top-1 after:-left-1 after:-z-10;
   }

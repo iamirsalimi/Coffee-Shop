@@ -3,6 +3,8 @@ import React from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 // import { RxCross2 } from "react-icons/rx";
 
+import Link from 'next/link'
+
 const Menu = ({ showMenu, setShowMenu }) => {
     return (
         <>
@@ -63,11 +65,21 @@ const Menu = ({ showMenu, setShowMenu }) => {
 const RevealLinks = () => {
     return (
         <section className="h-full w-full flex flex-col place-content-start gap-7 py-12 text-gray-500">
-            <FlipLink index={1} href="#">Home</FlipLink>
-            <FlipLink index={2} href="#">About</FlipLink>
-            <FlipLink index={3} href="#">Menu</FlipLink>
-            <FlipLink index={5} href="#">Booking</FlipLink>
-            <FlipLink index={4} href="#">Contact</FlipLink>
+            <Link href="/">
+                <FlipLink index={1}>Home</FlipLink>
+            </Link>
+            <Link href="/About">
+                <FlipLink index={2}>About</FlipLink>
+            </Link>
+            <Link href="/Menu">
+                <FlipLink index={3}>Menu</FlipLink>
+            </Link>
+            <Link href="/Booking">
+                <FlipLink index={5}>Booking</FlipLink>
+            </Link>
+            <Link href="/Contact">
+                <FlipLink index={4}>Contact</FlipLink>
+            </Link>
         </section>
     );
 };
@@ -76,15 +88,15 @@ const DURATION = 0.25;
 const STAGGER = 0.025;
 const STAGGERInitial = 0.05;
 
-const FlipLink = ({ children, href , index }) => {
+const FlipLink = ({ children, href, index }) => {
     return (
         <motion.div
             className=""
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65 + (index * STAGGERInitial) , duration: 0.4 }}
+            transition={{ delay: 0.65 + (index * STAGGERInitial), duration: 0.4 }}
         >
-            <motion.a
+            <motion.span
                 initial="initial"
                 whileHover="hovered"
                 href={href}
@@ -139,7 +151,7 @@ const FlipLink = ({ children, href , index }) => {
                         </motion.span>
                     ))}
                 </div>
-            </motion.a>
+            </motion.span>
         </motion.div>
     );
 };

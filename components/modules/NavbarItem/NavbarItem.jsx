@@ -1,4 +1,6 @@
 import React, { useRef } from 'react'
+import Link from 'next/link'
+
 
 function NavbarItem({ linkTitle , setPosition }) {
     let ref = useRef(null)
@@ -20,7 +22,9 @@ function NavbarItem({ linkTitle , setPosition }) {
             }}
             className="relative z-10 block cursor-pointer py-1.5 text-white uppercase mix-blend-difference px-3 font-sans font-bold"
         >
-            {linkTitle}
+            <Link href={`/${linkTitle}`}>
+                {linkTitle}
+            </Link>
         </li>
     )
 }

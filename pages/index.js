@@ -3,7 +3,6 @@ import FeaturedMenu from '@/components/layouts/Home/FeaturedMenu';
 import MenuTicker from "@/components/layouts/Home/MenuTicker"
 import OurServices from "@/components/layouts/Home/OurServices"
 import WhatOurCustomersSay from '@/components/layouts/Home/WhatOurCustomersSay'
-import Footer from '@/components/modules/Footer/Footer'
 
 export default function Home() {
   return (
@@ -13,7 +12,6 @@ export default function Home() {
       <MenuTicker />
       <OurServices />
       <WhatOurCustomersSay />
-      <Footer />
     </div>
   );
 }
