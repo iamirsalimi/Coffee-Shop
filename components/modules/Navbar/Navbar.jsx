@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 
 import NavbarItem from './../NavbarItem/NavbarItem'
+import Link from 'next/link'
 
 function Navbar({ setShowMenu }) {
     const [position, setPosition] = useState({
@@ -14,9 +15,9 @@ function Navbar({ setShowMenu }) {
     return (
         <div className="absolute px-6 xl:px-2 top-2 md:top-3 xl:top-0 left-1/2 -translate-x-1/2 flex flex-column md:flex-row items-center justify-between container z-20">
             <div className="flex flex-row-reverse items-center justify-start gap-2">
-                <button className="inline-block bg-white text-black px-2 py-1 text-center rounded-xl border border-transparent font-sans text-sm xs:text-base font-bold cursor-pointer md:hover:bg-black hover:bg-transparent hover:border-white hover:text-white transition-all duration-200">
+                <Link href="/SignIn" className="inline-block bg-white text-black px-2 py-1 text-center rounded-xl border border-transparent font-sans text-sm xs:text-base font-bold cursor-pointer md:hover:bg-black hover:bg-transparent hover:border-white hover:text-white transition-all duration-200">
                     Sign In
-                </button>
+                </Link>
                 <h1 className="md:inline-block hidden text-white font-bold text-2xl">CoffeeUni</h1>
             </div>
             <div className="w-1/2 hidden xl:flex justify-center items-center">

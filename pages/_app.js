@@ -4,7 +4,14 @@ import "@/styles/globals.css";
 import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
-    const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(false);
+
+  // If page says: noLayout = true
+  if (Component.noLayout) {
+    return (
+      <Component {...pageProps} />
+    )
+  }
 
   return (
     <>
@@ -12,5 +19,5 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} />
     </>
-  )
+  );
 }
