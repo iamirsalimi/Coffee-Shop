@@ -25,7 +25,7 @@ function ProductCard() {
                     <span className="text-white text-sm font-bold"><span className="text-xs text-gray-500">$</span>12.99</span>
                 </div>
 
-                <Link href="/product/123" className="underline font-sans text-sm font-semibold">Buy Now</Link>
+                <Link href={`/Product/123`} className="underline font-sans text-sm font-semibold">Buy Now</Link>
             </div>
             <div className="absolute top-1 right-1 glass-effect p-1 rounded-full cursor-pointer hover:scale-105 transition-all">
                 <IoHeartOutline className="text-white w-6 h-6" />

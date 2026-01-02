@@ -22,7 +22,7 @@ function NavbarItem({ linkTitle , setPosition }) {
             }}
             className="relative z-10 block cursor-pointer py-1.5 text-white uppercase mix-blend-difference px-3 font-sans font-bold"
         >
-            <Link href={`/${linkTitle}`}>
+            <Link href={`/${linkTitle == 'Home' ? '' : linkTitle}`}>
                 {linkTitle}
             </Link>
         </li>

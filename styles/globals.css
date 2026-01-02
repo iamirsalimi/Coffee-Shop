@@ -24,6 +24,14 @@
   }
 }
 
+.product-size input[type="radio"]:checked ~ label{
+  @apply bg-sky-700;
+}
+
+.product-size input[type="radio"]:checked ~ p{
+  @apply text-sky-700;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

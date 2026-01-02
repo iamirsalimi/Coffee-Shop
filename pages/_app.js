@@ -15,10 +15,11 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
     )
   }
+  console.log(Component.paddingFlag)
 
   return (
     <>
-      <Navbar setShowMenu={setShowMenu} />
+      <Navbar setShowMenu={setShowMenu} paddingFlag={Component?.paddingFlag} />
       <Component {...pageProps} />
       <Footer />
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} />
