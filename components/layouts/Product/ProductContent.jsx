@@ -60,7 +60,7 @@ function ProductContent() {
                             {sizes.map((size, index) => (
                                 <div className="flex flex-col items-center gap-2 product-size">
                                     <input type="radio" id={size} name="productSize" className="hidden" checked={activeSize == size} data-size={size} onChange={e => setActiveSize(e.target.dataset.size)} />
-                                    <label htmlFor={size} className="w-16 h-16 rounded-full bg-[#171717] flex items-center justify-center cursor-pointer transition-all duration-200">
+                                    <label htmlFor={size} className="w-16 h-16 rounded-full border border-[#1f1f1f] bg-[#0f0f0f] flex items-center justify-center cursor-pointer transition-all duration-200">
                                         <CiCoffeeCup className={`text-white text-${(index + 1) > 1 ? index + 1 : ''}xl`} />
                                     </label>
                                     <p className="text-white transition-all duration-200">{size}</p>
@@ -70,7 +70,7 @@ function ProductContent() {
                     </div>
 
                     {/* Product Count */}
-                    <div className="w-full p-2 lg:p-2 lg:rounded-full rounded-4xl flex flex-col lg:flex-row items-center gap-3 lg:gap-2 bg-[#171717] mt-auto">
+                    <div className="w-full p-2 lg:p-2 lg:rounded-full rounded-4xl flex flex-col lg:flex-row items-center gap-3 lg:gap-2 border border-[#1f1f1f] bg-[#0f0f0f] mt-auto">
                         <div className="flex flex-col xs:flex-row items-center justify-between">
                             {/* count */}
                             <div className="flex items-center gap-2">

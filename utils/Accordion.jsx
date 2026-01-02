@@ -12,10 +12,10 @@ function Accordion({ title, defaultOpenValue = false, children }) {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
             onClick={() => setIsOpen(prev => !prev)}
-            className="border border-gray-500 w-full h-fit rounded-xl p-2 space-y-3 select-none"
+            className="border border-[#1f1f1f] bg-[#0f0f0f] w-full h-fit rounded-xl p-2 select-none"
         >
             <div className="flex items-center justify-between">
-                <h2 className="text-white font-sans font-bold text-xl">{title} : </h2>
+                <h2 className="text-white font-sans font-bold text-lg sm:text-xl">{title} : </h2>
                 <motion.svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -27,7 +27,7 @@ function Accordion({ title, defaultOpenValue = false, children }) {
                         rotate: !isOpen ? 180 : 0,
                     }}
                     transition={{ duration: 0.3 }}
-                    className="text-white w-7 h-7"
+                    className="text-white w-5 h-5 sm:w-7 sm:h-7"
                 >
                     <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
                 </motion.svg>
