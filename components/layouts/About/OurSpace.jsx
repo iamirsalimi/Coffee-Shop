@@ -14,7 +14,7 @@ function OurSpace() {
                     whileInView={{opacity : 1 , y : 0}}
                     transition={{duration : 0.5}}
                     viewport={{ once: true }}
-                className="text-white text-lg text-center sm:text-justify"
+                className="text-white text-lg text-center md:text-justify"
                 >
                     We designed our space to feel warm, calm, and inviting.
                     Whether you’re here to work, meet friends, or enjoy a quiet moment, our café is built to support every kind of visit. Comfortable seating, soft lighting, and thoughtful details shape the experience

@@ -11,9 +11,9 @@ function Header() {
             </div>
             {/* left-side header */}
             <div className="md:pr-5 w-full md:w-1/2 rounded-md flex flex-col md:items-start items-center justify-center gap-4 sm:gap-6 ">
-                <h1 className=" text-white font-bold text-3xl sm:text-4xl md:text-justify text-center">Plan Your Visit</h1>
+                <h1 className="text-white font-bold text-3xl sm:text-4xl md:text-justify text-center">Plan Your Visit</h1>
                 <p className="md:text-justify text-center md:text-lg text-gray-400">Reserve a table in advance and enjoy your time without waiting. Choose a date, time, and number of guests — we’ll take care of the rest.</p>
-                <div className="mt-15 w-full flex items-center justify-center gap-2 pb-12 md:pb-5">
+                <div className="mt-15 w-full flex items-center justify-center gap-2 md:pb-5">
                     <RiScrollToBottomLine className="text-white text-2xl animate-bounce" />
                     <span className="text-white text-2xl ">Scroll</span>
                 </div>

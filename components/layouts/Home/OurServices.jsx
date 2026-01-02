@@ -12,7 +12,7 @@ function OurServices() {
         <div className="py-10 w-full min-h-screen bg-black">
             <div className="container mx-auto px-5 pt-10 w-full h-full flex flex-col gap-8 items-start justify-start">
                 <Title title="Our Services" />
-                <p className="text-white text-lg text-center sm:text-justify">More than just coffee — we create a complete café experience.</p>
+                <p className="text-white text-lg text-center mx-auto md:mx-0 md:text-justify">More than just coffee — we create a complete café experience.</p>
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-7">
                     <ServiceBox title="Freshly Roasted Beans" description="We use high-quality beans roasted to perfection for rich and balanced flavor.">
                         <div className="min-w-16 min-h-16 xs:min-w-20 xs:min-h-20 rounded-full bg-amber-100 flex items-center justify-center">

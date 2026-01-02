@@ -9,7 +9,7 @@ import { GrFormPrevious } from "react-icons/gr";
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 function WhatOurCustomersSay() {
     let swiperRef = useRef(null)
@@ -20,18 +20,18 @@ function WhatOurCustomersSay() {
                 <div className="sm:pr-5 w-full flex items-start justify-between">
                     <div className="flex flex-col items-start gap-8">
                         <Title title="What Our Customers Say" />
-                        <p className="text-white text-lg text-center sm:text-justify">Real stories from people who enjoy our coffee, atmosphere, and service every day.</p>
+                        <p className="text-white text-lg text-center md:text-justify">Real stories from people who enjoy our coffee, atmosphere, and service every day.</p>
                     </div>
                     <div className="w=fit h-fit flex items-center justify-center gap-2">
                         <button
                             onClick={() => swiperRef?.current.swiper.slidePrev()}
-                            className="hidden sm:block p-2 rounded-full cursor-pointer bg-[#171717]"
+                            className="hidden md:block p-2 rounded-full cursor-pointer bg-[#171717]"
                         >
                             <GrFormPrevious className="text-white text-2xl" />
                         </button>
                         <button
                             onClick={() => swiperRef?.current.swiper.slideNext()}
-                            className="hidden sm:block p-2 rounded-full cursor-pointer bg-[#171717]"
+                            className="hidden md:block p-2 rounded-full cursor-pointer bg-[#171717]"
                         >
                             <GrFormNext className="text-white text-2xl" />
                         </button>
@@ -42,7 +42,7 @@ function WhatOurCustomersSay() {
                 <div className="flex items-center justify-center gap-1 w-full h-full">
                     <button
                         onClick={() => swiperRef?.current.swiper.slidePrev()}
-                        className="block sm:hidden p-2 rounded-full cursor-pointer bg-[#171717]"
+                        className="block md:hidden p-2 rounded-full cursor-pointer bg-[#171717]"
                     >
                         <GrFormPrevious className="text-white text-2xl" />
                     </button>
@@ -100,7 +100,7 @@ function WhatOurCustomersSay() {
                     </Swiper>
                     <button
                         onClick={() => swiperRef?.current.swiper.slideNext()}
-                        className="block sm:hidden p-2 rounded-full cursor-pointer bg-[#171717]"
+                        className="block md:hidden p-2 rounded-full cursor-pointer bg-[#171717]"
                     >
                         <GrFormNext className="text-white text-2xl" />
                     </button>

@@ -29,15 +29,15 @@ function BookingForm() {
         <div className="py-16 w-full min-h-screen bg-black">
             <div className="container mx-auto px-5 py-10 w-full h-full flex flex-col gap-8 items-start justify-start">
                 <Title title="Book A Table" />
-                <p className="text-white text-lg text-center sm:text-justify">Please fill in the details below to reserve your table. We’ll confirm your booking as soon as possible</p>
+                <p className="text-white text-lg text-center md:text-justify">Please fill in the details below to reserve your table. We’ll confirm your booking as soon as possible</p>
                 <form className="w-full flex flex-col justify-center items-center lg:items-start gap-7">
                     <div className="w-full flex flex-col gap-5">
                         <div className="flex flex-col gap-5 p-4 rounded-xl bg-green-700">
                             <h2 className="text-white font-bold text-xl text-center md:text-left">Good to Know</h2>
                             <ul className="flex flex-col gap-2 items-center md:items-start">
-                                <li className="text-gray-200">Bookings can be made up to 7 days in advance</li>
-                                <li className="text-gray-200">Please arrive on time to keep your reservation</li>
-                                <li className="text-gray-200">For large groups, contact us directly</li>
+                                <li className="text-gray-200 text-center md:text-justify">Bookings can be made up to 7 days in advance</li>
+                                <li className="text-gray-200 text-center md:text-justify">Please arrive on time to keep your reservation</li>
+                                <li className="text-gray-200 text-center md:text-justify">For large groups, contact us directly</li>
                             </ul>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-7">
