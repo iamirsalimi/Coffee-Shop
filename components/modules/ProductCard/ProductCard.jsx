@@ -8,7 +8,7 @@ function ProductCard() {
         <div className="w-full min-h-96 max-h-96 rounded-lg overflow-hidden relative">
             <img src="Images/Product.jpg" className="w-full h-full object-cover object-center" alt="" />
 
-            <div className="w-full rounded-none min-h-1/4 sm:min-h-1/4 px-2 py-1 h-fit glass-effect absolute bottom-0 flex flex-col gap-1">
+            <div className="w-full rounded-none min-h-1/4 sm:min-h-1/4 px-2 py-1 h-fit glass-effect backdrop-blur-xl absolute bottom-0 flex flex-col gap-1">
                 <div className="w-full flex items-center justify-between">
                     <h3 className="text-white font-bold text-base xs:text-lg font-sans">Latte supreme</h3>
 

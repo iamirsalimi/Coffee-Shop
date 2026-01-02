@@ -17,7 +17,7 @@ export default function MenuTicker() {
     ];
 
     return (
-        <div className="w-full overflow-hidden bg-[--foreground] py-4">
+        <div className="w-full overflow-hidden border border-[#1f1f1f] bg-[#0f0f0f] py-4">
             <motion.div
                 className="flex whitespace-nowrap"
                 animate={{ x: ["0%", "-50%"] }}

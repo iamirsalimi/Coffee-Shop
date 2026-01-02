@@ -5,7 +5,7 @@ function RatingAndComments() {
     return (
         <div className="w-full h-full bg-black pb-20 pt-10">
             <div className="container mx-auto w-full flex flex-col gap-5">
-                <div className="flex flex-col md:flex-row items-center gap-2">
+                <div className="flex flex-col md:flex-row items-center gap-5">
                     <div className="w-full md:w-1/2 flex items-center gap-5">
                         <div className="flex flex-col items-center gap-1">
                             <h3 className="text-5xl md:text-7xl lg:text-9xl text-nowrap">4.5<span className="text-lg text-gray-500">/5</span></h3>
@@ -105,8 +105,11 @@ function RatingAndComments() {
                         <Comment />
                         <Comment />
                         <Comment />
-                        <Comment /> 
+                        <Comment />
                     </div>
+                    <button className="px-6 py-2 mx-auto cursor-pointer bg-amber-500 text-black rounded-xl font-medium hover:bg-amber-400 transition">
+                        show more
+                    </button>
                 </div>
             </div>
         </div>

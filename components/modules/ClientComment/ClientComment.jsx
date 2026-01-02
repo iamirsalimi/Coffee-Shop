@@ -3,9 +3,9 @@ import React from 'react'
 
 function ServiceBox({ username, commentText }) {
     return (
-        <div className="relative bg-[#171717] flex flex-col items-center justify-center gap-2 rounded-4xl py-4 px-5 pb-16">
-            <div className="w-16 h-16 xs:w-20 xs:h-20 rounded-full bg-gray-900 flex items-center justify-center overflow-hidden border border-black">
-                <IoPerson className="text-white text-8xl relative -bottom-5" />
+        <div className="relative border border-[#1f1f1f] bg-[#0f0f0f] flex flex-col items-center justify-center gap-2 rounded-4xl py-4 px-5 pb-16">
+            <div className="w-16 h-16 xs:w-20 xs:h-20 rounded-full bg-black flex items-center justify-center overflow-hidden ">
+                <IoPerson className="text-white text-8xl relative -bottom-3" />
             </div>
             <div className="inline-flex items-center justify-center gap-0.5 text-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="stroke-yellow-500 fill-yellow-500 w-4 h-4 ">

@@ -25,13 +25,13 @@ function WhatOurCustomersSay() {
                     <div className="w=fit h-fit flex items-center justify-center gap-2">
                         <button
                             onClick={() => swiperRef?.current.swiper.slidePrev()}
-                            className="hidden md:block p-2 rounded-full cursor-pointer bg-[#171717]"
+                            className="hidden md:block p-2 rounded-full cursor-pointer border border-[#1f1f1f] bg-[#0f0f0f]"
                         >
                             <GrFormPrevious className="text-white text-2xl" />
                         </button>
                         <button
                             onClick={() => swiperRef?.current.swiper.slideNext()}
-                            className="hidden md:block p-2 rounded-full cursor-pointer bg-[#171717]"
+                            className="hidden md:block p-2 rounded-full cursor-pointer border border-[#1f1f1f] bg-[#0f0f0f]"
                         >
                             <GrFormNext className="text-white text-2xl" />
                         </button>
@@ -42,7 +42,7 @@ function WhatOurCustomersSay() {
                 <div className="flex items-center justify-center gap-1 w-full h-full">
                     <button
                         onClick={() => swiperRef?.current.swiper.slidePrev()}
-                        className="block md:hidden p-2 rounded-full cursor-pointer bg-[#171717]"
+                        className="block md:hidden p-2 rounded-full cursor-pointer border border-[#1f1f1f] bg-[#0f0f0f]"
                     >
                         <GrFormPrevious className="text-white text-2xl" />
                     </button>
@@ -100,7 +100,7 @@ function WhatOurCustomersSay() {
                     </Swiper>
                     <button
                         onClick={() => swiperRef?.current.swiper.slideNext()}
-                        className="block md:hidden p-2 rounded-full cursor-pointer bg-[#171717]"
+                        className="block md:hidden p-2 rounded-full cursor-pointer border border-[#1f1f1f] bg-[#0f0f0f]"
                     >
                         <GrFormNext className="text-white text-2xl" />
                     </button>

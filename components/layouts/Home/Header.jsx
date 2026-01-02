@@ -4,7 +4,7 @@ function Header() {
     return (
         <div className="pb-16 container px-5 py-1 mx-auto relative w-full min-h-screen flex flex-col md:flex-row-reverse items-center justify-start gap-4">
             {/* image */}
-            <div className="w-full md:w-1/2 min-h-4/5 xs:h-full md:h-[calc(100vh-1rem)] rounded-2xl overflow-hidden">
+            <div className="w-full md:w-1/2 min-h-4/5 xs:h-full md:h-[calc(100vh-1rem)] rounded-2xl overflow-hidden relative -z-10">
                 <img src="Images/HeaderImage.jpg" className="object-cover object-center w-full h-full" alt="" />
             </div>
             {/* left-side header */}
@@ -15,7 +15,7 @@ function Header() {
                     <button className="bg-white text-black px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-bold border border-white cursor-pointer hover:bg-black hover:border-white hover:text-white transition-all duration-200">
                         View Menu
                     </button>
-                    <button className="bg-transparent border border-white text-white px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-bold cursor-pointer hover:bg-white hover:text-black transition-all duration-200">
+                    <button className="border border-[#1f1f1f] bg-[#0f0f0f] px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-bold cursor-pointer">
                         Book a Table
                     </button>
                 </div>

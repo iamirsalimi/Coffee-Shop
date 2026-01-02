@@ -32,9 +32,12 @@ function BookingForm() {
                 <p className="text-white text-lg text-center md:text-justify">Please fill in the details below to reserve your table. We’ll confirm your booking as soon as possible</p>
                 <form className="w-full flex flex-col justify-center items-center lg:items-start gap-7">
                     <div className="w-full flex flex-col gap-5">
-                        <div className="flex flex-col gap-5 p-4 rounded-xl bg-green-700">
-                            <h2 className="text-white font-bold text-xl text-center md:text-left">Good to Know</h2>
-                            <ul className="flex flex-col gap-2 items-center md:items-start">
+                        <div className="w-full p-4 border border-[#1f1f1f] rounded-2xl space-y-4 bg-[#0f0f0f] text-center">
+                            <h2 className="text-lg font-semibold text-white">
+                                Good to Know
+                            </h2>
+
+                            <ul className="flex flex-col items-center gap-2 text-sm text-gray-400 list-disc pl-5">
                                 <li className="text-gray-200 text-center md:text-justify">Bookings can be made up to 7 days in advance</li>
                                 <li className="text-gray-200 text-center md:text-justify">Please arrive on time to keep your reservation</li>
                                 <li className="text-gray-200 text-center md:text-justify">For large groups, contact us directly</li>
@@ -96,8 +99,8 @@ function BookingForm() {
                     </div>
                 </form>
                 <div className="w-full text-center flex flex-col items-center gap-2">
-                    <p className="text-center font-bold text-gray-400">Need help with your reservation?</p>
-                    <p className="text-center font-bold text-white">Visit our <Link className="underline" href="/Contact">contact</Link> page or call us directly.</p>
+                    <p className="text-center font-bold text-white">Need help with your reservation?</p>
+                    <p className="text-center font-bold text-gray-500">Visit our <Link className="underline" href="/Contact">contact</Link> page or call us directly.</p>
                 </div>
             </div>
         </div>

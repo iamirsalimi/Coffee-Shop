@@ -25,7 +25,7 @@ function FeaturedMenu() {
                         <ProductCard />
                     </div>
                 </div>
-                <Link href="/Menu" className="mx-auto w-fit px-4 py-2 font-bold font-sans bg-white text-black rounded-lg hover:bg-black border border-white hover:text-white transition-colors duration-200 cursor-pointer">View All Products</Link>
+                <Link href="/Menu" className="mx-auto w-fit px-4 py-2 font-bold font-sans border border-[#1f1f1f] bg-[#0f0f0f] rounded-lg  transition-colors duration-200 cursor-pointer">View All Products</Link>
             </div>
         </div>
     )

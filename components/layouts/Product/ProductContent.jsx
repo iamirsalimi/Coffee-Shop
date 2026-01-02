@@ -32,7 +32,7 @@ function ProductContent() {
 
                 <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start gap-5 lg:gap-2 px-5 lg:px-0 mt-5">
                     <h2 className="text-white font-sans font-bold text-3xl md:text-5xl">Latee Coffee</h2>
-                    <p className="text-gray-400 font-semibold text-xl">$25.99</p>
+                    {/* <p className="text-gray-400 font-semibold text-xl">$25.99</p> */}
 
                     {/* description */}
                     <Accordion title="Description" defaultOpenValue={true}>
@@ -53,7 +53,27 @@ function ProductContent() {
                     </div>
 
                     {/* product Sizes */}
-                    <div className="flex flex-col items-center lg:items-start gap-5 mt-5">
+                    <div className="w-full p-4 border border-[#1f1f1f] rounded-2xl space-y-4 bg-[#0f0f0f]">
+                        <h2 className="text-lg font-semibold text-white">
+                            Price Per Size
+                        </h2>
+
+                        <ul className="flex flex-col gap-2 text-sm text-gray-400 list-disc">
+                            <li className="w-full flex items-center justify-between">
+                                <span>Small : </span>
+                                <span>$12.99</span>    
+                            </li>
+                            <li className="w-full flex items-center justify-between">
+                                <span>Medium : </span>
+                                <span>$14.99</span>    
+                            </li>
+                            <li className="w-full flex items-center justify-between">
+                                <span>Large : </span>
+                                <span>$16.99</span>    
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="flex flex-col items-center lg:items-start gap-5 mt-2">
                         <h2 className="text-white font-sans font-bold text-2xl">Drink Size : </h2>
 
                         <div className="flex items-center gap-5">

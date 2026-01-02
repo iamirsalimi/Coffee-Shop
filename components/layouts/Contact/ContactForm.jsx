@@ -21,9 +21,9 @@ function ContactForm() {
 
       <div className="flex flex-col md:flex-col lg:flex-row items-start justify-start gap-7 mt-5">
         {/* left-side contact */}
-        <div className="w-full h-full !max-h-screen rounded-4xl overflow-hidden p-5 flex flex-col sm:flex-row items-start gap-7 border border-[#171717]">
+        <div className="w-full h-full rounded-4xl overflow-hidden p-3 flex flex-col sm:flex-row items-start gap-7 border border-[#1f1f1f] bg-[#0f0f0f]">
 
-          <div className="w-full lg:min-w-1/2 min-h-1/2 xs:h-full md:h-[calc(75vh-1rem)] rounded-2xl overflow-hidden">
+          <div className="w-full lg:min-w-1/2 h-[calc[100vh-5rem]] md:h-[calc(75vh-1rem)] rounded-2xl overflow-hidden">
             <img src="Images/Contact-1.jpg" className="object-cover object-center w-full h-full" alt="" />
           </div>
 
