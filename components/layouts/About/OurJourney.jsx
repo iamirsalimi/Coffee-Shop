@@ -52,7 +52,7 @@ function TypewriterText({ text }) {
 
 function OurJourney() {
   return (
-    <div className="pb-16 container px-5 mx-auto relative w-full min-h-screen flex items-center justify-center">
+    <div className="py-16 px-5 mx-auto relative w-full min-h-screen flex items-center justify-center bg-black">
       <div className="relative w-full md:w-[90%] h-[calc(100vh-2rem)] rounded-4xl overflow-hidden">
         <img
           src="Images/About-2.jpg"
@@ -61,7 +61,7 @@ function OurJourney() {
         />
 
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-[90%] h-[90%] rounded-4xl bg-black/70 backdrop-blur-2xl">
+          <div className="w-[95%] h-[95%] rounded-3xl bg-black/70 backdrop-blur-2xl">
             <TypewriterText text={journeyText} />
           </div>
         </div>

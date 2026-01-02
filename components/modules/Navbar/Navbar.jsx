@@ -27,7 +27,7 @@ function Navbar({ setShowMenu }) {
                         ...prev,
                         opacity: 0
                     }))}
-                    className="mt-2 w-fit py-1 rounded-full border bg-white hidden lg:flex items-center justify-between gap-3 p-1"
+                    className="relative mt-2 w-fit py-1 rounded-full border bg-white hidden lg:flex items-center justify-between gap-3 p-1"
                 >
                     <NavbarItem setPosition={setPosition} linkTitle="Home" />
                     <NavbarItem setPosition={setPosition} linkTitle="About" />
