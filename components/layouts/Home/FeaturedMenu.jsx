@@ -1,5 +1,6 @@
 import Title from "@/components/modules/Title/Title"
 import ProductCard from "@/components/modules/ProductCard/ProductCard"
+import Link from "next/link"
 
 function FeaturedMenu() {
     return (

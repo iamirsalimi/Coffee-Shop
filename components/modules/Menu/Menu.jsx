@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'motion/react'
 import Link from 'next/link'
 
 const Menu = ({ showMenu, setShowMenu }) => {
+
+    const hideMenu = () => setShowMenu(false)
+
     return (
         <>
             <AnimatePresence >
@@ -53,7 +56,7 @@ const Menu = ({ showMenu, setShowMenu }) => {
                         </div>
 
                         {/* links */}
-                        <RevealLinks />
+                        <RevealLinks hideMenu={hideMenu} />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -62,22 +65,37 @@ const Menu = ({ showMenu, setShowMenu }) => {
 }
 
 
-const RevealLinks = () => {
+const RevealLinks = ({hideMenu}) => {
     return (
         <section className="h-full w-full flex flex-col place-content-start gap-7 py-12 text-gray-500">
-            <Link href="/">
+            <Link 
+                href="/"
+                onClick={hideMenu}
+            >
                 <FlipLink index={1}>Home</FlipLink>
             </Link>
-            <Link href="/About">
+            <Link 
+                href="/About"
+                onClick={hideMenu}
+            >
                 <FlipLink index={2}>About</FlipLink>
             </Link>
-            <Link href="/Menu">
+            <Link 
+                href="/Menu"
+                onClick={hideMenu}
+            >
                 <FlipLink index={3}>Menu</FlipLink>
             </Link>
-            <Link href="/Booking">
+            <Link 
+                href="/Booking"
+                onClick={hideMenu}
+            >
                 <FlipLink index={5}>Booking</FlipLink>
             </Link>
-            <Link href="/Contact">
+            <Link 
+                href="/Contact"
+                onClick={hideMenu}
+            >
                 <FlipLink index={4}>Contact</FlipLink>
             </Link>
         </section>

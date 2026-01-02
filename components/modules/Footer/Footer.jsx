@@ -1,4 +1,4 @@
-import React from 'react'
+import Link from "next/link"
 
 function Footer() {
     return (
@@ -14,10 +14,21 @@ function Footer() {
                             <div className="flex flex-col items-center lg:items-start gap-2">
                                 <h2 className="text-white font-bold font-sans">Navigation</h2>
                                 <ul className="flex flex-col gap-1 items-center lg:items-start">
-                                    <li className="text-gray-400">About</li>
-                                    <li className="text-gray-400">Menu</li>
-                                    <li className="text-gray-400">Contact</li>
-                                    <li className="text-gray-400">booking</li>
+                                    <li className="text-gray-400">
+                                        <Link href="/">Home</Link>
+                                    </li>
+                                    <li className="text-gray-400">
+                                        <Link href="/About">About</Link>
+                                    </li>
+                                    <li className="text-gray-400">
+                                        <Link href="/Menu">Menu</Link>
+                                    </li>
+                                    <li className="text-gray-400">
+                                        <Link href="/Contact">Contact</Link>
+                                    </li>
+                                    <li className="text-gray-400">
+                                        <Link href="/booking">booking</Link>
+                                    </li>
                                 </ul>
                             </div>
                             <div className="flex flex-col items-center lg:items-start gap-2">

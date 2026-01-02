@@ -29,7 +29,7 @@ function MenuItems() {
                         </div>
                     </div>
                     <div className="flex flex-col gap-4 items-start">
-                        <h2 className="menu-title after:bg-pink-500">Especial</h2>
+                        <h2 className="menu-title after:bg-pink-500">Special</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
                             <ProductCard />
                             <ProductCard />
