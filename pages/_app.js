@@ -9,7 +9,7 @@ import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   const [showMenu, setShowMenu] = useState(false);
-  const [showBasketMenu, setShowBasketMenu] = useState(true);
+  const [showBasketMenu, setShowBasketMenu] = useState(false);
 
   // If page says: noLayout = true
   if (Component.noLayout) {

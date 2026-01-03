@@ -54,22 +54,28 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
                         {/* links */}
                         <RevealLinks hideMenu={hideMenu} />
 
-                        <div className="p-2 grid grid-cols-1 xs:grid-cols-2 gap-2">
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.85 , duration: 0.4 }}
+                            className="p-2 grid grid-cols-1 xs:grid-cols-2 gap-2"
+                        >
                             <button className="p-4  rounded-xl text-white bg-red-600 hover:bg-red-700 transition-colors font-bold text-sm sm:text-base cursor-pointer">Reset Basket</button>
                             <button className="p-4  rounded-xl text-white bg-sky-600 hover:bg-sky-700 transition-colors font-bold text-sm sm:text-base cursor-pointer">Order</button>
-                        </div>
+                        </motion.div>
                     </motion.div>
-                    
+
                     {/* blur bg */}
                     <motion.div
                         className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm py-2 px-5 flex flex-col place-content-start gap-2 h-screen hidden w-full md:block"
-                        initial={{ opacity : 0 }}
-                        animate={{ opacity : 1 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         exit={{ opacity: 1 }}
                         transition={{
                             duration: 0.6,
                             ease: 'easeInOut'
                         }}
+                        onClick={hideMenu}
                     ></motion.div>
                 </div>
             )}
