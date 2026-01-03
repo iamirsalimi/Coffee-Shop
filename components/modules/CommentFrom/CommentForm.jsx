@@ -40,6 +40,7 @@ function CommentForm() {
       <p className="text-xs text-gray-500">
         Your comment will be visible after moderation.
       </p>
+      
 
       <button
         onClick={submitHandler}
