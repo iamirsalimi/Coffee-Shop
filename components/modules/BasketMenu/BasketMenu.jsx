@@ -89,7 +89,7 @@ export default BasketMenu
 const RevealLinks = () => {
     return (
         <section className="h-full w-full flex flex-col place-content-start gap-2 py-5 text-gray-500 overflow-y-auto md:px-2">
-            <CartAnimation index={1}>
+            {/* <CartAnimation index={1}>
                 <BasketProductCart />
             </CartAnimation>
             <CartAnimation index={2}>
@@ -103,7 +103,9 @@ const RevealLinks = () => {
             </CartAnimation>
             <CartAnimation index={5}>
                 <BasketProductCart />
-            </CartAnimation>
+            </CartAnimation> */}
+
+            <h2 className="text-center text-gray-500 font-sans text-2xl mt-10">Your Basket is Empty</h2>
         </section>
     );
 };
