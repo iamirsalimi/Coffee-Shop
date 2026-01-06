@@ -4,21 +4,21 @@ import { Toaster } from 'react-hot-toast';
 
 export const getStaticProps = () => {
   return {
-    props : {
+    props: {
 
-    } 
+    }
   }
 }
 
 function Contact() {
   return (
     <div className="flex flex-col w-full h-full bg-black">
-        <Header />
-        <ContactForm />
-        <Toaster
-                position="top-left"
-                reverseOrder={false}
-              />
+      <Header />
+      <ContactForm />
+      <Toaster
+        position="top-left"
+        reverseOrder={false}
+      />
     </div>
   )
 }

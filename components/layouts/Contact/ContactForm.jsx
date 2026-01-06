@@ -15,7 +15,8 @@ let toastId = null;
 
 function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const registerSchema = yup.object().shape({
+  
+  const schema = yup.object().shape({
     name: yup
       .string()
       .min(2, "name must be at least 2 characters")
@@ -38,7 +39,7 @@ function ContactForm() {
     formState: { errors },
     setValue
   } = useForm({
-    resolver: yupResolver(registerSchema)
+    resolver: yupResolver(schema)
   })
 
   const submitForm = async data => {
@@ -182,7 +183,7 @@ function ContactForm() {
                 className="w-full py-2 rounded-md cursor-pointer bg-sky-700 hover:bg-sky-600 disabled:bg-sky-400 transition-colors text-white font-bold"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Is Sending' : 'Send Message'}
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </div>
 

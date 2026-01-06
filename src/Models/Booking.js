@@ -6,8 +6,6 @@ const bookingSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 2,
-      maxlength: 50,
     },
 
     phone: {
@@ -30,7 +28,7 @@ const bookingSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 1,
-      max: 20,
+      max:30
     },
 
     description: {
