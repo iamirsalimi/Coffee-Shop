@@ -11,7 +11,6 @@ import { PiEyeClosedBold } from "react-icons/pi";
 import { FaCircleInfo } from "react-icons/fa6";
 import { GrFormPrevious } from "react-icons/gr";
 
-
 let userNameRegex = /^[0-9A-Za-z_.]+$/
 let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#@_.])(?!.* ).{8,16}$/
 
@@ -128,7 +127,7 @@ function SignUp() {
               />
               <span className="absolute peer-focus:text-sky-500 bg-[#171717] transition-all -top-3 left-2 px-2 text-gray-600">FirstName</span>
               {errors?.firstname && (
-                <span className="text-red-500 text-sm mt-2 font-vazir">{errors.firstname?.message}</span>
+                <span className="text-red-500 text-sm mt-2">{errors.firstname?.message}</span>
               )}
             </div>
 
@@ -140,7 +139,7 @@ function SignUp() {
               />
               <span className="absolute peer-focus:text-sky-500 bg-[#171717] transition-all -top-3 left-2 px-2 text-gray-600">LastName</span>
               {errors?.lastname && (
-                <span className="text-red-500 text-sm mt-2 font-vazir">{errors.lastname?.message}</span>
+                <span className="text-red-500 text-sm mt-2">{errors.lastname?.message}</span>
               )}
             </div>
           </div>
@@ -152,7 +151,7 @@ function SignUp() {
               {...register('email')}
             />
             {errors?.email && (
-              <span className="text-red-500 text-sm mt-2 font-vazir">{errors.email?.message}</span>
+              <span className="text-red-500 text-sm mt-2">{errors.email?.message}</span>
             )}
             <span className="absolute peer-focus:text-sky-500 bg-[#171717] transition-all -top-3 left-2 px-2 text-gray-600">Email</span>
           </div>
@@ -165,7 +164,7 @@ function SignUp() {
             />
             <span className="absolute peer-focus:text-sky-500 bg-[#171717] transition-all -top-3 left-2 px-2 text-gray-600">userName</span>
             {errors?.username && (
-              <span className="text-red-500 text-sm mt-2 font-vazir">{errors.username?.message}</span>
+              <span className="text-red-500 text-sm mt-2">{errors.username?.message}</span>
             )}
           </div>
 
@@ -187,7 +186,7 @@ function SignUp() {
                 </div>
               </div>
               {errors?.password && (
-                <span className="text-red-500 text-sm mt-2 font-vazir">{errors.password?.message}</span>
+                <span className="text-red-500 text-sm mt-2">{errors.password?.message}</span>
               )}
             </div>
 
@@ -208,7 +207,7 @@ function SignUp() {
                 </div>
               </div>
               {errors?.repeatPassword && (
-                <span className="text-red-500 text-sm mt-2 font-vazir">{errors.repeatPassword?.message}</span>
+                <span className="text-red-500 text-sm mt-2">{errors.repeatPassword?.message}</span>
               )}
             </div>
           </div>

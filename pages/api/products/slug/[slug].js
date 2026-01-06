@@ -15,7 +15,11 @@ export default async function handler(req, res) {
   try {
     await connectToDB();
 
-    const product = await productsModel.findOne({ slug });
+    const product = await productsModel.findOne({ slug }).populate({
+      path: "comments",
+      // match: { isApproved: true },
+      options: { sort: { createdAt: -1 } },
+    });
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });

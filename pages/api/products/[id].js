@@ -1,10 +1,9 @@
-// pages/api/products/[id].js  (or wherever your single product route is)
-
 import formidable from "formidable";
 import fs from "fs";
 import path from "path";
 import connectToDB from "@/src/configs/db";
 import productsModel from "@/src/Models/Product";
+import { verifyAccessToken, requireRole } from "@/src/utils/auth";
 
 export const config = {
     api: {
@@ -20,11 +19,25 @@ export default async function handler(req, res) {
     try {
         await connectToDB();
 
+        const user = verifyAccessToken(req, res);
+
+        if (!user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        // if user wasn't admin it will throw err 
+        requireRole(user, ["ADMIN"]);
+
         const productId = req.query.id;
 
         switch (req.method) {
+
             case "GET": {
-                const product = await productsModel.findById(productId);
+                const product = await productsModel.findById(productId).populate({
+                    path: "comments",
+                    // match: { isApproved: true },
+                    options: { sort: { createdAt: -1 } },
+                });
                 if (!product) {
                     return res.status(404).json({ message: "Product not found" });
                 }

@@ -1,10 +1,9 @@
-// pages/api/products/create.js  (or your POST route)
-
 import formidable from "formidable";
 import fs from "fs";
 import path from "path";
 import connectToDB from "@/src/configs/db";
 import productsModel from "@/src/Models/Product";
+import { verifyAccessToken, requireRole } from "@/src/utils/auth";
 
 export const config = {
     api: {
@@ -21,9 +20,22 @@ export default async function handler(req, res) {
         await connectToDB();
 
         if (req.method == 'GET') {
-            const products = await productsModel.find({});
+            const products = await productsModel.find({}).populate({
+                path: "comments",
+                // match: { isApproved: true },
+                options: { sort: { createdAt: -1 } },
+            });
             return res.status(200).json({ products });
         } else if (req.method === "POST") {
+            const user = verifyAccessToken(req, res);
+
+            if (!user) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+
+            // if user wasn't admin it will throw err 
+            requireRole(user, ["ADMIN"]);
+
             // IMPORTANT: Keep file in memory until validation passes
             const form = formidable({
                 multiples: false,

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+import Comment from '@/src/Models/Comment'
 
 const productSchema = mongoose.Schema({
     title: {
@@ -51,7 +52,15 @@ const productSchema = mongoose.Schema({
         required: true
     },
 }, {
-    timestamp: true
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+})
+
+productSchema.virtual('comments', {
+    ref: 'Comment',
+    localField: "_id",
+    foreignField: "productId"
 })
 
 const model = mongoose.models.Product || mongoose.model('Product', productSchema)

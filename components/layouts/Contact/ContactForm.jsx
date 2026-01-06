@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import toast from 'react-hot-toast';
 
 import Title from '@/components/modules/Title/Title'
 
@@ -7,10 +11,70 @@ import { IoCall } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { FaBusinessTime } from "react-icons/fa";
 
+let toastId = null;
+
 function ContactForm() {
-  const [fullname, setFullname] = useState('')
-  const [email, setEmail] = useState('')
-  const [description, setDescription] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const registerSchema = yup.object().shape({
+    name: yup
+      .string()
+      .min(2, "name must be at least 2 characters")
+      .required("name is required"),
+
+    email: yup
+      .string()
+      .email("Invalid email")
+      .required("email is required"),
+
+    message: yup
+      .string()
+      .min(5, "message must be at least 5 characters")
+      .required("message  is required"),
+  });
+
+  let {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm({
+    resolver: yupResolver(registerSchema)
+  })
+
+  const submitForm = async data => {
+    console.log(data)
+    setIsSubmitting(true)
+    toastId = toast.loading('Submitting Form')
+
+    let newContact = { name: data.name, email: data.email, message: data.message }
+
+    try {
+      let res = await fetch('/api/contact', {
+        method: "POST",
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(newContact)
+      })
+      // console.log(res)
+      if (res.status == 201) {
+        toast.dismiss(toastId)
+        toast.success('Form Submitted Successfully')
+        toast.success('Our Team will get in touch with you ASAP ,tnx for your patience')
+
+        // reset input value
+        setValue('name', '')
+        setValue('email', '')
+        setValue('message', '')
+      }
+
+    } catch (err) {
+      toast.dismiss(toastId)
+      toast.error(err)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <div className="pb-16 container px-5 py-1 mx-auto relative w-full min-h-screen gap-7">
@@ -73,32 +137,53 @@ function ContactForm() {
         {/* right-side contact */}
         <div className="w-full rounded-md flex flex-col md:items-start items-center justify-center gap-4 sm:gap-6 py-5">
 
-          <form className="w-full flex flex-col justify-center items-center lg:items-start gap-7">
+          <form className="w-full flex flex-col justify-center items-center lg:items-start gap-7" onSubmit={handleSubmit(submitForm)}>
 
             <div className="w-full flex flex-col gap-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-7">
 
                 <div className="w-full relative select-none">
-                  <input type="text" value={fullname} onChange={e => setFullname(e.target.value)} className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors" maxLength={20} required />
-                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">fullname</span>
+                  <input
+                    type="text"
+                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                    {...register('name')}
+                  />
+                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">name</span>
+                  {errors?.name && (
+                    <span className="text-red-500 text-sm mt-2">{errors.name?.message}</span>
+                  )}
                 </div>
 
                 <div className="w-full relative select-none">
-                  <input type="text" value={email} onChange={e => setEmail(e.target.value)} className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors" maxLength={20} required />
-                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">Phone Number</span>
+                  <input
+                    type="text"
+                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                    {...register('email')}
+                  />
+                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">email</span>
+                  {errors?.email && (
+                    <span className="text-red-500 text-sm mt-2">{errors.email?.message}</span>
+                  )}
                 </div>
 
                 <div className="sm:col-start-1 sm:col-end-3  w-full relative select-none">
                   <textarea
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    className="w-full min-h-28 rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors pr-5" minLength={8} maxLength={16}
+                    {...register('message')}
+                    className="w-full min-h-28 rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors pr-5"
                   ></textarea>
-                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">Description</span>
+                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">message</span>
+                  {errors?.message && (
+                    <span className="text-red-500 text-sm mt-2">{errors.message?.message}</span>
+                  )}
                 </div>
               </div>
 
-              <button className="w-full py-2 rounded-md cursor-pointer bg-sky-700 hover:bg-sky-600 transition-colors text-white font-bold">Send Message</button>
+              <button
+                className="w-full py-2 rounded-md cursor-pointer bg-sky-700 hover:bg-sky-600 disabled:bg-sky-400 transition-colors text-white font-bold"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Is Sending' : 'Send Message'}
+              </button>
             </div>
 
           </form>

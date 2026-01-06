@@ -1,5 +1,6 @@
 import connectToDB from "@/src/configs/db";
 import Contact from "@/src/Models/Contact";
+import { verifyAccessToken, requireRole } from "@/src/utils/auth";
 
 export default async function handler(req, res) {
     if (!["POST", "GET"].includes(req.method)) return res.status(405).json({ message: "Method not allowed" })
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
                 await connectToDB();
 
                 const { name, email, message } = req.body;
-
+                
                 if (!name || !email || !message) {
                     return res.status(400).json({
                         message: "All fields are required",

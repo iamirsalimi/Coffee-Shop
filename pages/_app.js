@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import Navbar from "@/components/modules/Navbar/Navbar";
 import Menu from "@/components/modules/Menu/Menu";
@@ -17,12 +17,12 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
     )
   }
-  console.log(Component.paddingFlag)
+  // console.log(Component.paddingFlag)
 
   return (
     <>
       <Navbar setShowMenu={setShowMenu} setShowBasketMenu={setShowBasketMenu} paddingFlag={Component?.paddingFlag} />
-      <Component {...pageProps} />
+      <Component {...pageProps} /> {/* Key ensures remount */}
       <Footer />
       {/* menus */}
       <Menu showMenu={showMenu} setShowMenu={setShowMenu} />

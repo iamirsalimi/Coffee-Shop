@@ -1,11 +1,10 @@
 import connectToDB from "@/src/configs/db";
-import Booking from "@/src/Models/Booking";
-import mongoose from "mongoose";
+import Comment from "@/src/Models/Comment";
 import { isValidObjectId } from "mongoose";
-import { verifyAccessToken } from "@/src/utils/auth";
+import { verifyAccessToken, requireRole } from "@/src/utils/auth";
 
 export default async function handler(req, res) {
-    if (!['PATCH', "GET"].includes(req.method)) return res.status(405).json({ message: "Method not allowed" });
+    if (!["PATCH", "GET"].includes(req.method)) return res.status(405).json({ message: "Method not allowed" })
 
     try {
         const { id } = req.query;
@@ -16,9 +15,12 @@ export default async function handler(req, res) {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
+        // if user wasn't admin it will throw err 
+        requireRole(user, ["ADMIN"]);
+        
         if (!isValidObjectId(id)) {
             return res.status(400).json({
-                message: "Invalid booking ID",
+                message: "Invalid comment ID",
             });
         }
 
@@ -26,45 +28,40 @@ export default async function handler(req, res) {
 
         switch (req.method) {
             case "GET": {
-                const booking = await Booking.findById(id);
+                const comment = await Comment.findById(id).populate("productId");
 
-                if (!booking) {
+                if (!comment) {
                     return res.status(404).json({
-                        message: "Booking not found",
+                        message: "Comment not found",
                     });
                 }
 
-                return res.status(200).json(booking);
+                return res.status(200).json(comment);
             }
 
             case "PATCH": {
-                const { status } = req.body;
+                const { isApproved } = req.body;
 
-                if (!["PENDING", "CONFIRMED", "CANCELLED"].includes(status)) {
-                    return res.status(400).json({
-                        message: "Invalid status value",
-                    });
-                }
-
-                const updated = await Booking.findByIdAndUpdate(
+                const updated = await Comment.findByIdAndUpdate(
                     id,
-                    { status },
+                    { isApproved: Boolean(isApproved) },
                     { new: true }
                 );
 
                 if (!updated) {
                     return res.status(404).json({
-                        message: "Booking not found",
+                        message: "Comment not found",
                     });
                 }
 
                 return res.status(200).json(updated);
             }
         }
+
     } catch (err) {
+        console.error("CONTACT GET ERROR:", err);
         return res.status(500).json({
-            message: "Internal Server Err",
-            err
+            message: "Internal server error",
         })
     }
 }

@@ -40,9 +40,10 @@ const handler = async (req, res) => {
             userId: user._id,
             role: user.role
         });
-
+        
         const refreshToken = generateRefreshToken({
-            userId: user._id
+            userId: user._id,
+            role: user.role
         });
 
         return res.setHeader('Set-Cookie', serialize('refreshToken', refreshToken, {
