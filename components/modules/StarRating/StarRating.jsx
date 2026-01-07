@@ -22,7 +22,7 @@ function StarRating({ rating, hoverRating, setRating, setHoverRating }) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={`w-5 h-5 sm:w-7 sm:h-7 transition ${
+              className={`w-5 h-5 xs:w-7 xs:h-7 transition ${
                 isActive
                   ? "fill-yellow-500 stroke-yellow-500"
                   : "fill-transparent stroke-gray-500"

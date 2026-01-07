@@ -1,9 +1,44 @@
 import { motion, AnimatePresence } from 'motion/react'
+import Link from 'next/link'
+import { useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
+
+import { useBasket } from '@/Context/BasketContext'
 
 import BasketProductCart from '../basketProductCart/BasketProductCart'
 
+let toastId = null;
+
 function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
+    const [removeFlag , setRemoveFlag] = useState(false)
     const hideMenu = () => setShowBasketMenu(false)
+
+    const { basket , setGetData } = useBasket()
+
+    const clearBasket = async () => {
+        try {
+            setRemoveFlag(true)
+            toastId = toast.loading('Resetting basket')
+
+            let res = await fetch('/api/user/basket/-1', {
+                method: "DELETE"
+            })
+
+            // console.log(res)
+
+            if (res.status == 200) {
+                toast.dismiss(toastId)
+                toast.success('basket cleared Successfully')
+                setGetData(prev => !prev)
+            }
+        } catch (err) {
+            toast.dismiss(toastId)
+            toast.error('Unknown err in clearing basket')
+            console.log(err)
+        } finally {
+            setRemoveFlag(false)
+        }
+    }
 
     return (
         <AnimatePresence>
@@ -51,18 +86,27 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
                             </button>
                         </div>
 
-                        {/* links */}
-                        <RevealLinks hideMenu={hideMenu} />
+                        {/* Carts */}
+                        <RevealCarts basket={basket} hideMenu={hideMenu} />
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.85 , duration: 0.4 }}
-                            className="p-2 grid grid-cols-1 xs:grid-cols-2 gap-2"
-                        >
-                            <button className="p-4  rounded-xl text-white bg-red-600 hover:bg-red-700 transition-colors font-bold text-sm sm:text-base cursor-pointer">Reset Basket</button>
-                            <button className="p-4  rounded-xl text-white bg-sky-600 hover:bg-sky-700 transition-colors font-bold text-sm sm:text-base cursor-pointer">Order</button>
-                        </motion.div>
+                        {basket.length > 0 && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.85, duration: 0.4 }}
+                                className="p-2 grid grid-cols-1 xs:grid-cols-2 gap-2"
+                            >
+                                <button
+                                    onClick={clearBasket}
+                                    className="p-4 rounded-xl text-white bg-red-600 disabled:bg-red-400 hover:bg-red-700 transition-colors font-bold text-sm sm:text-base cursor-pointer"
+                                    disabled={removeFlag}
+                                >
+                                    {removeFlag ? 'Resetting basket...' : 'Reset Basket'}
+                                </button>
+
+                                <button className='p-4 rounded-xl text-white bg-sky-600 hover:bg-sky-700 transition-colors font-bold text-sm sm:text-base cursor-pointer'>Order</button>
+                            </motion.div>
+                        )}
                     </motion.div>
 
                     {/* blur bg */}
@@ -85,31 +129,22 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
 
 export default BasketMenu
 
-
-const RevealLinks = () => {
+const RevealCarts = ({ basket }) => {
     return (
         <section className="h-full w-full flex flex-col place-content-start gap-2 py-5 text-gray-500 overflow-y-auto md:px-2">
-            {/* <CartAnimation index={1}>
-                <BasketProductCart />
-            </CartAnimation>
-            <CartAnimation index={2}>
-                <BasketProductCart />
-            </CartAnimation>
-            <CartAnimation index={3}>
-                <BasketProductCart />
-            </CartAnimation>
-            <CartAnimation index={4}>
-                <BasketProductCart />
-            </CartAnimation>
-            <CartAnimation index={5}>
-                <BasketProductCart />
-            </CartAnimation> */}
-
-            <h2 className="text-center text-gray-500 font-sans text-2xl mt-10">Your Basket is Empty</h2>
+            {basket.length > 0 ? basket.map((cart, index) => (
+                <CartAnimation key={index} index={index + 1}>
+                    <BasketProductCart {...cart.product} size={cart.size} quantity={cart.quantity} id={cart._id} />
+                </CartAnimation>
+            )) : (
+                <div className="w-full flex flex-col gap-5 items-center border border-[#1f1f1f] bg-[#0f0f0f] p-7 rounded-xl mt-36">
+                    <h2 className="text-center text-white font-sans text-2xl ">Your Basket is Empty</h2>
+                    <Link href="/Menu" className="px-4 py-2 rounded-xl cursor-pointer bg-amber-500 hover:bg-amber-600 text-[#0f0f0f] font-bold transition-colors">Order</Link>
+                </div>
+            )}
         </section>
     );
 };
-
 
 const STAGGERInitial = 0.05;
 

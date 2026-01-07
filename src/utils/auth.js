@@ -1,5 +1,5 @@
 import { compare, hash } from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import { sign , verify } from "jsonwebtoken";
 
 const hashPassword = async password => {
     const hashedPassword = await hash(password, 12)
@@ -23,6 +23,15 @@ const generateRefreshToken = data => {
         expiresIn: '7D'
     })
     return refreshToken
+}
+
+const verifyRefreshToken = token => {
+    try{
+        let tokenPayload = verify(token , process.env.REFRESH_TOKEN_SECRET) 
+        return tokenPayload
+    } catch(err){
+        return null
+    }
 }
 
 const verifyAccessToken = (req, res) => {
@@ -49,4 +58,4 @@ const requireRole = (user , roles) => {
 }
 
 
-export { hashPassword, generateRefreshToken, generateAccessToken, verifyPassword, verifyAccessToken , requireRole}
+export { hashPassword, generateRefreshToken, generateAccessToken, verifyPassword,verifyRefreshToken, verifyAccessToken , requireRole}

@@ -1,13 +1,29 @@
 import React from 'react'
 
-function Comment({ username, date, description }) {
-    const rating = 4
+function Comment({ username, commentText, rating, createdAt }) {
+    function timeAgo(date) {
+        const now = Date.now();
+        const diffMs = now - new Date(date).getTime();
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (seconds < 60) return "just now";
+        if (minutes < 60) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+        if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+        if (days < 7) return `${days} day${days > 1 ? "s" : ""} ago`;
+
+        return new Date(date).toLocaleDateString();
+    }
+
     return (
         <div className="p-4 border border-[#1f1f1f] rounded-2xl bg-[#0c0c0c] space-y-2">
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between text-sm text-gray-500">
-                    <span className="font-medium text-gray-300">Amir</span>
-                    <span>2 days ago</span>
+                    <span className="font-medium text-gray-300">{username}</span>
+                    <span>{timeAgo(createdAt)}</span>
                 </div>
                 <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
@@ -32,7 +48,7 @@ function Comment({ username, date, description }) {
             </div>
 
             <p className="text-sm text-gray-400 leading-relaxed">
-                The coffee was rich and well-balanced. I especially loved the aroma and the smooth finish.
+                {commentText}
             </p>
         </div>
     )
