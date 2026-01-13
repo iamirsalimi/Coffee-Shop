@@ -40,7 +40,7 @@ export default async function handler(req, res) {
             case "PATCH": {
                 const { status } = req.body;
 
-                if (!["PENDING", "CONFIRMED", "CANCELLED"].includes(status)) {
+                if (!["PENDING", "CONFIRMED", "CANCELED"].includes(status)) {
                     return res.status(400).json({
                         message: "Invalid status value",
                     });

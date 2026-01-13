@@ -15,13 +15,13 @@ export default async function handler(req, res) {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
-        const { fullname, phone, date, time, guests, description } = req.body
+        const { username, fullname, phone, date, time, guests, description } = req.body
 
         switch (req.method) {
             case "GET": {
                 // if user wasn't admin it will throw err 
                 requireRole(user, ["ADMIN"]);
-                
+
                 const bookings = await Booking.find().sort({ createdAt: -1 });
 
                 return res.status(200).json(bookings);
@@ -31,13 +31,14 @@ export default async function handler(req, res) {
                 // if user wasn't user it will throw err 
                 requireRole(user, ["USER"]);
 
-                if (!fullname || !phone || !date || !time || !guests) {
+                if (!username || !fullname || !phone || !date || !time || !guests) {
                     return res.status(400).json({
                         message: "All required fields must be filled",
                     });
                 }
 
                 const booking = await Booking.create({
+                    username,
                     fullname,
                     phone,
                     date,

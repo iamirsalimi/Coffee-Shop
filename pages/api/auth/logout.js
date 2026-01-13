@@ -6,14 +6,14 @@ const handler = async (req, res) => {
 
     try {
         await connectToDB()
-
-        return res.setHeader('Set-Cookie', serialize('refreshToken', refreshToken, {
+        
+        return res.setHeader('Set-Cookie', serialize('refreshToken', '', {
             httpOnly: true,
             path: '/',
-            maxAge: 0
-        }))
+            maxAge: 0 
+        })).json({message : 'user logged out successfully :))'})
     } catch (err) {
-        return res.status(500).json('Unknown Internal Server Err !!')
+        return res.status(500).json({ message: 'Unknown Internal Server Err !!', err })
     }
 }
 

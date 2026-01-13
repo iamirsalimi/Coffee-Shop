@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [accessToken, setAccessToken] = useState(null)
     const [loading, setLoading] = useState(true);
+    const [getData, setGetData] = useState(true);
 
     // LOGOUT
     const logout = async () => {
@@ -34,11 +35,12 @@ export function AuthProvider({ children }) {
             });
 
             const resData = await res.json()
-
+            console.log(resData)
             if (res.status == 201) setUser(resData.data)
             // console.log("user details : ", resData.data, res)
 
-        } catch {
+        } catch (err) {
+            console.log(err)
             setUser(null)
             setAccessToken(null)
         } finally {
@@ -48,11 +50,11 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         loadUser();
-    }, []);
-    
-    useEffect(() => {
-        console.log(user)
-    }, [user]);
+    }, [getData]);
+
+    // useEffect(() => {
+    //     console.log(user)
+    // }, [user]);
 
     return (
         <AuthContext.Provider
@@ -64,6 +66,7 @@ export function AuthProvider({ children }) {
                 loading,
                 logout,
                 setUser,
+                setGetData
             }}
         >
             {children}

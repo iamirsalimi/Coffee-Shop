@@ -1,5 +1,5 @@
 import connectToDB from "@/src/configs/db";
-import Comment from "@/src/Models/Comment";
+import Order from "@/src/Models/Order";
 import { isValidObjectId } from "mongoose";
 import { verifyAccessToken, requireRole } from "@/src/utils/auth";
 
@@ -19,45 +19,47 @@ export default async function handler(req, res) {
             case "GET": {
                 // if user wasn't admin it will throw err 
                 requireRole(user, ["ADMIN"]);
-                const comments = await Comment.find().populate("productId").sort({ createdAt: -1 })
+                const orders = await Order.find({}).populate("userId").sort({ createdAt: -1 })
 
-                return res.status(200).json(comments);
+                return res.status(200).json(orders);
             }
 
             case "POST": {
-                const { productId, username, rating, commentText } = req.body;
+                const { userId, orders, totalPrice, description, isDelayed, minutesDelayed } = req.body;
 
                 // if user wasn't user it will throw err 
                 requireRole(user, ["USER"]);
 
-                if (!productId || !username || !rating || !commentText) {
+                if (!userId || !orders || !totalPrice || !description || !isDelayed || !minutesDelayed) {
                     return res.status(400).json({
-                        message: "All fields are required",
+                        message: "All fields are required"
                     });
                 }
 
-                if (!isValidObjectId(productId)) {
+                if (!isValidObjectId(userId)) {
                     return res.status(400).json({
                         message: "Invalid product ID",
                     });
                 }
 
-                if (rating < 1 || rating > 5) {
+                if (isDelayed && minutesDelayed < 5 || minutesDelayed > 90) {
                     return res.status(400).json({
-                        message: "Rating must be between 1 and 5",
+                        message: "minutes delayed must be between 5 and 90",
                     });
                 }
 
-                const comment = await Comment.create({
-                    productId,
-                    username,
-                    rating,
-                    commentText,
+                const order = await Order.create({
+                    userId,
+                    orders,
+                    totalPrice,
+                    description,
+                    isDelayed,
+                    minutesDelayed
                 });
 
                 return res.status(201).json({
-                    message: "Comment submitted and awaiting approval",
-                    comment
+                    message: "order submitted successfully , you can get your order by going to coffee shop",
+                    order
                 });
             }
         }

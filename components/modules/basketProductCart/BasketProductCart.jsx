@@ -1,25 +1,26 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { useBasket } from '@/Context/BasketContext';
+import { useAuth } from '@/Context/AuthContext';
 
 let toastId = null;
 
-function BasketProductCart({ title, image, quantity, size, id }) {
+function BasketProductCart({ title, image, quantity, size, productId , price , borderFlag }) {
     const [removeFlag, setRemoveFlag] = useState(false)
-    const { setGetData } = useBasket()
+    const { setGetData } = useAuth()
 
-    // console.log(id)
+    // console.log(title  , id)
 
     const removeProductFromBasket = async () => {
         try {
             setRemoveFlag(true)
             toastId = toast.loading('removing product from basket')
 
-            let res = await fetch(`/api/user/basket/${id}`, {
+            let res = await fetch(`/api/user/basket/${productId}`, {
                 method: "DELETE"
             })
 
-            // console.log(res)
+            let resData = await res.json()
+            console.log(title , productId , res , resData)    
 
             if (res.status == 200) {
                 toast.dismiss(toastId)
@@ -35,7 +36,7 @@ function BasketProductCart({ title, image, quantity, size, id }) {
     }
 
     return (
-        <div className="flex flex-col xs:flex-row gap-5 xs:h-60 w-full rounded-2xl border border-[#1f1f1f] bg-[#0f0f0f] p-2">
+        <div className={`flex flex-col xs:flex-row gap-5 xs:h-60 w-full rounded-2xl bg-[#0f0f0f] p-2 ${!borderFlag ? 'border border-[#1f1f1f]' : ''} `}>
             <div className="xs:max-w-2/5 max-h-72 rounded-xl overflow-hidden w-full h-full">
                 <img src={image} className="object-cover object-center w-full h-full" alt="" />
             </div>
@@ -55,6 +56,12 @@ function BasketProductCart({ title, image, quantity, size, id }) {
                 <div className="w-full flex flex-row items-center justify-between">
                     <h2 className="text-white text-nowrap xs:text-sm sm:text-base">Quantity :</h2>
                     <p className="text-xl xs:text-sm sm:text-base text-white ">{quantity}</p>
+                </div>
+
+                {/* price */}
+                <div className="w-full flex flex-row items-center justify-between">
+                    <h2 className="text-white text-nowrap xs:text-sm sm:text-base">Price :</h2>
+                    <p className="text-xl xs:text-sm sm:text-base text-white "><span className="text-gray-400">$</span>{(quantity * price).toFixed(2)}</p>
                 </div>
 
                 <button

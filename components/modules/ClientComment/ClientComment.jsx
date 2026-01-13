@@ -1,7 +1,8 @@
 import { IoPerson } from "react-icons/io5";
 import React from 'react'
+import Link from "next/link";
 
-function ServiceBox({ username, commentText , rating }) {
+function ServiceBox({_id : id , productId , username, commentText, rating }) {
     return (
         <div className="relative border border-[#1f1f1f] bg-[#0f0f0f] flex flex-col items-center justify-center gap-2 rounded-4xl py-4 px-5 min-h-72 max-h-72">
             <div className="w-16 h-16 xs:w-20 xs:h-20 rounded-full bg-black flex items-center justify-center overflow-hidden ">
@@ -35,11 +36,11 @@ function ServiceBox({ username, commentText , rating }) {
                     <span>18:26</span>
                 </div>
                 <p className="text-gray-400 text-sm text-center mt-2 line-clamp-3">{commentText}</p>
-                <button className="absolute top-2 left-2 rounded-full bg-black p-2 sm:p-4 cursor-pointer">
+                <Link href={`/product/${productId.slug}?q=${id}`} className="absolute top-2 left-2 rounded-full bg-black p-2 sm:p-4 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
                     </svg>
-                </button>
+                </Link>
             </div>
         </div>
     )

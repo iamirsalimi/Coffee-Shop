@@ -17,7 +17,7 @@ export const getStaticProps = async () => {
       options: { sort: { createdAt: -1 } },
     });
 
-    let comments = await commentsModel.find({})
+    let comments = await commentsModel.find({}).populate('productId')
 
     // console.log(products)
 
@@ -39,7 +39,7 @@ export const getStaticProps = async () => {
 }
 
 export default function Home({ products, comments }) {
-  //  console.log(products)
+   console.log(comments)
   return (
     <div className="relative w-full min-h-screen h-fit overflow-hidden">
       <Header />

@@ -2,12 +2,16 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      trim: true
+    },
     fullname: {
       type: String,
       required: true,
       trim: true,
     },
-
     phone: {
       type: String,
       required: true,
@@ -28,7 +32,7 @@ const bookingSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 1,
-      max:30
+      max: 30
     },
 
     description: {
@@ -38,7 +42,7 @@ const bookingSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["PENDING", "CONFIRMED", "CANCELLED"],
+      enum: ["PENDING", "CONFIRMED", "CANCELED"],
       default: "PENDING"
     },
   },

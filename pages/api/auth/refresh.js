@@ -26,6 +26,7 @@ export default async function handler(req, res) {
         const newAccessToken = generateAccessToken({ userId, role: userRole });
         const newRefreshToken = generateRefreshToken({ userId, role: userRole });
 
+        // renew refresh token each time user have a request
         return res
             .setHeader('Set-Cookie', cookie.serialize('refreshToken', newRefreshToken, {
                 httpOnly: true,

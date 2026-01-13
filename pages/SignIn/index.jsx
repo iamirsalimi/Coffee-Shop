@@ -9,9 +9,12 @@ import { PiEyeBold } from "react-icons/pi";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { GrFormPrevious } from "react-icons/gr";
 import { useRouter } from 'next/router';
+import { useAuth } from '@/Context/AuthContext';
 
 function SignIn() {
     const [showPass, setShowPass] = useState(false)
+
+    let { setGetData } = useAuth()
 
     const loginSchema = yup.object().shape({
         identifier: yup
@@ -37,12 +40,14 @@ function SignIn() {
     const router = useRouter()
 
     const loginUser = async data => {
+        let userObj = { ...data, username: toLowerCase(data.username) }
+
         let res = await fetch('/api/auth/signin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(userObj)
         })
 
 
@@ -54,6 +59,7 @@ function SignIn() {
             console.log(resData)
         } else {
             toast.success('You Logged in Successfully')
+            setGetData(prev => !prev)
             localStorage.setItem('accessToken', resData.accessToken)
             router.replace('/')
         }

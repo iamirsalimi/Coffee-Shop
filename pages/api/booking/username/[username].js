@@ -1,5 +1,5 @@
 import connectToDB from "@/src/configs/db";
-import Comment from "@/src/Models/Comment";
+import Booking from "@/src/Models/Booking";
 import { verifyAccessToken, requireRole } from "@/src/utils/auth";
 
 export default async function handler(req, res) {
@@ -19,15 +19,17 @@ export default async function handler(req, res) {
 
         await connectToDB();
 
-        const comment = await Comment.find({ username }).populate("productId");
-
-        if (!comment) {
+        const booking = await Booking.find({ username });
+        
+        // console.log(booking , username)
+        
+        if (!booking) {
             return res.status(404).json({
-                message: "comment not found",
+                message: "booking not found",
             });
         }
 
-        return res.status(200).json(comment);
+        return res.status(200).json(booking);
     } catch (err) {
         console.error("CONTACT GET ERROR:", err);
         return res.status(500).json({

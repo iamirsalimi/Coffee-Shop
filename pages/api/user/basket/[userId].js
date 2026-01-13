@@ -23,7 +23,7 @@ export default async function handler(req, res) {
             }
 
             case "PUT": {
-                const { product, size, quantity } = req.body;
+                const { product, size, quantity , price } = req.body;
 
                 // console.log(product)
                 if (quantity < 1) {
@@ -46,6 +46,7 @@ export default async function handler(req, res) {
                         product,
                         size,
                         quantity,
+                        price
                     });
                     await user.save();
                     return res.status(201).json({ message: "Added to Cart Successfully" });
@@ -88,7 +89,7 @@ export default async function handler(req, res) {
                 if (userId == -1) {
                     user.cart.items = []
                 } else {
-                    user.cart.items = user.cart.items.filter((item) => item.id != userId)
+                    user.cart.items = user.cart.items.filter((item) => item._id != userId)
                 }
 
                 await user.save();

@@ -20,8 +20,15 @@ const handler = async (req, res) => {
 
         let user = await usersModel.findOne({ _id: tokenPayload.userId }, '-__v -password -updatedAt').populate({
             path: "cart.items.product",
-        })
-        console.log('user : ', user)
+        }).populate({
+            path: "comments",
+        }).populate({
+            path: "bookings",
+        }).populate({
+            path: "orders",
+        }).lean()
+
+        // console.log('user : ', user)
 
         return res.status(201).json({ data: user })
     } catch (err) {

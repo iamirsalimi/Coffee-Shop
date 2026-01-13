@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { motion } from 'motion/react'
-
-import NavbarItem from './../NavbarItem/NavbarItem'
 import Link from 'next/link'
+
 import { useAuth } from '@/Context/AuthContext'
+import NavbarItem from './../NavbarItem/NavbarItem'
 
 function Navbar({ setShowMenu, setShowBasketMenu, paddingFlag }) {
     const [position, setPosition] = useState({
@@ -13,7 +13,7 @@ function Navbar({ setShowMenu, setShowBasketMenu, paddingFlag }) {
         opacity: 0
     })
 
-    const { user } = useAuth()
+    const { user } = useAuth();
 
     return (
         <div className={`w-full h-fit flex items-center py-2 ${paddingFlag ? '' : 'pt-2'} absolute z-20 top-0 md:top-3 xl:top-0 left-1/2 -translate-x-1/2 ${paddingFlag ? 'border-b border-[#1f1f1f]' : ''}`}>
@@ -32,7 +32,8 @@ function Navbar({ setShowMenu, setShowBasketMenu, paddingFlag }) {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                                     </svg>
                                 </button>
-                                <button
+                                <Link
+                                    href="/p-user"
                                     className="inline-flex items-center justify-center gap-1 bg-white text-black px-2 py-1 text-center rounded-xl border border-transparent font-sans text-sm xs:text-base font-bold cursor-pointer md:hover:bg-black hover:bg-transparent hover:border-white group transition-all duration-200"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-black w-6 h-6 group-hover:text-white transition-colors duration-200">
@@ -40,7 +41,7 @@ function Navbar({ setShowMenu, setShowBasketMenu, paddingFlag }) {
 
                                     </svg>
                                     {/* <div className="text-black group-hover:text-white transition-colors duration-200">{user.role.toString().toLowerCase()}Panel</div> */}
-                                </button>
+                                </Link>
                             </>
                         )}
                         {!user && (

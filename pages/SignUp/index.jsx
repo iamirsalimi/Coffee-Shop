@@ -63,7 +63,7 @@ function SignUp() {
     let newUser = {
       firstname: data.firstname,
       lastname: data.lastname,
-      username: data.username,
+      username: data.username.toLowerCase(),
       email: data.email,
       password: data.password,
     }

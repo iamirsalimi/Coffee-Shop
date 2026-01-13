@@ -19,8 +19,8 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
 
     const sizes = ['Small', 'Medium', 'Large']
 
-    const { user } = useAuth();
-    const { basket , setGetData } = useBasket();
+    const { user , setGetData } = useAuth();
+    const { basket } = useBasket();
 
     // user basket
     // console.log(user?.cart.items , basket)
@@ -46,6 +46,7 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
         let newProductObj = {
             product: _id,
             size: activeSize.toUpperCase(),
+            price : calcTotalPrice(),
             quantity: count
         }
 
@@ -177,7 +178,7 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
                         <button
                             onClick={addProductToBasket}
                             className="w-full h-16 rounded-3xl lg:rounded-full bg-green-500 disabled:bg-green-300 text-white font-bold flex items-center justify-center cursor-pointer hover:bg-green-600 transition-all duration-200 lg:text-sm xl:text-base"
-                            disabled={isAdding}
+                            disabled={!user && isAdding}
                         >
                             {isAdding ? 'ADDING...' : 'ADD TO ORDERS'}
                         </button>

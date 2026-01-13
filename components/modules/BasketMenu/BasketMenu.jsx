@@ -5,15 +5,15 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { useBasket } from '@/Context/BasketContext'
 
-import BasketProductCart from '../basketProductCart/BasketProductCart'
+import BasketProductCart from '../BasketProductCart/BasketProductCart'
 
 let toastId = null;
 
 function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
-    const [removeFlag , setRemoveFlag] = useState(false)
+    const [removeFlag, setRemoveFlag] = useState(false)
     const hideMenu = () => setShowBasketMenu(false)
 
-    const { basket , setGetData } = useBasket()
+    const { basket, setGetData } = useBasket()
 
     const clearBasket = async () => {
         try {
@@ -38,6 +38,11 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
         } finally {
             setRemoveFlag(false)
         }
+    }
+
+    const calcTotalPrice = () => {
+        const totalPrice = basket.reduce((prev, cur) => (prev + (cur.quantity * cur.price)), 0).toFixed(2)
+        return totalPrice
     }
 
     return (
@@ -89,6 +94,10 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
                         {/* Carts */}
                         <RevealCarts basket={basket} hideMenu={hideMenu} />
 
+                        <div className="pl-2 flex items-center justify-start gap-2 text-lg">
+                            <h2 className="text-white">Total Price :</h2>
+                            <span className="text-white"><span className="text-gray-500 text-base">$</span>{calcTotalPrice()}</span>
+                        </div>
                         {basket.length > 0 && (
                             <motion.div
                                 initial={{ opacity: 0, y: 50 }}
@@ -96,6 +105,7 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
                                 transition={{ delay: 0.85, duration: 0.4 }}
                                 className="p-2 grid grid-cols-1 xs:grid-cols-2 gap-2"
                             >
+
                                 <button
                                     onClick={clearBasket}
                                     className="p-4 rounded-xl text-white bg-red-600 disabled:bg-red-400 hover:bg-red-700 transition-colors font-bold text-sm sm:text-base cursor-pointer"
@@ -104,7 +114,12 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
                                     {removeFlag ? 'Resetting basket...' : 'Reset Basket'}
                                 </button>
 
-                                <button className='p-4 rounded-xl text-white bg-sky-600 hover:bg-sky-700 transition-colors font-bold text-sm sm:text-base cursor-pointer'>Order</button>
+                                <Link
+                                    href="/p-user/cart"
+                                    className='p-4 rounded-xl text-white bg-green-600 hover:bg-green-700 transition-colors font-bold text-sm sm:text-base cursor-pointer text-center'
+                                >Order</Link>
+                                {/* <div className="flex flex-col gap-2">
+                                </div> */}
                             </motion.div>
                         )}
                     </motion.div>
@@ -134,7 +149,7 @@ const RevealCarts = ({ basket }) => {
         <section className="h-full w-full flex flex-col place-content-start gap-2 py-5 text-gray-500 overflow-y-auto md:px-2">
             {basket.length > 0 ? basket.map((cart, index) => (
                 <CartAnimation key={index} index={index + 1}>
-                    <BasketProductCart {...cart.product} size={cart.size} quantity={cart.quantity} id={cart._id} />
+                    <BasketProductCart {...cart.product} size={cart.size} quantity={cart.quantity} productId={cart._id} price={cart.price} />
                 </CartAnimation>
             )) : (
                 <div className="w-full flex flex-col gap-5 items-center border border-[#1f1f1f] bg-[#0f0f0f] p-7 rounded-xl mt-36">

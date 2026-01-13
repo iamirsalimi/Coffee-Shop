@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import toast from 'react-hot-toast';
 
 import Title from '@/components/modules/Title/Title'
+import { useAuth } from '@/Context/AuthContext';
 
 let toastId = null;
 
@@ -13,6 +14,8 @@ const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
 
 function BookingForm() {
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    let { user } = useAuth()
 
     const schema = yup.object().shape({
         fullname: yup
@@ -22,7 +25,7 @@ function BookingForm() {
 
         phone: yup
             .string()
-            .matches(phoneRegex , 'PhoneNumber is invalid')
+            .matches(phoneRegex, 'PhoneNumber is invalid')
             .required("phone is required"),
 
         date: yup
@@ -51,9 +54,11 @@ function BookingForm() {
     })
 
     const submitForm = async data => {
-        console.log(data)
+        // console.log(data)
         setIsSubmitting(true)
         toastId = toast.loading('Submitting Form')
+
+        let newBooking = { ...data, username: user.username }
 
         try {
             let res = await fetch('/api/booking', {
@@ -61,11 +66,11 @@ function BookingForm() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(newBooking)
             })
 
             // let resData = await res.json()
-            
+
             if (res.status == 201) {
                 toast.dismiss(toastId)
                 toast.success('Form Submitted Successfully')
@@ -156,7 +161,7 @@ function BookingForm() {
                                     className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
                                 />
                                 <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">Date</span>
-                                
+
                                 <span className="text-gray-300 text-xs font-sans block">soonest possible date : {getMinDate()}</span>
                                 {errors?.date && (
                                     <span className="text-red-500 text-sm mt-2">{errors.date?.message}</span>
@@ -202,7 +207,7 @@ function BookingForm() {
 
                         <button
                             className="w-full py-2 rounded-md cursor-pointer bg-sky-700 hover:bg-sky-600 disabled:bg-sky-400 transition-colors text-white font-bold"
-                            disabled={isSubmitting}
+                            disabled={!user || isSubmitting}
                         >
                             {isSubmitting ? 'Reserving...' : 'Reserve Table'}
                         </button>

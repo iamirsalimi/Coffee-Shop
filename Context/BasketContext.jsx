@@ -45,7 +45,13 @@ export const BasketProvider = ({ children }) => {
         if (user) {
             getBasket()
         }
-    }, [getData, user])
+    }, [getData])
+
+    useEffect(() => {
+        if (user) {
+            setBasket(user?.cart.items)
+        }
+    }, [user])
 
     // const changeQuantity = (id, amount) => {
     //     setBasket((prev) =>
