@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 import { useAuth } from '@/Context/AuthContext';
 
-import PanelSideBar from '@/components/modules/PanelSideBar/PanelSideBar';
+import AdminPanelSideBar from '@/components/modules/AdminPanelSideBar/AdminPanelSideBar';
 
 import { PiEyeBold } from "react-icons/pi";
 import { PiEyeClosedBold } from "react-icons/pi";
@@ -16,6 +16,7 @@ import Link from 'next/link';
 
 let usernameRegex = /^[0-9A-Za-z_.]+$/
 let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#@_.])(?!.* ).{8,16}$/
+
 
 import Users from '@/src/Models/User'
 import { verifyRefreshToken } from '@/src/utils/auth';
@@ -38,17 +39,17 @@ export async function getServerSideProps(context) {
             }
         }
         let user = await Users.findOne({ _id: tokenPayload.userId })
-        console.log(user, user.role)
+        // console.log(user, user.role)
 
-        if (user.role == 'ADMIN') {
+        if (user.role == 'USER') {
             return {
-                redirect: { destination: '/p-admin' }
+                redirect: { destination: '/p-user' }
             }
         }
 
         return {
             props: {
-                user : JSON.parse(JSON.stringify(user))
+                user: JSON.parse(JSON.stringify(user))
             }
         }
     } catch (err) {
@@ -60,12 +61,10 @@ export async function getServerSideProps(context) {
     }
 }
 
-function ProfileEdit({user}) {
+function ProfileEdit({ user }) {
     const [showCurrentPass, setShowCurrentPass] = useState(false)
     const [showPass, setShowPass] = useState(false)
     const [showRepeatPass, setRepeatShowPass] = useState(false)
-
-    // let { user } = useAuth()
 
     const schema = yup.object().shape({
         firstname: yup.string().required('firstname is mandatory'),
@@ -173,7 +172,7 @@ function ProfileEdit({user}) {
 
     return (
         <div className="flex gap-5 min-h-screen pb-20 md:pb-10 lg:pb-0">
-            <PanelSideBar />
+            <AdminPanelSideBar />
             <form className="w-full lg:w-3/4 min-h-screen h-full ml-auto p-4 flex flex-col gap-7 bg-[#0f0f0f]" onSubmit={handleSubmit(updateUserHandler)}>
 
                 <div className="w-full flex flex-row items-center justify-between">

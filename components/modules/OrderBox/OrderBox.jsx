@@ -35,7 +35,7 @@ function OrderBox({ _id: id, userId, isDelayed, minutesDelayed, orders, createdA
     return (
         <motion.div
             key={id}
-            className="p-4 border border-[#1f1f1f] rounded-3xl bg-[#0c0c0c] space-y-0.5"
+            className="p-4 border border-[#1f1f1f] rounded-3xl bg-[#0c0c0c] space-y-0.5 w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}

@@ -43,7 +43,7 @@ export async function getServerSideProps(context) {
 
     return {
       props: {
-
+        user: JSON.parse(JSON.stringify(user))
       }
     }
   } catch (err) {
@@ -55,13 +55,13 @@ export async function getServerSideProps(context) {
   }
 }
 
-function Cart() {
+function Cart({ user }) {
   const [description, setDescription] = useState('')
   const [delayCheckbox, setDelayCheckbox] = useState(false)
   const [delayInput, setDelayInput] = useState()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const { user, loading, setGetData } = useAuth()
+  const { loading, setGetData } = useAuth()
   const { basket } = useBasket()
 
   const allItemsCount = () => {
@@ -112,7 +112,7 @@ function Cart() {
       })
 
       let resData = await res.json()
-
+      console.log(res, resData)
       if (res.status == 201) {
         await clearBasket()
 

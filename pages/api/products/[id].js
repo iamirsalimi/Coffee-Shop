@@ -79,7 +79,7 @@ export default async function handler(req, res) {
                             fields.isAvailable?.[0] !== undefined
                                 ? fields.isAvailable[0] === "true"
                                 : product.isAvailable;
-                        const ingredients = fields.ingredients || product.ingredients;
+                        const ingredients = JSON.parse(fields.ingredients) || JSON.parse(product.ingredients);
 
                         let imagePath = product.image; // Keep old image by default
                         let finalSlug = product.slug;

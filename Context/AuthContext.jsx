@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
             let res = await fetch("/api/auth/logout")
             if (res.status == 200) {
                 localStorage.removeItem('accessToken')
+                location.reload()
             }
         } catch {
             console.log('Unknown err')

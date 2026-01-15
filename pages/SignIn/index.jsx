@@ -40,7 +40,7 @@ function SignIn() {
     const router = useRouter()
 
     const loginUser = async data => {
-        let userObj = { ...data, username: toLowerCase(data.username) }
+        let userObj = { ...data }
 
         let res = await fetch('/api/auth/signin', {
             method: 'POST',

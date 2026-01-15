@@ -33,7 +33,7 @@ function Navbar({ setShowMenu, setShowBasketMenu, paddingFlag }) {
                                     </svg>
                                 </button>
                                 <Link
-                                    href="/p-user"
+                                    href={`/p-${user?.role == "USER" ? 'user' : 'admin'}`}
                                     className="inline-flex items-center justify-center gap-1 bg-white text-black px-2 py-1 text-center rounded-xl border border-transparent font-sans text-sm xs:text-base font-bold cursor-pointer md:hover:bg-black hover:bg-transparent hover:border-white group transition-all duration-200"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-black w-6 h-6 group-hover:text-white transition-colors duration-200">

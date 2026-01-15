@@ -30,7 +30,7 @@ export default async function handler(req, res) {
                 // if user wasn't user it will throw err 
                 requireRole(user, ["USER"]);
 
-                if (!userId || !orders || !totalPrice || !description || !isDelayed || !minutesDelayed) {
+                if (!userId || !orders || !totalPrice || !description) {
                     return res.status(400).json({
                         message: "All fields are required"
                     });

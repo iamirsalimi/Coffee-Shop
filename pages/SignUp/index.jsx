@@ -10,6 +10,7 @@ import { PiEyeBold } from "react-icons/pi";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { FaCircleInfo } from "react-icons/fa6";
 import { GrFormPrevious } from "react-icons/gr";
+import { useAuth } from '@/Context/AuthContext';
 
 let userNameRegex = /^[0-9A-Za-z_.]+$/
 let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#@_.])(?!.* ).{8,16}$/
@@ -57,6 +58,8 @@ function SignUp() {
     resolver: yupResolver(registerSchema)
   })
 
+  let { setGetData } = useAuth()
+
   const router = useRouter()
 
   const registerUser = async data => {
@@ -85,6 +88,7 @@ function SignUp() {
       // user created successfully so we have to store accessToken and redirect user to home page
       toast.success('Your Account Created Successfully')
       localStorage.setItem('accessToken', resData.accessToken)
+      setGetData(prev => !prev)
       router.replace('/')
     }
   }
