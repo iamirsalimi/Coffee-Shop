@@ -38,7 +38,7 @@ export default async function handler(req, res) {
             }
 
             case "PATCH": {
-                const { status } = req.body;
+                const { status , time } = req.body;
 
                 if (!["PENDING", "CONFIRMED", "CANCELED"].includes(status)) {
                     return res.status(400).json({
@@ -48,9 +48,10 @@ export default async function handler(req, res) {
 
                 const updated = await Booking.findByIdAndUpdate(
                     id,
-                    { status },
+                    { status , time },
                     { new: true }
                 );
+                console.log(id , updated)
 
                 if (!updated) {
                     return res.status(404).json({

@@ -88,7 +88,7 @@ function ProductDetails({ user, product }) {
         if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
         if (days < 7) return `${days} day${days > 1 ? "s" : ""} ago`;
         if (weeks < 4) return `${weeks} week${weeks > 1 ? "s" : ""} ago`;
-        
+
         return `${months} month${months > 1 ? "s" : ""} ago`;
 
         let finalDate = new Date(date).toLocaleDateString();
@@ -137,7 +137,7 @@ function ProductDetails({ user, product }) {
 
                                     <div className="w-full flex items-center justify-between">
                                         <h2 className="text-white font-sans font-bold text-lg">ingredients : </h2>
-                                        <p className="text-gray-400 text-center lg:text-justify">{JSON.parse(product.ingredients).join(',')}</p>
+                                        <p className="text-gray-400 text-center lg:text-justify">{product.ingredients.join(',')}</p>
                                     </div>
 
                                     <div className="w-full flex items-center justify-between">
@@ -188,8 +188,8 @@ function ProductDetails({ user, product }) {
                                                                     href={`/product/${product.slug}?q=${comment._id}`} className="bg-black rounded-xl p-1 xs:p-1.5 cursor-pointer text-xs xs:text-sm"
                                                                 >visit Comment</Link>
 
-                                                                <button 
-                                                                className="bg-red-500/5 hover:bg-red-500/10 transition-colors border border-red-500 text-red-500 font-bold text-center p-1.5 rounded-xl cursor-pointer">Not Approved</button>
+                                                                <button
+                                                                    className="bg-red-500/5 hover:bg-red-500/10 transition-colors border border-red-500 text-red-500 font-bold text-center p-1.5 rounded-xl cursor-pointer">Not Approved</button>
                                                             </div>
                                                         )}
                                                         {!comment.isApproved && (

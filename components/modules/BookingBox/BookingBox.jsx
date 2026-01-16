@@ -11,7 +11,7 @@ function BookingBox({ username, _id: id, fullname, guests, status, date, time, d
     return `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month}/${year}`
   }
 
-  console.log(status)
+  // console.log(status)
   return (
     <div className="p-4 border border-[#1f1f1f] rounded-2xl bg-[#0c0c0c] space-y-2">
       <div className="flex flex-col gap-2">

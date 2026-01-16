@@ -44,7 +44,7 @@ export async function getServerSideProps(context) {
 
         return {
             props: {
-                user: JSON.parse(JSON.stringify(user)),
+                mainUser: JSON.parse(JSON.stringify(user)),
                 users: JSON.parse(JSON.stringify(users)),
             }
         }
@@ -57,7 +57,7 @@ export async function getServerSideProps(context) {
     }
 }
 
-function AllUsers({ user, users }) {
+function AllUsers({ mainUser , users }) {
     const [filteredUsers, setFilteredUsers] = useState(users)
     const [search, setSearch] = useState('') // username or email
     const [activeSearchType, setActiveSearchType] = useState('username') // username or email
@@ -169,7 +169,7 @@ function AllUsers({ user, users }) {
                                 </tr>
                             </thead>
                             <tbody className="text-center pt-4">
-                                {filteredUsers?.length > 0 && filteredUsers.map((user, index) => (
+                                {filteredUsers?.length > 0 && filteredUsers.map((user, index) => mainUser._id != user._id && (
                                     <tr key={user?.id} className="py-1 px-2 text-center text-gray-400  hover:text-white hover:bg-white/5 transition-colors select-none" >
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{index + 1}</td>
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{user?.firstname} {user?.lastname}</td>

@@ -29,7 +29,7 @@ let links = [
         </svg>
     },
     { title: 'Orders', href: '/p-admin/orders', icon: <IoIosAddCircleOutline className="text-white text-xl" /> },
-    { title: 'Bookings', href: '/p-admin/booking', icon: <BsCalendarDate className="text-white text-xl" /> },
+    { title: 'Bookings', href: '/p-admin/bookings', icon: <BsCalendarDate className="text-white text-xl" /> },
     { title: 'Comments', href: '/p-admin/comments', icon: <AiOutlineComment className="text-white text-xl" /> },
     { title: 'Contacts', href: '/p-admin/contacts', icon: <AiOutlineComment className="text-white text-xl" /> },
 ]
