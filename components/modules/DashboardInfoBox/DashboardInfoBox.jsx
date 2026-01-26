@@ -9,7 +9,7 @@ function DashboardInfoBox({title , value , color , children}) {
             </div>
             <div className={`p-2.5 rounded-xl bg-gradient-to-tr ${color} hover:scale-110 transition-transform`}>
                 {children}
-            </div>
+            </div>  
         </div>
     )
 }

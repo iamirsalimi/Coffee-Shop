@@ -10,12 +10,13 @@ import { TiLocationOutline } from "react-icons/ti";
 import { IoCall } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { FaBusinessTime } from "react-icons/fa";
+import Image from 'next/image';
 
 let toastId = null;
 
 function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  
+
   const schema = yup.object().shape({
     name: yup
       .string()
@@ -52,8 +53,8 @@ function ContactForm() {
     try {
       let res = await fetch('/api/contact', {
         method: "POST",
-        headers : {
-          'Content-Type' : 'application/json'
+        headers: {
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(newContact)
       })
@@ -89,7 +90,13 @@ function ContactForm() {
         <div className="w-full h-full rounded-4xl overflow-hidden p-3 flex flex-col sm:flex-row items-start gap-7 border border-[#1f1f1f] bg-[#0f0f0f]">
 
           <div className="w-full lg:min-w-1/2 h-[calc[100vh-5rem]] md:h-[calc(75vh-1rem)] rounded-2xl overflow-hidden">
-            <img src="Images/Contact-1.jpg" className="object-cover object-center w-full h-full" alt="" />
+            <Image
+              src="/Images/Contact-1.jpg"
+              className="w-full h-full object-cover object-center"
+              alt="contact Image"
+              width={1000}
+              height={500}
+            />
           </div>
 
           <div className="w-full flex flex-col items-start gap-5">
@@ -141,15 +148,15 @@ function ContactForm() {
           <form className="w-full flex flex-col justify-center items-center lg:items-start gap-7" onSubmit={handleSubmit(submitForm)}>
 
             <div className="w-full flex flex-col gap-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-7">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-12 pt-5">
 
                 <div className="w-full relative select-none">
                   <input
                     type="text"
-                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                    className="w-full rounded-2xl p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                     {...register('name')}
                   />
-                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">name</span>
+                  <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">name</span>
                   {errors?.name && (
                     <span className="text-red-500 text-sm mt-2">{errors.name?.message}</span>
                   )}
@@ -158,10 +165,10 @@ function ContactForm() {
                 <div className="w-full relative select-none">
                   <input
                     type="text"
-                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                    className="w-full rounded-2xl p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                     {...register('email')}
                   />
-                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">email</span>
+                  <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">email</span>
                   {errors?.email && (
                     <span className="text-red-500 text-sm mt-2">{errors.email?.message}</span>
                   )}
@@ -170,9 +177,9 @@ function ContactForm() {
                 <div className="sm:col-start-1 sm:col-end-3  w-full relative select-none">
                   <textarea
                     {...register('message')}
-                    className="w-full min-h-28 rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors pr-5"
+                    className="w-full min-h-32 rounded-2xl resize-x-none p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                   ></textarea>
-                  <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">message</span>
+                  <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">message</span>
                   {errors?.message && (
                     <span className="text-red-500 text-sm mt-2">{errors.message?.message}</span>
                   )}
@@ -180,7 +187,7 @@ function ContactForm() {
               </div>
 
               <button
-                className="w-full py-2 rounded-md cursor-pointer bg-sky-700 hover:bg-sky-600 disabled:bg-sky-400 transition-colors text-white font-bold"
+                className="w-full py-2 rounded-2xl cursor-pointer bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 transition-colors text-black font-bold"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}

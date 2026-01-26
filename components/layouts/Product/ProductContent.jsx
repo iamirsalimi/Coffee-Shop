@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { CiCoffeeCup } from "react-icons/ci";
 import { TiPlus } from "react-icons/ti";
 import { FaMinus } from "react-icons/fa";
+import Image from "next/image";
 
 let toastId = null;
 
@@ -19,7 +20,7 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
 
     const sizes = ['Small', 'Medium', 'Large']
 
-    const { user , setGetData } = useAuth();
+    const { user, setGetData } = useAuth();
     const { basket } = useBasket();
 
     // user basket
@@ -46,24 +47,24 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
         let newProductObj = {
             product: _id,
             size: activeSize.toUpperCase(),
-            price : calcTotalPrice(),
+            price: calcTotalPrice(),
             quantity: count
         }
 
         toastId = toast.loading('Adding product to basket')
 
         try {
-            let res = await fetch(`/api/user/basket/${user._id}` , {
-                method : "PUT",
-                headers : {
-                    'Content-Type' : 'application/json'
+            let res = await fetch(`/api/user/basket/${user._id}`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                body : JSON.stringify(newProductObj)
+                body: JSON.stringify(newProductObj)
             })
 
-            
+
             let data = await res.json()
-            console.log(res , data)
+            console.log(res, data)
 
             if ([201, 200].includes(res.status)) {
                 toast.dismiss(toastId)
@@ -88,7 +89,15 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
         <div className="w-full h-full pb-10">
             <div className="container mx-auto w-full h-full flex flex-col lg:flex-row justify-start gap-5">
                 <div className="w-full lg:w-1/2 h-[calc(100vh-10rem)] md:h-[calc(100vh-5rem)] md:max-h-[150vh] lg:h-full rounded-xl overflow-hidden">
-                    <img src={image} className="w-full h-full object-cover object-center" />
+                    <Image
+                        src={image}
+                        className="object-cover object-center w-full h-full"
+                        alt="product image"
+                        width={1000}
+                        height={500}
+                        quality={100}
+                        priority={true}
+                    />
                 </div>
 
                 <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start gap-5 lg:gap-2 px-5 lg:px-0 mt-5">

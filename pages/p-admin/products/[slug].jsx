@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import Head from 'next/head';
 import Link from 'next/link';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -17,6 +17,7 @@ import { MdEdit } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import { FaBan } from "react-icons/fa";
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 export async function getServerSideProps(context) {
     try {
@@ -101,6 +102,9 @@ function ProductDetails({ user, product }) {
     return (
         <div className="flex gap-5 min-h-screen pb-20 md:pb-10 lg:pb-0">
             <AdminPanelSideBar />
+            <Head>
+                <title>Coffee Uni | {product.title}</title>
+            </Head>
             <div className="w-full lg:w-3/4 min-h-screen h-full ml-auto p-4 flex flex-col gap-7 bg-[#0f0f0f]">
 
                 <div className="w-full flex flex-row items-center justify-between">
@@ -116,7 +120,13 @@ function ProductDetails({ user, product }) {
                         <div className="w-full h-full pb-3">
                             <div className="container mx-auto w-full h-full flex flex-col lg:flex-row justify-start gap-5">
                                 <div className="w-full lg:w-1/2 h-[calc(100vh)] md:h-[calc(100vh)] md:max-h-[150vh] lg:h-full rounded-xl overflow-hidden">
-                                    <img src={product.image} className="w-full h-full object-cover object-center" />
+                                    <Image
+                                        src={product.image}
+                                        className="w-full h-full object-cover object-center"
+                                        alt="product Image"
+                                        width={1000}
+                                        height={500}
+                                    />
                                 </div>
 
                                 <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start gap-5 lg:gap-2 !pr-3 lg:px-0">

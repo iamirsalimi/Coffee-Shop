@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-
+import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup'
@@ -223,6 +223,9 @@ function AddProduct({ user, product }) {
         <div className="w-full lg:w-3/4 min-h-screen pb-20 md:pb-10 lg:pb-0 flex flex-col gap-7 bg-[#0f0f0f] ml-auto p-4 pb-32">
             <AdminPanelSideBar />
 
+            <Head>
+                <title>Coffee Uni | {product.title}</title>
+            </Head>
             <div className="w-full flex flex-row items-center justify-between">
                 <Link href="/" className="flex items-center p-1 xs:p-2 rounded-xl border border-[#1f1f1f] bg-black text-gray-400 cursor-pointer transition-all">
                     <MdKeyboardArrowLeft className="stroke-white text-xl xs:text-2xl" />

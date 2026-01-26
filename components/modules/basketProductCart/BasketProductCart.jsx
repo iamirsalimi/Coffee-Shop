@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useAuth } from '@/Context/AuthContext';
+import Image from 'next/image';
 
 let toastId = null;
 
-function BasketProductCart({ title, image, quantity, size, productId , price , borderFlag }) {
+function BasketProductCart({ title, image, quantity, size, productId, price, borderFlag }) {
     const [removeFlag, setRemoveFlag] = useState(false)
     const { setGetData } = useAuth()
 
@@ -20,7 +21,7 @@ function BasketProductCart({ title, image, quantity, size, productId , price , b
             })
 
             let resData = await res.json()
-            console.log(title , productId , res , resData)    
+            console.log(title, productId, res, resData)
 
             if (res.status == 200) {
                 toast.dismiss(toastId)
@@ -38,7 +39,13 @@ function BasketProductCart({ title, image, quantity, size, productId , price , b
     return (
         <div className={`flex flex-col xs:flex-row gap-5 xs:h-60 w-full rounded-2xl bg-[#0f0f0f] p-2 ${!borderFlag ? 'border border-[#1f1f1f]' : ''} `}>
             <div className="xs:max-w-2/5 max-h-72 rounded-xl overflow-hidden w-full h-full">
-                <img src={image} className="object-cover object-center w-full h-full" alt="" />
+                <Image
+                    src={image}
+                    className="w-full h-full object-cover object-center"
+                    alt="basket product Image"
+                    width={1000}
+                    height={500}
+                />
             </div>
             <div className="h-full w-full flex flex-col justify-start gap-5 pr-2">
                 <div className="w-full flex flex-row items-center justify-between">

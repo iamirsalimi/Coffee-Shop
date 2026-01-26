@@ -1,10 +1,17 @@
+import Image from 'next/image'
 import React from 'react'
 
-function OrderBoxProduct({image , title , size , quantity , price}) {
+function OrderBoxProduct({ image, title, size, quantity, price }) {
     return (
         <div className={`flex flex-col xs:flex-row gap-5 xs:h-40 w-full rounded-2xl`}>
             <div className="xs:max-w-1/3 max-h-72 xs::max-h-40 rounded-xl overflow-hidden w-full h-full">
-                <img src={image} className="object-cover object-center w-full h-full" alt="" />
+                <Image
+                    src={image}
+                    className="w-full h-full object-cover object-center"
+                    alt="Order Product Image"
+                    width={1000}
+                    height={500}
+                />
             </div>
             <div className="h-full w-full flex flex-col justify-start gap-5 pr-2">
                 <div className="w-full flex flex-row items-center justify-between">

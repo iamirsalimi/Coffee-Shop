@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import Head from 'next/head';
 import toast, { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
 
@@ -126,6 +126,11 @@ function AllOrders({ user, orders }) {
     return (
         <div className="flex gap-5 min-h-screen pb-20 md:pb-10 lg:pb-0">
             <AdminPanelSideBar />
+
+            <Head>
+                <title>Coffee Uni | Orders</title>
+            </Head>
+
             <div className="w-full lg:w-3/4 min-h-screen h-full ml-auto p-4 flex flex-col gap-7 bg-[#0f0f0f]">
 
                 <div className="w-full flex flex-row items-center justify-between">

@@ -1,3 +1,5 @@
+import Head from 'next/head';
+
 import Header from '@/components/layouts/Menu/Header'
 import MenuItems from '@/components/layouts/Menu/MenuItems'
 import React from 'react'
@@ -34,6 +36,9 @@ export const getStaticProps = async () => {
 function Menu({ products }) {
   return (
     <div className="w-full h-full flex flex-col">
+      <Head>
+        <title>Coffee Uni | Menu</title>
+      </Head>
       <Header />
       <MenuItems products={products} />
     </div>

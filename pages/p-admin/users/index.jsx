@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import Head from 'next/head';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
@@ -57,7 +57,7 @@ export async function getServerSideProps(context) {
     }
 }
 
-function AllUsers({ mainUser , users }) {
+function AllUsers({ mainUser, users }) {
     const [filteredUsers, setFilteredUsers] = useState(users)
     const [search, setSearch] = useState('') // username or email
     const [activeSearchType, setActiveSearchType] = useState('username') // username or email
@@ -103,6 +103,9 @@ function AllUsers({ mainUser , users }) {
     return (
         <div className="flex gap-5 min-h-screen pb-20 md:pb-10 lg:pb-0">
             <AdminPanelSideBar />
+            <Head>
+                <title>Coffee Uni | Users</title>
+            </Head>
             <div className="w-full lg:w-3/4 min-h-screen h-full ml-auto p-4 flex flex-col gap-7 bg-[#0f0f0f]">
 
                 <div className="w-full flex flex-row items-center justify-between">

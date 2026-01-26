@@ -127,15 +127,15 @@ function BookingForm() {
                                 <li className="text-gray-200 text-center md:text-justify">For large groups, contact us directly (more than 30 guests)</li>
                             </ul>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-7">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-12 pt-5">
 
                             <div className="w-full relative select-none">
                                 <input
                                     type="text"
-                                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                                    className="w-full rounded-2xl p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                                     {...register('fullname')}
                                 />
-                                <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">fullname</span>
+                                <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">fullname</span>
                                 {errors?.fullname && (
                                     <span className="text-red-500 text-sm mt-2">{errors.fullname?.message}</span>
                                 )}
@@ -144,10 +144,10 @@ function BookingForm() {
                             <div className="w-full relative select-none">
                                 <input
                                     type="text"
-                                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                                    className="w-full rounded-2xl p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                                     {...register('phone')}
                                 />
-                                <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">Phone Number</span>
+                                <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">Phone Number</span>
                                 {errors?.phone && (
                                     <span className="text-red-500 text-sm mt-2">{errors.phone?.message}</span>
                                 )}
@@ -158,11 +158,11 @@ function BookingForm() {
                                     type="date"
                                     {...register('date')}
                                     min={getMinDate()}
-                                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                                    className="w-full rounded-2xl p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                                 />
-                                <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">Date</span>
+                                <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">Date</span>
 
-                                <span className="text-gray-300 text-xs font-sans block">soonest possible date : {getMinDate()}</span>
+                                <span className="text-gray-300 text-xs font-sans block mt-2 ml-1">soonest possible date : {getMinDate()}</span>
                                 {errors?.date && (
                                     <span className="text-red-500 text-sm mt-2">{errors.date?.message}</span>
                                 )}
@@ -172,11 +172,11 @@ function BookingForm() {
                                 <input
                                     type="time"
                                     {...register('time')}
-                                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors"
+                                    className="w-full rounded-2xl p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                                     min="08:00 AM"
                                     max="11:00 PM"
                                 />
-                                <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">time</span>
+                                <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">time</span>
                                 {errors?.time && (
                                     <span className="text-red-500 text-sm mt-2">{errors.time?.message}</span>
                                 )}
@@ -186,9 +186,9 @@ function BookingForm() {
                                 <input
                                     type="number"
                                     {...register('guests')}
-                                    className="w-full rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors pr-5" min={0} max={30}
+                                    className="w-full rounded-2xl p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base pr-5" min={0} max={30}
                                 />
-                                <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">Number Of Guests</span>
+                                <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">Number Of Guests</span>
                                 {errors?.guests && (
                                     <span className="text-red-500 text-sm mt-2">{errors.guests?.message}</span>
                                 )}
@@ -196,9 +196,9 @@ function BookingForm() {
                             <div className="md:col-start-1 md:col-end-3  w-full relative select-none">
                                 <textarea
                                     {...register('description')}
-                                    className="w-full min-h-28 rounded-md p-3 border border-light-gray border-gray-500 text-white outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors pr-5"
+                                    className="w-full min-h-32 rounded-2xl resize-x-none p-3 border border-[#1f1f1f] bg-[#0f0f0f] disabled:bg-black outline-none peer focus:border-sky-500 focus:text-sky-500 transition-colors text-sm md:text-base"
                                 ></textarea>
-                                <span className="absolute peer-focus:text-sky-500 bg-black transition-all -top-3 left-2 px-2 text-gray-500">Description</span>
+                                <span className="absolute peer-focus:text-sky-500 transition-all -top-7 left-0 bg-black text-gray-500">Description</span>
                                 {errors?.description && (
                                     <span className="text-red-500 text-sm mt-2">{errors.description?.message}</span>
                                 )}
@@ -206,7 +206,7 @@ function BookingForm() {
                         </div>
 
                         <button
-                            className="w-full py-2 rounded-md cursor-pointer bg-sky-700 hover:bg-sky-600 disabled:bg-sky-400 transition-colors text-white font-bold"
+                            className="w-full py-2 rounded-2xl cursor-pointer bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 transition-colors text-black font-bold"
                             disabled={!user || isSubmitting}
                         >
                             {isSubmitting ? 'Reserving...' : 'Reserve Table'}

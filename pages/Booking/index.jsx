@@ -1,3 +1,5 @@
+import Head from 'next/head';
+
 import Header from '@/components/layouts/Booking/Header'
 import BookingForm from '@/components/layouts/Booking/BookingForm'
 import React from 'react'
@@ -14,6 +16,9 @@ export const getStaticProps = () => {
 function Booking() {
   return (
     <div className="w-full h-full flex flex-col">
+      <Head>
+        <title>Coffee Uni | Booking</title>
+      </Head>
       <Header />
       <BookingForm />
       <Toaster

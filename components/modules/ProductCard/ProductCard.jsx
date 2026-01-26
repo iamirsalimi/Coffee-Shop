@@ -1,7 +1,8 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { IoHeartOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
-
-import Link from "next/link";
 
 function ProductCard({ title, summary, smallPrice, image, slug, comments }) {
     // console.log(comments)
@@ -9,8 +10,13 @@ function ProductCard({ title, summary, smallPrice, image, slug, comments }) {
     let ratingAvg = comments.length > 0 ?(comments?.reduce((prev, cur) => prev + cur.rating, 0) / comments.length).toFixed(1) : 0 // avg rating to show the product avg
     return (
         <div className="w-full min-h-96 max-h-96 rounded-lg overflow-hidden relative">
-            <img src={image} className="w-full h-full object-cover object-center" alt="" />
-            {/* <img src={"Images/Product.jpg"} className="w-full h-full object-cover object-center" alt="" /> */}
+            <Image 
+                src={image} 
+                className="w-full h-full object-cover object-center" 
+                alt="product Image"
+                width={1000}
+                height={500}
+            />
 
             <div className="w-full rounded-none min-h-1/4 sm:min-h-1/4 px-2 py-1 h-fit glass-effect backdrop-blur-xl absolute bottom-0 flex flex-col gap-1">
                 <div className="w-full flex items-center justify-between">

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import * as yup from 'yup'
@@ -102,6 +103,9 @@ function SignUp() {
 
   return (
     <div className="w-9/10 sm:w-4/5 md:w-1/2 lg:w-1/3 mx-auto flex flex-col items-start justify-center gap-5 py-5 pt-5">
+      <Head>
+        <title>Coffee Uni | Sign Up</title>
+      </Head>
       <div className="w-full flex items-center gap-2 sm:gap-5 justify-between">
         <Link href="/" className="inline-flex items-center justify-center gap-2 w-fit px-2 py-1.5 rounded-md cursor-pointer bg-black" >
           <GrFormPrevious className="text-sm text-white" />

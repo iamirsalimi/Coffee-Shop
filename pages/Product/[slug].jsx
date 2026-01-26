@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Head from "next/head";
 
 import ProductContent from "@/components/layouts/Product/ProductContent"
 import RatingAndComments from "@/components/layouts/Product/RatingAndComments"
@@ -46,7 +47,11 @@ export const getStaticProps = async (context) => {
 
         return {
             props: {
-                product: JSON.parse(JSON.stringify(product))
+                product: JSON.parse(JSON.stringify(product)),
+                head : {
+                    title : `Coffee Uni | ${product.title}`,
+                    description : product.description
+                }
             },
             revalidate: 60 * 60 * 12 // 12H 
         }
@@ -59,10 +64,14 @@ export const getStaticProps = async (context) => {
     }
 }
 
-function ProductPage({ product }) {
+function ProductPage({ product , head }) {
     // console.log(product)
     return (
         <div className="w-full h-full mt-20 lg:mt-20 px-5 xs:px-0 ">
+            <Head>
+                <title>{head.title}</title>
+                <meta name="description" content={head.description} />
+            </Head>
             <ul className="container mx-auto flex items-center justify-start gap-0.5 text-sm mb-5">
                 <li className="text-white">
                     <Link href="/">Home</Link>
