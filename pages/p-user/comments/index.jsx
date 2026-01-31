@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
 import Head from 'next/head';
-import { useAuth } from '@/Context/AuthContext';
-import { useBasket } from '@/Context/BasketContext';
-import Comment from '@/components/modules/Comment/Comment';
 
 import PanelSideBar from '@/components/modules/PanelSideBar/PanelSideBar';
 
-import { MdKeyboardArrowLeft } from "react-icons/md";
-
-
 import Users from '@/src/Models/User'
+import Comment from '@/components/modules/Comment/Comment';
+import { useAuth } from '@/Context/AuthContext';
+import { useBasket } from '@/Context/BasketContext';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
+
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 export async function getServerSideProps(context) {
     try {
@@ -65,7 +65,7 @@ function Comments({ }) {
     useEffect(() => {
         let getComments = async () => {
             try {
-                let res = await fetch(`/api/comments/username/${user.username}`)
+                let res = await autoFetch(`/api/comments/username/${user.username}`)
                 const resData = await res.json()
 
                 console.log('comments res ', resData)

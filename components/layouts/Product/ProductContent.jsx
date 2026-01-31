@@ -10,6 +10,8 @@ import { CiCoffeeCup } from "react-icons/ci";
 import { TiPlus } from "react-icons/ti";
 import { FaMinus } from "react-icons/fa";
 import Image from "next/image";
+import Link from 'next/link';
+import { autoFetch } from '@/utils/autoFetch';
 
 let toastId = null;
 
@@ -54,14 +56,10 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
         toastId = toast.loading('Adding product to basket')
 
         try {
-            let res = await fetch(`/api/user/basket/${user._id}`, {
+            let res = await autoFetch(`/api/user/basket/${user._id}`, {
                 method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(newProductObj)
             })
-
 
             let data = await res.json()
             console.log(res, data)
@@ -157,10 +155,12 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
                             ))}
                         </div>
                     </div>
+                    <div className="w-full p-2 lg:p-2 lg:rounded-full rounded-4xl flex flex-col lg:flex-row items-center gap-3 lg:gap-2 border border-[#1f1f1f] bg-[#0f0f0f] mt-5">
 
                     {/* Product Count */}
-                    <div className="w-full p-2 lg:p-2 lg:rounded-full rounded-4xl flex flex-col lg:flex-row items-center gap-3 lg:gap-2 border border-[#1f1f1f] bg-[#0f0f0f] mt-5">
-                        <div className="flex flex-col xs:flex-row items-center justify-between">
+                        {user ? (
+                            <>
+                            <div className="flex flex-col xs:flex-row items-center justify-between">
                             {/* count */}
                             <div className="flex items-center gap-2">
                                 <button
@@ -191,7 +191,11 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
                         >
                             {isAdding ? 'ADDING...' : 'ADD TO ORDERS'}
                         </button>
-                    </div>
+                            </>
+                        ) : (
+                            <Link href="/SignIn" className="w-full h-16 rounded-3xl lg:rounded-full bg-green-500 disabled:bg-green-300 text-white font-bold flex items-center justify-center cursor-pointer hover:bg-green-600 transition-all duration-200 lg:text-sm xl:text-base">Sign In To Your Account</Link>
+                        )}
+                        </div>
                 </div>
             </div>
             <Toaster

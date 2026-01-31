@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useAuth } from './AuthContext'
+import {autoFetch} from '@/utils/autoFetch';
 
 const BasketContext = createContext(null)
 
@@ -32,7 +33,7 @@ export const BasketProvider = ({ children }) => {
     useEffect(() => {
         const getBasket = async () => {
             try {
-                let res = await fetch(`/api/user/basket/${user._id}`)
+                let res = await autoFetch(`/api/user/basket/${user._id}`)
                 let data = await res.json()
                 if (res.status == 200) {
                     setBasket(data.cart)

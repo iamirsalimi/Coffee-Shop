@@ -140,7 +140,7 @@ function AllUsers({ mainUser, users }) {
                                     checked={activeSearchType == 'username'}
                                     onChange={e => setActiveSearchType(e.target.dataset.checkvalue)}
                                 />
-                                <label htmlFor="usernameRadioBtn" className="p-2 inline-block text-white w-fit h-full rounded-full cursor-pointer peer-checked:bg-amber-500 peer-checked:text-white font-bold transition-colors text-sm select-none">UserName</label>
+                                <label htmlFor="usernameRadioBtn" className="p-2 inline-block text-white w-fit h-full rounded-full cursor-pointer peer-checked:bg-amber-500 peer-checked:text-black font-bold transition-colors text-sm select-none">UserName</label>
                             </div>
 
                             <div className="">
@@ -153,7 +153,7 @@ function AllUsers({ mainUser, users }) {
                                     checked={activeSearchType == 'email'}
                                     onChange={e => setActiveSearchType(e.target.dataset.checkvalue)}
                                 />
-                                <label htmlFor="emailRadioBtn" className="p-2 inline-block text-white w-fit h-full rounded-full cursor-pointer peer-checked:bg-amber-500 peer-checked:text-white font-bold transition-colors text-sm select-none">Email</label>
+                                <label htmlFor="emailRadioBtn" className="p-2 inline-block text-white w-fit h-full rounded-full cursor-pointer peer-checked:bg-amber-500 peer-checked:text-black font-bold transition-colors text-sm select-none">Email</label>
                             </div>
                         </div>
 

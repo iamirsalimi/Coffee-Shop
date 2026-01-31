@@ -4,6 +4,7 @@ import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 
 import { useBasket } from '@/Context/BasketContext'
+import {autoFetch} from '@/utils/autoFetch';
 
 import BasketProductCart from '../BasketProductCart/BasketProductCart'
 
@@ -20,7 +21,7 @@ function BasketMenu({ showBasketMenu, setShowBasketMenu }) {
             setRemoveFlag(true)
             toastId = toast.loading('Resetting basket')
 
-            let res = await fetch('/api/user/basket/-1', {
+            let res = await autoFetch('/api/user/basket/-1', {
                 method: "DELETE"
             })
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useAuth } from '@/Context/AuthContext';
 import Image from 'next/image';
+import {autoFetch} from '@/utils/autoFetch';
 
 let toastId = null;
 
@@ -16,7 +17,7 @@ function BasketProductCart({ title, image, quantity, size, productId, price, bor
             setRemoveFlag(true)
             toastId = toast.loading('removing product from basket')
 
-            let res = await fetch(`/api/user/basket/${productId}`, {
+            let res = await autoFetch(`/api/user/basket/${productId}`, {
                 method: "DELETE"
             })
 

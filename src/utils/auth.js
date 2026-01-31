@@ -1,5 +1,5 @@
 import { compare, hash } from "bcryptjs";
-import { sign , verify } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 
 const hashPassword = async password => {
     const hashedPassword = await hash(password, 12)
@@ -26,36 +26,30 @@ const generateRefreshToken = data => {
 }
 
 const verifyRefreshToken = token => {
-    try{
-        let tokenPayload = verify(token , process.env.REFRESH_TOKEN_SECRET) 
+    try {
+        let tokenPayload = verify(token, process.env.REFRESH_TOKEN_SECRET)
         return tokenPayload
-    } catch(err){
+    } catch (err) {
         return null
     }
 }
 
 const verifyAccessToken = (req, res) => {
-    // const authHeader = req.headers.authorization;
-    // if (!authHeader) return null;
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return null;
 
-    // const token = authHeader.split(" ")[1];
+    const token = authHeader.split(" ")[1];
 
-    // try {
-    //     return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    // } catch {
-    //     return null;
-    // }
-
-    return true
+    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 }
 
-const requireRole = (user , roles) => {
+const requireRole = (user, roles) => {
     // if (!roles.includes(user.role)) {
     //     throw new Error("Forbidden");
     // }
-    
+
     return true
 }
 
 
-export { hashPassword, generateRefreshToken, generateAccessToken, verifyPassword,verifyRefreshToken, verifyAccessToken , requireRole}
+export { hashPassword, generateRefreshToken, generateAccessToken, verifyPassword, verifyRefreshToken, verifyAccessToken, requireRole }

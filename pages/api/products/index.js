@@ -60,8 +60,8 @@ export default async function handler(req, res) {
                     const mediumPrice = fields.mediumPrice?.[0];
                     const largePrice = fields.largePrice?.[0];
                     const category = fields.category?.[0];
-                    const isAvailable = fields.isAvailable?.[0] === "true";
-                    const ingredients = fields.ingredients || [];
+                    const isAvailable = true;
+                    const ingredients = JSON.parse(fields.ingredients) || [];
                     const slug = fields.slug?.[0]?.trim();
 
                     // Validate required fields

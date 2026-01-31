@@ -8,6 +8,7 @@ import AdminPanelSideBar from '@/components/modules/AdminPanelSideBar/AdminPanel
 import Users from '@/src/Models/User';
 import Bookings from '@/src/Models/Booking';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
 
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
@@ -109,11 +110,8 @@ function BookingDetails({ user, booking }) {
                 setIsChangingTime(true)
             }
 
-            let res = await fetch(`/api/booking/${booking._id}`, {
+            let res = await autoFetch(`/api/booking/${booking._id}`, {
                 method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(newBooking)
             })
 

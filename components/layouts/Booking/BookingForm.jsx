@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 
 import Title from '@/components/modules/Title/Title'
 import { useAuth } from '@/Context/AuthContext';
+import {autoFetch} from '@/utils/autoFetch';
 
 let toastId = null;
 
@@ -61,11 +62,8 @@ function BookingForm() {
         let newBooking = { ...data, username: user.username }
 
         try {
-            let res = await fetch('/api/booking', {
+            let res = await autoFetch('/api/booking', {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(newBooking)
             })
 
@@ -116,15 +114,15 @@ function BookingForm() {
                 <p className="text-white text-lg text-center md:text-justify">Please fill in the details below to reserve your table. We’ll confirm your booking as soon as possible</p>
                 <form className="w-full flex flex-col justify-center items-center lg:items-start gap-7" onSubmit={handleSubmit(submitForm)}>
                     <div className="w-full flex flex-col gap-5">
-                        <div className="w-full p-4 border border-[#1f1f1f] rounded-2xl space-y-4 bg-[#0f0f0f] text-center">
+                        <div className="w-full p-4 border border-[#1f1f1f] rounded-2xl space-y-4 bg-[#0f0f0f] text-center sm:text-left">
                             <h2 className="text-lg font-semibold text-white">
                                 Good to Know
                             </h2>
 
-                            <ul className="flex flex-col items-center gap-2 text-sm text-gray-400 list-disc pl-5">
-                                <li className="text-gray-200 text-center md:text-justify">Bookings can be made up to 7 days in advance</li>
-                                <li className="text-gray-200 text-center md:text-justify">Please arrive on time to keep your reservation</li>
-                                <li className="text-gray-200 text-center md:text-justify">For large groups, contact us directly (more than 30 guests)</li>
+                            <ul className="w-full flex flex-col items-center sm:!items-start gap-2 text-sm text-gray-400 list-disc pl-5">
+                                <li className="text-gray-300 text-center md:text-justify">Bookings can be made up to 7 days in advance</li>
+                                <li className="text-gray-300 text-center md:text-justify">Please arrive on time to keep your reservation</li>
+                                <li className="text-gray-300 text-center md:text-justify">For large groups, contact us directly (more than 30 guests)</li>
                             </ul>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-12 pt-5">

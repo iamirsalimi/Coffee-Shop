@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
 import Head from 'next/head';
-import { useAuth } from '@/Context/AuthContext';
-import { useBasket } from '@/Context/BasketContext';
 
 import PanelSideBar from '@/components/modules/PanelSideBar/PanelSideBar';
 import BookingBox from '@/components/modules/BookingBox/BookingBox';
-
-import { MdKeyboardArrowLeft } from "react-icons/md";
 import CancelBookingModal from '@/components/modules/CancelBookingModal/CancelBookingModal';
-
 
 import Users from '@/src/Models/User'
 import { verifyRefreshToken } from '@/src/utils/auth';
+import { useAuth } from '@/Context/AuthContext';
+import { useBasket } from '@/Context/BasketContext';
+import {autoFetch} from '@/utils/autoFetch';
+
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 export async function getServerSideProps(context) {
     try {
@@ -74,11 +74,8 @@ function Booking() {
 
             let newBooking = { status: 'CANCELED' }
 
-            let res = await fetch(`/api/booking/${currentId}`, {
+            let res = await autoFetch(`/api/booking/${currentId}`, {
                 method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(newBooking)
             })
 
@@ -107,7 +104,7 @@ function Booking() {
     useEffect(() => {
         let getBookings = async () => {
             try {
-                let res = await fetch(`/api/booking/username/${user.username}`)
+                let res = await autoFetch(`/api/booking/username/${user.username}`)
                 const resData = await res.json()
 
                 // console.log('Booking res ', resData)

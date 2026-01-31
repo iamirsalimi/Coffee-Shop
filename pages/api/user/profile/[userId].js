@@ -1,59 +1,106 @@
+
 import connectToDB from "@/src/configs/db";
 import User from "@/src/Models/User";
+import Comment from "@/src/Models/Comment";
+import Booking from "@/src/Models/Booking";
 import { hashPassword, verifyPassword } from "@/src/utils/auth";
+import mongoose from "mongoose";
 
 export default async function handler(req, res) {
   if (req.method !== "PATCH") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
+  await connectToDB();
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    await connectToDB();
+    const { userId } = req.query;
 
-    const userId = req.user.id; // from access token middleware
+    const {
+      firstname,
+      lastname,
+      email,
+      username,
+      oldPassword,
+      newPassword,
+    } = req.body;
 
-    const { firstname, lastname, email, username, oldPassword, newPassword } = req.body;
-
-
-    let user = await User.find({ _id: userId })
+    const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({
-        message: "user not found"
-      });
+      await session.abortTransaction();
+      return res.status(404).json({ message: "User not found" });
     }
 
-    let newPasswordValue = user.password;
+    const oldUsername = user.username;
 
-    if (newPassword != -1) {
-      let passwordFlag = await verifyPassword(oldPassword, user.password)
+    // Check username uniqueness (if changed)
+    if (username != oldUsername) {
+      const usernameExists = await User.findOne({
+        username,
+        _id: { $ne: userId },
+      });
 
-      if (!passwordFlag) {
+      if (usernameExists) {
+        await session.abortTransaction();
         return res.status(422).json({
-          message: "current password is incorrect"
+          message: "Username already exists",
+        });
+      }
+    }
+
+    // Handle password
+    let passwordValue = user.password;
+    console.log(req.body)
+    if (newPassword != -1) {
+      const isValid = await verifyPassword(oldPassword, user.password);
+
+      if (!isValid) {
+        await session.abortTransaction();
+        return res.status(422).json({
+          message: "Current password is incorrect",
         });
       }
 
-      newPasswordValue = await hashPassword(newPassword)
+      passwordValue = await hashPassword(newPassword);
     }
 
-    updatedUser = await User.findByIdAndUpdate(
+    // Update user
+    await User.findByIdAndUpdate(
       userId,
       {
         firstname,
         lastname,
         email,
         username,
-        password: newPasswordValue
-      },
-      { new: true, runValidators: true }
-    ).select("-password");
+        password: passwordValue,
+      });
+
+    // Sync username in other collections
+
+    await Comment.updateMany(
+      { username: oldUsername },
+      { $set: { username } }
+    );
+
+    await Booking.updateMany(
+      { username: oldUsername },
+      { $set: { username } }
+    );
+
+    await session.commitTransaction();
+    session.endSession();
 
     return res.status(200).json({
       message: "Profile updated successfully",
-      user: updatedUser,
     });
   } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    console.log(err)
     return res.status(500).json({
       message: "Failed to update profile",
       error: err.message,

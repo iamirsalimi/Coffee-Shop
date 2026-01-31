@@ -117,50 +117,52 @@ function UserDetails({ user, mainUser }) {
                 </div>
 
                 <div className="w-full min-h-[80vh] max-h-[80vh] p-5 rounded-3xl border border-[#1f1f1f] bg-black overflow-auto">
-                    <div className="grid grid-cols-3 grid-rows-4 gap-4 gap-y-5">
-                        {/* user account details */}
-                        <div className="min-h-[60vh] max-h-[60vh] flex flex-col items-center gap-5 py-5 px-2 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f]">
-                            <div className="flex flex-col items-center gap-5">
-                                <div className="relative w-20 h-20 rounded-full bg-gray-800 overflow-hidden ring-4 ring-gray-700/25">
-                                    <FaUser className="text-white absolute -bottom-10 left-1/2 -translate-1/2 w-16 h-16" />
-                                </div>
-                                <h2 className="text-white font-bold select-none">{mainUser?.firstname || ''} {mainUser?.lastname || ''}</h2>
-                            </div>
-                            <div className="flex flex-col gap-2 select-none">
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-sm py-1">
-                                    <h3 className="font-bold text-gray-400">FullName : </h3>
-                                    <p className="font-bold text-white">{mainUser?.firstname} {mainUser?.lastname}</p>
-                                </div>
-
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-sm py-1">
-                                    <h3 className="font-bold text-gray-400">userName : </h3>
-                                    <p className="font-bold text-white">{mainUser?.username}</p>
-                                </div>
-
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 text-sm py-1">
-                                    <h3 className="font-bold text-gray-400">email : </h3>
-                                    <p className="font-bold text-white">{mainUser?.email}</p>
-                                </div>
-                            </div>
-                        </div>
-                        {/* user basket */}
-                        <div className="col-start-2 col-end-4 min-h-[60vh] max-h-[60vh] flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
-                            <h2 className="text-white font-bold select-none">User Basket</h2>
-                            <div className="w-full flex flex-col items-center justify-between gap-2 select-none">
-                                {mainUser.cart.items.length > 0 ? mainUser.cart.items.map(cart => (
-                                    <div className="w-full flex items-center justify-between text-sm">
-                                        <h3 className="font-bold text-gray-400">{cart.product.title}</h3>
-                                        <p className="font-bold text-white">{cart.quantity} <span className="text-gray-400">cups</span></p>
-                                        <p className="font-bold text-white">{cart.size} <span className="text-gray-500">(${cart.size == 'SMALL' ? cart.product.smallPrice : cart.size == 'MEDIUM' ? cart.product.mediumSize : cart.product.largeSize})</span></p>
-                                        <p className="font-bold text-white"><span className="text-gray-400 text-xs">$</span>{cart.price.toFixed(2)}</p>
+                    <div className="w-full grid grid-cols-1 gap-5">
+                        <div className="min-w-max !w-full min-h-[60vh] max-h-[60vh] grid grid-cols-1 lg:grid-cols-3 gap-5">
+                            {/* user account details */}
+                            <div className="w-full flex flex-col items-center gap-5 py-5 px-2 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f]">
+                                <div className="flex flex-col items-center gap-5">
+                                    <div className="relative w-20 h-20 rounded-full bg-gray-800 overflow-hidden ring-4 ring-gray-700/25">
+                                        <FaUser className="text-white absolute -bottom-10 left-1/2 -translate-1/2 w-16 h-16" />
                                     </div>
-                                )) : (
-                                    <div className="text-white text-center my-auto">User Basket Is Empty</div>
-                                )}
+                                    <h2 className="text-white font-bold select-none">{mainUser?.firstname || ''} {mainUser?.lastname || ''}</h2>
+                                </div>
+                                <div className="flex flex-col gap-2 select-none">
+                                    <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-1 text-sm py-1">
+                                        <h3 className="font-bold text-gray-400">FullName : </h3>
+                                        <p className="font-bold text-white">{mainUser?.firstname} {mainUser?.lastname}</p>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-1 text-sm py-1">
+                                        <h3 className="font-bold text-gray-400">userName : </h3>
+                                        <p className="font-bold text-white">{mainUser?.username}</p>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-1 text-sm py-1">
+                                        <h3 className="font-bold text-gray-400">email : </h3>
+                                        <p className="font-bold text-white">{mainUser?.email}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* user basket */}
+                            <div className="lg:col-start-2 lg:col-end-4 flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
+                                <h2 className="text-white font-bold select-none">User Basket</h2>
+                                <div className="w-full flex flex-col items-center justify-between gap-2 select-none">
+                                    {mainUser.cart.items.length > 0 ? mainUser.cart.items.map(cart => (
+                                        <div className="w-full flex items-center justify-between text-sm">
+                                            <h3 className="font-bold text-gray-400">{cart.product.title}</h3>
+                                            <p className="font-bold text-white">{cart.quantity} <span className="text-gray-400">cups</span></p>
+                                            <p className="font-bold text-white">{cart.size} <span className="text-gray-500">(${cart.size == 'SMALL' ? cart.product.smallPrice : cart.size == 'MEDIUM' ? cart.product.mediumSize : cart.product.largeSize})</span></p>
+                                            <p className="font-bold text-white"><span className="text-gray-400 text-xs">$</span>{cart.price.toFixed(2)}</p>
+                                        </div>
+                                    )) : (
+                                        <div className="text-white text-center my-auto">User Basket Is Empty</div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         {/* user orders */}
-                        <div className="col-start-1 col-end-4 min-h-[65vh] max-h-[65vh] flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
+                        <div className="min-h-[65vh] max-h-[65vh] flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
                             <h2 className="text-white font-bold select-none">User Orders</h2>
                             <div className="w-full flex flex-col items-center justify-between gap-2 select-none">
                                 {mainUser?.orders.length > 0 ? mainUser?.orders.map(order => (
@@ -171,9 +173,9 @@ function UserDetails({ user, mainUser }) {
                             </div>
                         </div>
                         {/* user comments */}
-                        <div className="col-start-1 col-end-4 min-h-[65vh] max-h-[65vh] flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
+                        <div className="min-h-[65vh] max-h-[65vh] flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
                             <h2 className="text-white font-bold select-none">User Comments</h2>
-                            <div className="w-full flex flex-col items-center justify-between gap-2 select-none">
+                            <div className="w-full h-full flex flex-col items-center justify-between gap-2 select-none overflow-auto">
                                 <table className="w-full">
                                     <thead className="min-w-full">
                                         <tr className="py-1 px-2">
@@ -214,9 +216,9 @@ function UserDetails({ user, mainUser }) {
                             </div>
                         </div>
                         {/* user bookings */}
-                        <div className="col-start-1 col-end-4 min-h-[65vh] max-h-[65vh] flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
+                        <div className="min-h-[65vh] max-h-[65vh] flex flex-col items-start gap-5 py-5 px-4 rounded-3xl border border-[#1f1f1f] bg-[#0f0f0f] overflow-y-auto">
                             <h2 className="text-white font-bold select-none">User bookings</h2>
-                            <div className="w-full flex flex-col items-center justify-between gap-2 select-none">
+                            <div className="w-full h-full flex flex-col items-center justify-between gap-2 select-none overflow-auto">
                                 <table className="w-full">
                                     <thead className="min-w-full">
                                         <tr className="py-1 px-2">

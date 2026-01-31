@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
 import Head from 'next/head';
-import { useAuth } from '@/Context/AuthContext';
 
 import PanelSideBar from '@/components/modules/PanelSideBar/PanelSideBar';
-
-import { MdKeyboardArrowLeft } from "react-icons/md";
 import OrderBox from '@/components/modules/OrderBox/OrderBox';
 
-
 import Users from '@/src/Models/User'
+import { useAuth } from '@/Context/AuthContext';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
+
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 export async function getServerSideProps(context) {
   try {
@@ -66,7 +66,7 @@ function Orders() {
   useEffect(() => {
     let getOrders = async () => {
       try {
-        let res = await fetch(`/api/orders/${user._id}`)
+        let res = await autoFetch(`/api/orders/${user._id}`)
         const resData = await res.json()
 
         console.log('Orders res ', resData)

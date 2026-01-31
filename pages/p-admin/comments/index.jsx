@@ -9,6 +9,7 @@ import DeleteModal from '@/components/modules/deleteModal/DeleteModal'
 import Users from '@/src/Models/User';
 import Comments from '@/src/Models/Comment';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
 
 import { PiEyeBold } from "react-icons/pi";
 import { MdKeyboardArrowLeft } from "react-icons/md";
@@ -65,8 +66,9 @@ function AllComments({ user, comments }) {
     const [filteredComments, setFilteredComments] = useState(comments)
     const [search, setSearch] = useState('') // username
     const [filterType, setFilterType] = useState('username') // product slug username or approved or notApproved 
-    const [isPending, setIsPending] = useState(false)
-
+    const [changeIsPending, setChangeIsPending] = useState(false)
+    const [getComments, setGetComments] = useState(false)
+    const [isPending, setIsPending] = useState(null) // at first when it's just loaded the value is "null" but after that id it requires updating table it will be changed into "true" or "false"
     const getMonth = date => {
         if (!date) return ''
         let registerDate = new Date(date)
@@ -85,13 +87,10 @@ function AllComments({ user, comments }) {
         try {
             toastId = toast.loading(`${approvedFlag == 'approved' ? 'approving' : 'not approving'} comment`)
             let newComment = { isApproved: approvedFlag == 'approved' }
-            setIsPending(true)
+            setChangeIsPending(true)
 
-            let res = await fetch(`/api/comments/${comment._id}`, {
+            let res = await autoFetch(`/api/comments/${comment._id}`, {
                 method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(newComment)
             })
 
@@ -99,19 +98,38 @@ function AllComments({ user, comments }) {
             // console.log(resData)
 
             if (res.status == 200) {
-                setIsPending(false)
+                setChangeIsPending(false)
+                setIsPending(true)
+                setGetComments(prev => !prev)
                 toast.dismiss(toastId)
                 toast.success(`comment ${approvedFlag} successfully`)
-                location.reload()
             }
 
         } catch (err) {
-            setIsPending(false)
+            setChangeIsPending(false)
             toast.dismiss(toastId)
             toast.error(err.message)
             console.log(err)
         }
     }
+
+    const getCommentsHandler = async () => {
+        try {
+            let res = await autoFetch('/api/comments')
+
+            let commentsData = await res.json()
+
+            if (res.status == 200) {
+                setFilteredComments(commentsData)
+            }
+
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setIsPending(false)
+        }
+    }
+
 
     useEffect(() => {
         switch (filterType) {
@@ -148,6 +166,13 @@ function AllComments({ user, comments }) {
             }
         }
     }, [search, filterType])
+
+    useEffect(() => {
+        if (isPending != null) {
+            setIsPending(true)
+            getCommentsHandler()
+        }
+    }, [getComments])
 
     // console.log(comment)
 
@@ -215,7 +240,7 @@ function AllComments({ user, comments }) {
                                 </tr>
                             </thead>
                             <tbody className="text-center pt-4">
-                                {filteredComments?.length > 0 && filteredComments.map((comment, index) => (
+                                {!isPending && filteredComments?.length > 0 && filteredComments.map((comment, index) => (
                                     <tr key={comment?._id} className="py-1 px-2 text-center text-gray-400  hover:text-white hover:bg-white/5 transition-colors select-none" >
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{index + 1}</td>
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{comment?.productId.slug}</td>
@@ -236,19 +261,19 @@ function AllComments({ user, comments }) {
                                                 <button
                                                     className="inline-flex items-center justify-center gap-1 p-1 lg:px-2 rounded-md cursor-pointer border border-green-500 bg-green-500/10 disabled:bg-green/5 hover:bg-green-500/25 transition-colors group"
                                                     onClick={e => changeCommentStatus(comment, 'approved')}
-                                                    disabled={isPending}
+                                                    disabled={changeIsPending}
                                                 >
                                                     <FiCheck className="text-green-500 group-hover:text-white transition-all" />
-                                                    <span className="text-green-500 group-hover:text-white transition-colors text-nowrap">{isPending ? 'pending' : "Approve"}</span>
+                                                    <span className="text-green-500 group-hover:text-white transition-colors text-nowrap">{changeIsPending ? 'pending' : "Approve"}</span>
                                                 </button>
                                             ) : (
                                                 <button
                                                     className="inline-flex items-center justify-center gap-1 p-1 lg:px-2 rounded-md cursor-pointer border border-red-500 bg-red-500/10 disabled:bg-red-500/5 hover:bg-red-500/25 transition-colors group"
                                                     onClick={e => changeCommentStatus(comment, 'notApproved')}
-                                                    disabled={isPending}
+                                                    disabled={changeIsPending}
                                                 >
                                                     <RxCross1 className="text-red-500 group-hover:text-white transition-all" />
-                                                    <span className="text-red-500 group-hover:text-white transition-colors text-nowrap">{isPending ? 'pending' : "Not Approve"}</span>
+                                                    <span className="text-red-500 group-hover:text-white transition-colors text-nowrap">{changeIsPending ? 'pending' : "Not Approve"}</span>
                                                 </button>
                                             )}
                                         </td>
@@ -256,8 +281,12 @@ function AllComments({ user, comments }) {
                                 ))}
                             </tbody>
                         </table>
-                        {filteredComments?.length == 0 && (
+                        {!isPending && filteredComments?.length == 0 && (
                             <div className="text-center text-white my-auto mt-36">there is no Comment {['username', 'productSlug'].includes(filterType) ? `with "${search}" ${filterType}` : `which is "${filterType == 'approved' ? 'Approved' : 'Not Approved'}"`} </div>
+                        )}
+
+                        {isPending && (
+                            <div className="text-center text-white my-auto mt-36">loading new Comments data ...</div>
                         )}
                     </div>
                 </div >

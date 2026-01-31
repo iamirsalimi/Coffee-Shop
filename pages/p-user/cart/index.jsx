@@ -1,19 +1,20 @@
 import React, { useRef, useState } from 'react'
 import Link from 'next/link';
 import Head from 'next/head';
-import PanelSideBar from '@/components/modules/PanelSideBar/PanelSideBar';
-import { useAuth } from '@/Context/AuthContext';
-import { useBasket } from '@/Context/BasketContext';
-
-import { MdKeyboardArrowLeft } from "react-icons/md";
-import BasketProductCart from '@/components/modules/BasketProductCart/BasketProductCart';
 import toast, { Toaster } from 'react-hot-toast';
 
-let toastId = null;
-
+import PanelSideBar from '@/components/modules/PanelSideBar/PanelSideBar';
+import BasketProductCart from '@/components/modules/BasketProductCart/BasketProductCart';
 
 import Users from '@/src/Models/User'
+import { useAuth } from '@/Context/AuthContext';
+import { useBasket } from '@/Context/BasketContext';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
+
+import { MdKeyboardArrowLeft } from "react-icons/md";
+
+let toastId = null;
 
 export async function getServerSideProps(context) {
   try {
@@ -73,7 +74,7 @@ function Cart({ user }) {
 
   const clearBasket = async () => {
     try {
-      let res = await fetch('/api/user/basket/-1', {
+      let res = await autoFetch('/api/user/basket/-1', {
         method: "DELETE"
       })
 
@@ -103,11 +104,8 @@ function Cart({ user }) {
 
       console.log(newOrder)
 
-      let res = await fetch('/api/orders', {
+      let res = await autoFetch('/api/orders', {
         method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify(newOrder)
       })
 

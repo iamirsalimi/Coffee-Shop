@@ -2,6 +2,7 @@ import CommentForm from "@/components/modules/CommentFrom/CommentForm"
 import Comment from "@/components/modules/Comment/Comment"
 import { useState } from "react"
 
+
 function RatingAndComments({ comments, _id }) {
     let ratingAvg = comments.length > 0 ? (comments?.reduce((prev, cur) => prev + cur.rating, 0) / comments.length).toFixed(1) : 0 // avg rating to show the product avg
     let ratingObj = comments.reduce((prev, cur) => ({ ...prev, [cur.rating]: prev[cur.rating] ? prev[cur.rating] + 1 : 1 }), {})

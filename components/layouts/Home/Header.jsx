@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react'
 
 function Header() {
@@ -21,12 +22,12 @@ function Header() {
                 <h1 className=" text-white font-bold text-3xl sm:text-4xl md:text-justify text-center">Your Daily Dose of Real Coffee</h1>
                 <p className="md:text-justify text-center md:text-lg text-gray-400">We serve freshly brewed coffee made from carefully selected beans. From rich hot blends to refreshing cold drinks, every cup is crafted with care. Relax, connect, and enjoy the perfect coffee experience - just the way you like it.</p>
                 <div className="flex items-center md:justify-start justify-center gap-2 pb-12 md:pb-5">
-                    <button className="bg-white text-black px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-bold border border-white cursor-pointer hover:bg-black hover:border-white hover:text-white transition-all duration-200">
+                    <Link href="/Menu" className="bg-white text-black px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-bold border border-white cursor-pointer hover:bg-black hover:border-white hover:text-white transition-all duration-200">
                         View Menu
-                    </button>
-                    <button className="border border-[#1f1f1f] bg-[#0f0f0f] px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-bold cursor-pointer">
+                    </Link>
+                    <Link href="/Booking" className="border border-[#1f1f1f] bg-[#0f0f0f] px-2 py-1 lg:px-4 lg:py-2 rounded-lg font-bold cursor-pointer">
                         Book a Table
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

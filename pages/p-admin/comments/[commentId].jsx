@@ -8,6 +8,7 @@ import AdminPanelSideBar from '@/components/modules/AdminPanelSideBar/AdminPanel
 import Users from '@/src/Models/User';
 import Comments from '@/src/Models/Comment';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
 
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
@@ -98,11 +99,8 @@ function CommentDetails({ user, comment }) {
             setIsChangingApproval(true)
 
 
-            let res = await fetch(`/api/comments/${comment._id}`, {
+            let res = await autoFetch(`/api/comments/${comment._id}`, {
                 method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(newComment)
             })
 

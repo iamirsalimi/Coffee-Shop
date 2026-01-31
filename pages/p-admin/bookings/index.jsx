@@ -9,6 +9,7 @@ import DeleteModal from '@/components/modules/deleteModal/DeleteModal'
 import Users from '@/src/Models/User';
 import Bookings from '@/src/Models/Booking';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
 
 import { PiEyeBold } from "react-icons/pi";
 import { MdKeyboardArrowLeft } from "react-icons/md";
@@ -66,8 +67,9 @@ function AllBookings({ user, bookings }) {
     const [search, setSearch] = useState('') // username or fullname or phone
     const [filterType, setFilterType] = useState('username') // username or fullname or phone or status or today or tomorrow
     const [filterBookingStatus, setFilterBookingStatus] = useState('PENDING') // PENDING or CONFIRMED or CANCELED
-    const [isPending, setIsPending] = useState(false)
-
+    const [changeIsPending, setChangeIsPending] = useState(false)
+    const [getBookings, setGetBookings] = useState(false)
+    const [isPending, setIsPending] = useState(null) // at first when it's just loaded the value is "null" but after that id it requires updating table it will be changed into "true" or "false"
     const getMonth = date => {
         if (!date) return ''
         let registerDate = new Date(date)
@@ -102,31 +104,46 @@ function AllBookings({ user, bookings }) {
         try {
             toastId = toast.loading(`${statusFlag}ing booking`)
             let newBooking = { status: statusFlag == 'confirm' ? 'CONFIRMED' : 'CANCELED', time: booking.time }
-            setIsPending(true)
+            setChangeIsPending(true)
 
-            let res = await fetch(`/api/booking/${booking._id}`, {
+            let res = await autoFetch(`/api/booking/${booking._id}`, {
                 method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(newBooking)
             })
 
-            // let resData = await res.json()
+            let resData = await res.json()
             // console.log(resData)
 
             if (res.status == 200) {
-                setIsPending(false)
+                setChangeIsPending(false)
+                setGetBookings(prev => !prev)
+                setIsPending(true)
                 toast.dismiss(toastId)
                 toast.success(`booking ${statusFlag}ed successfully`)
-                location.reload()
             }
 
         } catch (err) {
-            setIsPending(false)
+            setChangeIsPending(false)
             toast.dismiss(toastId)
             toast.error(err.message)
             console.log(err)
+        }
+    }
+
+    const getBookingsHandler = async () => {
+        try {
+            let res = await autoFetch('/api/booking')
+
+            let bookingsData = await res.json()
+
+            if (res.status == 200) {
+                setFilteredBookings(bookingsData)
+            }
+
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setIsPending(false)
         }
     }
 
@@ -150,6 +167,13 @@ function AllBookings({ user, bookings }) {
             setFilteredBookings(bookings)
         }
     }, [search, filterType, filterBookingStatus])
+
+    useEffect(() => {
+        if (isPending != null) {
+            setIsPending(true)
+            getBookingsHandler()
+        }
+    }, [getBookings])
 
     // console.log(bookings)
 
@@ -240,7 +264,7 @@ function AllBookings({ user, bookings }) {
                                 </tr>
                             </thead>
                             <tbody className="text-center pt-4">
-                                {filteredBookings?.length > 0 && filteredBookings.map((booking, index) => (
+                                {!isPending && filteredBookings?.length > 0 && filteredBookings.map((booking, index) => (
                                     <tr key={booking?._id} className="py-1 px-2 text-center text-gray-400  hover:text-white hover:bg-white/5 transition-colors select-none" >
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{index + 1}</td>
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{booking?.username}</td>
@@ -248,7 +272,7 @@ function AllBookings({ user, bookings }) {
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{booking.phone}</td>
                                         <td className="py-1 pb-3 px-2 text-sm min-w-52 max-w-52">{booking.description}</td>
                                         <td className="py-1 pb-3 px-2 text-sm">{booking.guests}</td>
-                                        <td className={`text-nowrap py-1 pb-3 px-2 text-sm ${booking?.status == 'CONFIRMED' ? 'text-green-500' : booking.status == 'Canceled' ? 'text-red-500' : 'text-amber-500'}`}>{booking.status}</td>
+                                        <td className={`text-nowrap py-1 pb-3 px-2 text-sm ${booking?.status == 'CONFIRMED' ? 'text-green-500' : booking.status == 'CANCELED' ? 'text-red-500' : 'text-amber-500'}`}>{booking.status}</td>
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{getMonth(booking.date)} {booking.time}</td>
                                         <td className="py-1 pb-3 px-2 text-sm flex flex-col items-center justify-center gap-4">
                                             <a
@@ -263,18 +287,18 @@ function AllBookings({ user, bookings }) {
                                                     <button
                                                         className="inline-flex items-center justify-center gap-1 p-1 lg:px-2 rounded-md cursor-pointer border border-green-500 bg-green-500/10 disabled:bg-green/5 hover:bg-green-500/25 transition-colors group"
                                                         onClick={e => changeBookingStatus(booking, 'confirm')}
-                                                        disabled={isPending}
+                                                        disabled={changeIsPending}
                                                     >
                                                         <FiCheck className="text-green-500 group-hover:text-white transition-all" />
-                                                        <span className="text-green-500 group-hover:text-white transition-colors text-nowrap">{isPending ? 'pending' : "confirm"}</span>
+                                                        <span className="text-green-500 group-hover:text-white transition-colors text-nowrap">{changeIsPending ? 'pending' : "confirm"}</span>
                                                     </button>
                                                     <button
                                                         className="inline-flex items-center justify-center gap-1 p-1 lg:px-2 rounded-md cursor-pointer border border-red-500 bg-red-500/10 disabled:bg-red-500/5 hover:bg-red-500/25 transition-colors group"
                                                         onClick={e => changeBookingStatus(booking, 'cancel')}
-                                                        disabled={isPending}
+                                                        disabled={changeIsPending}
                                                     >
                                                         <RxCross1 className="text-red-500 group-hover:text-white transition-all" />
-                                                        <span className="text-red-500 group-hover:text-white transition-colors text-nowrap">{isPending ? 'pending' : "cancel"}</span>
+                                                        <span className="text-red-500 group-hover:text-white transition-colors text-nowrap">{changeIsPending ? 'pending' : "cancel"}</span>
                                                     </button>
                                                 </div>
                                             )}
@@ -283,8 +307,12 @@ function AllBookings({ user, bookings }) {
                                 ))}
                             </tbody>
                         </table>
-                        {filteredBookings?.length == 0 && (
+                        {!isPending && filteredBookings?.length == 0 && (
                             <div className="text-center text-white my-auto mt-36">there is no booking {['username', 'fullname', 'phone'].includes(filterType) ? `with "${search}" ${filterType}` : filterType == 'status' ? `with "${filterBookingStatus}" status` : 'for today'} </div>
+                        )}
+
+                        {isPending && (
+                            <div className="text-center text-white my-auto mt-36">loading new Bookings data ...</div>
                         )}
                     </div>
                 </div >

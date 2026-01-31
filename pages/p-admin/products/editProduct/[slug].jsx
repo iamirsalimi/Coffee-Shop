@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup'
 import toast, { Toaster } from 'react-hot-toast';
-
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 
 import AdminPanelSideBar from '@/components/modules/AdminPanelSideBar/AdminPanelSideBar';
 
@@ -17,7 +18,7 @@ import { BiMoviePlay } from "react-icons/bi";
 import Users from '@/src/Models/User';
 import Products from '@/src/Models/Product';
 import { verifyRefreshToken } from '@/src/utils/auth';
-import { useRouter } from 'next/router';
+import {autoFetch} from '@/utils/autoFetch';
 
 let toastId = null;
 
@@ -77,6 +78,7 @@ export async function getServerSideProps(context) {
 function AddProduct({ user, product }) {
     const [ingredientText, setIngredientText] = useState('')
     const [ingredients, setIngredients] = useState([])
+    const [isAvailable, setIsAvailable] = useState(true)
     const [file, setFile] = useState(null)
     const [isUpdating, setIsUpdating] = useState(false)
 
@@ -150,7 +152,7 @@ function AddProduct({ user, product }) {
 
     const changeValues = product => {
         let allIngredients = (typeof product.ingredient) == 'string' ? JSON.parse(product.ingredients) : product.ingredients
-        
+
         setValue('title', product?.title, { shouldValidate: true })
         setValue('slug', product?.slug, { shouldValidate: true })
         setValue('summary', product?.summary, { shouldValidate: true })
@@ -159,7 +161,8 @@ function AddProduct({ user, product }) {
         setValue('mediumPrice', product?.mediumPrice, { shouldValidate: true })
         setValue('largePrice', product?.largePrice, { shouldValidate: true })
         setValue('category', product?.category, { shouldValidate: true })
-        setValue('ingredients', allIngredients , { shouldValidate: true })
+        setValue('ingredients', allIngredients, { shouldValidate: true })
+        setIsAvailable(product?.isAvailable == true)
         setIngredients(allIngredients)
     }
 
@@ -177,6 +180,7 @@ function AddProduct({ user, product }) {
         newProduct.append('mediumPrice', data.mediumPrice || product.mediumPrice)
         newProduct.append('largePrice', data.largePrice || product.largePrice)
         newProduct.append('category', data.category || product.category)
+        newProduct.append('isAvailable', isAvailable)
         newProduct.append('ingredients', JSON.stringify(data.ingredients || product.ingredients))
 
         if (file) {
@@ -185,10 +189,10 @@ function AddProduct({ user, product }) {
 
         // console.log(data, newProduct)
         try {
-            let res = await fetch(`/api/products/${product._id}`, {
+            let res = await autoFetch(`/api/products/${product._id}`, {
                 method: "PATCH",
                 body: newProduct
-            })
+            } , true)
 
             let resData = await res.json();
             // console.log(resData)
@@ -430,6 +434,21 @@ function AddProduct({ user, product }) {
                             <div className="text-gray-400">{file.name}</div>
                         )}
                     </label>
+                </div>
+
+                <div className="md:col-start-1 md:col-end-3 w-full relative select-none space-x-2">
+                    <label htmlFor="isAvailableLabel" className="w-full cursor-pointer text-gray-500 text-base">
+                        Is Product Available
+                    </label>
+
+                    <input
+                        type="checkbox"
+                        id="isAvailableLabel"
+                        className="accent-amber-500"
+                        checked={isAvailable}
+                        onChange={e => setIsAvailable(e.target.checked)}
+                    />
+
                 </div>
 
                 <button

@@ -9,6 +9,7 @@ import DeleteModal from '@/components/modules/deleteModal/DeleteModal'
 import Users from '@/src/Models/User';
 import Products from '@/src/Models/Product';
 import { verifyRefreshToken } from '@/src/utils/auth';
+import {autoFetch} from '@/utils/autoFetch';
 
 import { PiEyeBold } from "react-icons/pi";
 import { MdKeyboardArrowLeft } from "react-icons/md";
@@ -70,6 +71,8 @@ function AllProducts({ user, products }) {
     const [showModal, setShowModal] = useState(false)
     const [productObj, setProductObj] = useState(null)
     const [isDeleting, setIsDeleting] = useState(false)
+    const [getProducts, setGetProducts] = useState(false)
+    const [isPending, setIsPending] = useState(null) // at first when it's just loaded the value is "null" but after that id it requires updating table it will be changed into "true" or "false"
 
     const getMonth = date => {
         // console.log(date)
@@ -92,17 +95,15 @@ function AllProducts({ user, products }) {
             setShowModal(true)
             toastId = toast.loading('deleting product')
 
-            let res = await fetch(`/api/products/${productObj._id}`, {
+            let res = await autoFetch(`/api/products/${productObj._id}`, {
                 method: "DELETE"
             })
 
-            let resData = await res.json()
-
             if (res.status == 200) {
+                setIsPending(true)
+                setGetProducts(prev => !prev)
                 toast.dismiss(toastId)
                 toast.success('product deleted successfully')
-                location.reload()
-
             }
         } catch (err) {
             toast.dismiss(toastId)
@@ -111,6 +112,24 @@ function AllProducts({ user, products }) {
         } finally {
             setIsDeleting(false)
             setShowModal(false)
+            setIsPending(false)
+        }
+    }
+
+    const getProductsHandler = async () => {
+        try {
+            let res = await autoFetch('/api/products')
+
+            let productsData = await res.json()
+            
+            if (res.status == 200) {
+                setFilteredProducts(productsData.products)
+            }
+
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setIsPending(false)
         }
     }
 
@@ -145,6 +164,13 @@ function AllProducts({ user, products }) {
             }
         }
     }, [search, filterType, filterProductsCategory])
+
+    useEffect(() => {
+        if (isPending != null) {
+            setIsPending(true)
+            getProductsHandler()
+        }
+    }, [getProducts])
 
     return (
         <div className="flex gap-5 min-h-screen pb-20 md:pb-10 lg:pb-0">
@@ -230,7 +256,7 @@ function AllProducts({ user, products }) {
                                 </tr>
                             </thead>
                             <tbody className="text-center pt-4">
-                                {filteredProducts?.length > 0 && filteredProducts.map((product, index) => (
+                                {!isPending && filteredProducts?.length > 0 && filteredProducts.map((product, index) => (
                                     <tr key={product?._id} className="py-1 px-2 text-center text-gray-400  hover:text-white hover:bg-white/5 transition-colors select-none" >
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{index + 1}</td>
                                         <td className="text-nowrap py-1 pb-3 px-2 text-sm">{product?.title}</td>
@@ -269,8 +295,12 @@ function AllProducts({ user, products }) {
                                 ))}
                             </tbody>
                         </table>
-                        {filteredProducts?.length == 0 && (
+                        {!isPending && filteredProducts?.length == 0 && (
                             <div className="text-center text-white my-auto mt-36">there is no product with {filterType == 'title' ? `"${search}" ${filterType}` : `${filterType == 'type' ? `${filterType} ${filterProductsCategory}` : `${filterType} property`}`} </div>
+                        )}
+
+                        {isPending && (
+                            <div className="text-center text-white my-auto mt-36">loading new Products data ...</div>
                         )}
                     </div>
                 </div >

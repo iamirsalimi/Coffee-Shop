@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup'
 import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 import Link from 'next/link';
 
@@ -16,7 +17,7 @@ import { BiMoviePlay } from "react-icons/bi";
 
 import Users from '@/src/Models/User';
 import { verifyRefreshToken } from '@/src/utils/auth';
-import { useRouter } from 'next/router';
+import {autoFetch} from '@/utils/autoFetch';
 
 let toastId = null;
 
@@ -153,15 +154,15 @@ function AddProduct({ user }) {
         newProduct.append('mediumPrice', data.mediumPrice)
         newProduct.append('largePrice', data.largePrice)
         newProduct.append('category', data.category)
-        newProduct.append('ingredients', JSON.stringify(data.ingredients))
+        newProduct.append('ingredients', JSON.stringify([...data.ingredients]))
         newProduct.append('image', file)
 
         console.log(data, newProduct)
         try {
-            let res = await fetch('/api/products', {
+            let res = await autoFetch('/api/products', {
                 method: "POST",
                 body: newProduct
-            })
+            } , true)
 
             let resData = await res.json();
 
@@ -184,6 +185,7 @@ function AddProduct({ user }) {
                 setValue('category', 'HOT')
                 setValue('ingredients', '')
                 setValue('ingredients', '')
+                setFile('')
                 setIngredients([])
             }
         } catch (err) {

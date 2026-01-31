@@ -7,16 +7,57 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast, { Toaster } from 'react-hot-toast';
 
+import SignupModal from '@/components/modules/SignupModal/SignupModal';
+
+import Users from '@/src/Models/User'
+import { verifyRefreshToken } from '@/src/utils/auth';
+import { useAuth } from '@/Context/AuthContext';
+
 import { PiEyeBold } from "react-icons/pi";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { FaCircleInfo } from "react-icons/fa6";
 import { GrFormPrevious } from "react-icons/gr";
-import { useAuth } from '@/Context/AuthContext';
 
 let userNameRegex = /^[0-9A-Za-z_.]+$/
 let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#@_.])(?!.* ).{8,16}$/
 
+let toastId = null;
+
+export async function getServerSideProps(context) {
+  // console.log(context ,context.req , context.req?.cookies)
+  let { refreshToken } = context.req?.cookies
+
+  if (refreshToken) {
+
+    let tokenPayload = verifyRefreshToken(refreshToken)
+
+    if (!tokenPayload) {
+      return {
+        redirect: { destination: '/' }
+      }
+    }
+
+    let user = await Users.findOne({ _id: tokenPayload.userId })
+    // console.log(user, user.role)
+
+    if (user) {
+      return {
+        redirect: { destination: '/' }
+      }
+    }
+  }
+
+  return {
+    props: {
+
+    }
+  }
+}
+
 function SignUp() {
+  const [showModal, setShowModal] = useState(false)
+  const [isPending, setIsPending] = useState(false)
+
   const registerSchema = yup.object().shape({
     firstname: yup
       .string()
@@ -64,6 +105,9 @@ function SignUp() {
   const router = useRouter()
 
   const registerUser = async data => {
+    let toastId = toast.loading('signing up')
+    setIsPending(true)
+
     let newUser = {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -74,15 +118,16 @@ function SignUp() {
 
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+      headers : {
+        'Content-type' : 'application/json'
       },
       body: JSON.stringify(newUser)
     })
 
     let resData = await res.json()
     console.log(resData)
-
+    toast.dismiss(toastId)
+    setIsPending(false)
     if (res.status == 422 || res.status == 500) {
       errorNotify(resData.message)
     } else {
@@ -113,7 +158,7 @@ function SignUp() {
         </Link>
         <div
           className="w-fit px-2 py-1.5 rounded-md cursor-pointer bg-black  text-xl inline-flex items-center justify-center gap-2"
-
+          onClick={e => setShowModal(true)}
         >
           <span className="hidden xs:inline text-sm text-red-500">Information about signing up</span>
           <FaCircleInfo className="text-red-500 text-xl xs:text-base" />
@@ -220,7 +265,12 @@ function SignUp() {
             </div>
           </div>
 
-          <button className="w-full py-4 rounded-md cursor-pointer bg-sky-500 hover:bg-sky-600 transition-colors text-white font-bold">Sign Up</button>
+          <button
+            className="w-full py-4 rounded-xl cursor-pointer bg-amber-500 disabled:bg-amber-300 hover:bg-amber-600 transition-colors text-black font-bold"
+            disabled={isPending}
+          >
+            {isPending ? 'Signing Up' : 'Sign Up'}
+          </button>
 
           <div className="w-full flex items-center justify-between -mt-4">
             <span className="ms-2 text-sm text-gray-300 select-none">Already Have An Account?</span>
@@ -233,6 +283,8 @@ function SignUp() {
         position="top-left"
         reverseOrder={false}
       />
+
+      <SignupModal showModal={showModal} setShowModal={setShowModal} />
     </div>
   )
 }

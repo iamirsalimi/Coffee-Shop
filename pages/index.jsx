@@ -49,7 +49,7 @@ export default function Home({ products, comments }) {
         <meta name="description" content="Our journey began with a simple idea: to create a place where great coffee meets a welcoming atmosphere. From the very beginning, we wanted more than just a café. We imagined a space where people could slow down, feel comfortable, and truly enjoy the moment. Every detail matters to us — from carefully selected beans to thoughtful preparation and warm service. What started as a personal passion has grown into a community built around quality, care, and consistency. A place where every cup tells a story, and every visit feels familiar." />
       </Head>
       <Header />
-      <FeaturedMenu products={products} />
+      <FeaturedMenu products={products.filter(product => product.isAvailable)} />
       <MenuTicker />
       <OurServices />
       <WhatOurCustomersSay comments={comments} />

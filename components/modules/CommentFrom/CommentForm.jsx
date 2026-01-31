@@ -3,6 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import StarRating from "@/components/modules/StarRating/StarRating";
 import { useAuth } from "@/Context/AuthContext";
+import { autoFetch } from '@/utils/autoFetch';
 
 let toastId = null;
 
@@ -39,11 +40,8 @@ function CommentForm({ productId }) {
     toastId = toast.loading('Submitting Comment')
 
     try {
-      let res = await fetch('/api/comments', {
+      let res = await autoFetch('/api/comments', {
         method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify(newCommentObj)
       })
 

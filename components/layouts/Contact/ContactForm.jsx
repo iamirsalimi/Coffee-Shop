@@ -3,14 +3,15 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 import Title from '@/components/modules/Title/Title'
+import {autoFetch} from '@/utils/autoFetch';
 
 import { TiLocationOutline } from "react-icons/ti";
 import { IoCall } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { FaBusinessTime } from "react-icons/fa";
-import Image from 'next/image';
 
 let toastId = null;
 
@@ -51,11 +52,8 @@ function ContactForm() {
     let newContact = { name: data.name, email: data.email, message: data.message }
 
     try {
-      let res = await fetch('/api/contact', {
+      let res = await autoFetch('/api/contact', {
         method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify(newContact)
       })
       // console.log(res)

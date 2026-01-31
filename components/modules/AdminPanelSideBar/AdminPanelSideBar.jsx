@@ -104,7 +104,7 @@ function PanelSideBar() {
                 </div>
             </div>
 
-            <div className="w-full h-fit flex items-center justify-between z-10 fixed bottom-0 left-0 border border-[#1f1f1f] bg-[#0f0f0f] shadow shadow-black/25 dark:bg-secondary px-3 xs:px-5 py-4 lg:hidden">
+            <div className="w-full h-fit flex items-center justify-between gap-10 z-10 fixed bottom-0 left-0 border border-[#1f1f1f] bg-[#0f0f0f] shadow shadow-black/25 dark:bg-secondary px-3 xs:px-5 py-4 lg:hidden">
 
                 <a href="/my-account/userPanel/" className="flex flex-col items-center justify-center gap-1">
                     <LuLayoutDashboard className={`text-light-gray dark:text-white text-xl xs:text-2xl text-white`} />
@@ -113,14 +113,12 @@ function PanelSideBar() {
 
                 <a href="/my-account/userPanel/profile-edit" className="flex flex-col items-center justify-center gap-1">
                     <IoSettingsOutline className={`text-light-gray dark:text-white text-xl xs:text-2xl text-white`} />
-                    <span className={`text-xs xs:text-sm text-white`}>Profile Edit</span>
+                    <span className={`text-xs xs:text-sm text-white text-nowrap`}>Profile Edit</span>
                 </a>
 
                 <a href="/my-account/userPanel/messages" className="relative flex flex-col items-center justify-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-white w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                    </svg>
-                    <span className={`text-xs xs:text-sm text-white`}>Cart</span>
+                    <IoIosAddCircleOutline className={`text-light-gray dark:text-white text-xl xs:text-2xl text-white`} />
+                    <span className={`text-xs xs:text-sm text-white`}>Orders</span>
                 </a>
 
                 <div

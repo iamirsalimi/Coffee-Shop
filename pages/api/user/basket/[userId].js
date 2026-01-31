@@ -1,6 +1,8 @@
 import connectToDB from "@/src/configs/db";
 import User from "@/src/Models/User";
-import { verifyRefreshToken } from '@/src/utils/auth'
+import { verifyRefreshToken } from '@/src/utils/auth';
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 export default async function handler(req, res) {
     if (!["PUT", 'DELETE', "GET"].includes(req.method)) {
@@ -10,8 +12,11 @@ export default async function handler(req, res) {
     try {
         await connectToDB();
 
+        await middleware(req, res, authMiddleware);
+
         const { userId } = req.query;
         console.log('userId : ', userId)
+
         switch (req.method) {
             case "GET": {
                 const user = await User.findById(userId).populate({
@@ -23,7 +28,7 @@ export default async function handler(req, res) {
             }
 
             case "PUT": {
-                const { product, size, quantity , price } = req.body;
+                const { product, size, quantity, price } = req.body;
 
                 // console.log(product)
                 if (quantity < 1) {

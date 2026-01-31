@@ -40,7 +40,7 @@ function Menu({ products }) {
         <title>Coffee Uni | Menu</title>
       </Head>
       <Header />
-      <MenuItems products={products} />
+      <MenuItems products={products.filter(product => product.isAvailable)} />
     </div>
   )
 }

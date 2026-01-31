@@ -4,6 +4,12 @@ import Link from "next/link"
 
 function FeaturedMenu({products}) {
     console.log(products)
+
+    const calcAvgRating = ({comments}) => {
+        let rating = comments.length > 0 ? (comments?.reduce((prev, cur) => prev + cur.rating, 0) / comments.length).toFixed(1) : 0;
+        return rating
+    }
+
     return (
         <div className="py-16 w-full min-h-screen bg-black">
             <div className="container mx-auto px-5 py-10 w-full h-full flex flex-col gap-8 items-start justify-start">
@@ -12,19 +18,19 @@ function FeaturedMenu({products}) {
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
                     <div className="flex flex-col gap-4 items-start">
                         <h2 className="menu-title after:bg-red-500">Hot</h2>
-                        {products?.filter(product => product.category == 'HOT').slice(-2).map(product => (
+                        {products?.filter(product => product.category == 'HOT').sort((a,b) => calcAvgRating(b) - calcAvgRating(a)).slice(0 , 2).map(product => (
                             <ProductCard key={product._id} {...product} />
                         ))}
                     </div>
                     <div className="flex flex-col gap-4 items-start">
                         <h2 className="menu-title after:bg-blue-500">Cold</h2>
-                        {products?.filter(product => product.category == 'COLD').slice(-2).map(product => (
+                        {products?.filter(product => product.category == 'COLD').sort((a,b) => calcAvgRating(b) - calcAvgRating(a)).slice(0 , 2).map(product => (
                             <ProductCard key={product._id} {...product} />
                         ))}
                     </div>
                     <div className="flex flex-col gap-4 items-start">
                         <h2 className="menu-title after:bg-pink-500">Special</h2>
-                        {products?.filter(product => product.category == 'SPECIAL').slice(-2).map(product => (
+                        {products?.filter(product => product.category == 'SPECIAL').sort((a,b) => calcAvgRating(b) - calcAvgRating(a)).slice(0 , 2).map(product => (
                             <ProductCard key={product._id} {...product} />
                         ))}
                     </div>

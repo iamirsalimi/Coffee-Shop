@@ -3,23 +3,22 @@ import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup'
-import toast from 'react-hot-toast';
-
-import { useAuth } from '@/Context/AuthContext';
+import toast, { Toaster } from 'react-hot-toast';
+import Link from 'next/link';
 
 import AdminPanelSideBar from '@/components/modules/AdminPanelSideBar/AdminPanelSideBar';
+
+import Users from '@/src/Models/User'
+import { verifyRefreshToken } from '@/src/utils/auth';
+import { useAuth } from '@/Context/AuthContext';
+import { autoFetch } from '@/utils/autoFetch';
 
 import { PiEyeBold } from "react-icons/pi";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import Link from 'next/link';
 
 let usernameRegex = /^[0-9A-Za-z_.]+$/
 let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[#@_.])(?!.* ).{8,16}$/
-
-
-import Users from '@/src/Models/User'
-import { verifyRefreshToken } from '@/src/utils/auth';
 
 let toastId = null;
 
@@ -81,17 +80,30 @@ function ProfileEdit({ user }) {
         ,
         recentPassword: yup
             .string()
-            .min(8, 'Password must have at least 8 characters')
-            .max(16, 'Password can have maximum 16 characters')
-            .matches(passwordRegex, 'password is invalid , please check the guideline')
-            .notRequired,
+            .trim()
+            .notRequired(),
+
         newPassword: yup
             .string()
-            .min(8, 'Password must have at least 8 characters')
-            .max(16, 'Password can have maximum 16 characters')
-            .matches(passwordRegex, 'password is invalid , please check the guideline')
+            .trim()
+            .when("recentPassword", {
+                is: (val) => val.trim(), // change it to boolean 
+                then: (schema) =>
+                    schema
+                        .required("New password is required")
+                        .min(8, "Password must have at least 8 characters")
+                        .max(16, "Password can have maximum 16 characters")
+                        .matches(
+                            passwordRegex,
+                            "password is invalid , please check the guideline"
+                        ),
+                otherwise: (schema) => schema.notRequired(),
+            }),
+
+        confirmNewPassword: yup
+            .string()
+            .trim()
             .notRequired(),
-        confirmNewPassword: yup.string().notRequired(),
     })
 
     let {
@@ -102,6 +114,11 @@ function ProfileEdit({ user }) {
         setError,
         formState: { errors },
     } = useForm({
+        default: {
+            recentPassword: '',
+            newPassword: '',
+            confirmNewPassword: '',
+        },
         resolver: yupResolver(schema),
     });
 
@@ -129,32 +146,36 @@ function ProfileEdit({ user }) {
             return;
         }
 
-        if (newPassword === recentPassword) {
-            setError('newPassword', { type: 'same', message: "new password can't be same as current password" });
-            setError('confirmNewPassword', { type: 'same', message: "new password can't be same as current password" });
-            return;
+        if (recentPassword.trim()) {
+
+            if (newPassword === recentPassword) {
+                setError('newPassword', { type: 'same', message: "new password can't be same as current password" });
+                setError('confirmNewPassword', { type: 'same', message: "new password can't be same as current password" });
+                return;
+            }
         }
     }
 
     const updateUserHandler = async (data) => {
-        validatePasswords(data.recentPassword, data.newPassword, data.confirmNewPassword)
+        validatePasswords(data.recentPassword || '', data.newPassword, data.confirmNewPassword)
 
         if (Object.keys(errors).length == 0) {
             if (user?.firstname != data.firstname || user?.lastname != data.lastname || user?.username != data.username || user?.email != data.email || user?.password != data.newPassword) {
-                let newUser = { ...user }
+                let newUser = {}
 
                 newUser.firstname = data.firstname
                 newUser.lastname = data.lastname
-                newUser.nickName = data.nickName
                 newUser.username = data.username
                 newUser.email = data.email
+                newUser.oldPassword = user.password
 
                 console.log(newUser)
+
                 if (data.newPassword) {
                     newUser.oldPassword = data.recentPassword
                     newUser.newPassword = data.newPassword
                 } else {
-                    data.newPassword = -1
+                    newUser.newPassword = -1
                 }
 
                 // console.log(newUser)
@@ -162,21 +183,15 @@ function ProfileEdit({ user }) {
                     setIsPending(true)
                     toastId = toast.loading('updating your account information')
 
-                    let res = await fetch(`/api/user/profile/${user._id}`, {
+                    let res = await autoFetch(`/api/user/profile/${user._id}`, {
                         method: "PATCH",
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
                         body: JSON.stringify(newUser)
                     })
 
-                    let resData = await res.json()
+                    let resData = await res.json();
 
-                    if (res.status == 422) {
-                        toast.error(resData.message)
-                    }
-
-                    if (res.status == 404) {
+                    if ([422, 404].includes(res.status)) {
+                        toast.dismiss(toastId)
                         toast.error(resData.message)
                     }
 
@@ -192,7 +207,6 @@ function ProfileEdit({ user }) {
                 } finally {
                     setIsPending(false)
                 }
-                // await updateUser(newUser.id, newUser)
             }
         }
     }
@@ -217,12 +231,12 @@ function ProfileEdit({ user }) {
     }, [recentPassword, newPassword, confirmNewPassword])
 
     return (
-        <div className="flex gap-5 min-h-screen pb-20 md:pb-20 lg:pb-0">
+        <div className="flex gap-5 min-h-screen pb-28 lg:pb-10 xl:pb-0 bg-[#0f0f0f]">
             <AdminPanelSideBar />
             <Head>
                 <title>Coffee Uni | Profile Edit</title>
             </Head>
-            <form className="w-full lg:w-3/4 min-h-screen h-full ml-auto p-4 flex flex-col gap-7 bg-[#0f0f0f]" onSubmit={handleSubmit(updateUserHandler)}>
+            <form className="w-full lg:w-3/4 min-h-screen h-full ml-auto p-4 flex flex-col gap-7" onSubmit={handleSubmit(updateUserHandler)}>
 
                 <div className="w-full flex flex-row items-center justify-between">
                     <Link href="/" className="flex items-center p-1 xs:p-2 rounded-xl border border-[#1f1f1f] bg-black text-gray-400 cursor-pointer transition-all">
@@ -241,10 +255,7 @@ function ProfileEdit({ user }) {
                         password must at least be 8 characters and contains 1 character (#or@or.) , 1 number  , 1 uppercase letter , and 1 lowercase letter
                     </li>
                     <li>
-                        Constructive criticism is always welcome and helps us improve.
-                    </li>
-                    <li>
-                        For detailed issues or direct communication, please use the Contact page.
+                        Your new password must be different from your current password.
                     </li>
                 </ul>
 
@@ -379,6 +390,10 @@ function ProfileEdit({ user }) {
                     >{isPending ? 'Editing Profile' : 'Edit Profile'}</button>
                 </div>
             </form>
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
         </div>
     )
 }

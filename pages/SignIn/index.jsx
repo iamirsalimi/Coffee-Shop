@@ -1,19 +1,56 @@
 import React, { useState } from 'react'
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast, { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
 
+import Users from '@/src/Models/User'
+import { useAuth } from '@/Context/AuthContext';
+import { verifyRefreshToken } from '@/src/utils/auth';
+
 import { PiEyeBold } from "react-icons/pi";
 import { PiEyeClosedBold } from "react-icons/pi";
 import { GrFormPrevious } from "react-icons/gr";
-import { useRouter } from 'next/router';
-import { useAuth } from '@/Context/AuthContext';
+
+export async function getServerSideProps(context) {
+    // console.log(context ,context.req , context.req?.cookies)
+    let { refreshToken } = context.req?.cookies
+
+    if (refreshToken) {
+
+        let tokenPayload = verifyRefreshToken(refreshToken)
+
+        if (!tokenPayload) {
+            return {
+                redirect: { destination: '/' }
+            }
+        }
+
+        let user = await Users.findOne({ _id: tokenPayload.userId })
+        // console.log(user, user.role)
+
+        if (user) {
+            return {
+                redirect: { destination: '/' }
+            }
+        }
+    }
+
+    return {
+        props: {
+
+        }
+    }
+}
+
+let toastId = null;
 
 function SignIn() {
     const [showPass, setShowPass] = useState(false)
+    const [isPending, setIsPending] = useState(false)
 
     let { setGetData } = useAuth()
 
@@ -38,15 +75,18 @@ function SignIn() {
         resolver: yupResolver(loginSchema)
     })
 
-    const router = useRouter()
+    const router = useRouter();
 
     const loginUser = async data => {
+        toastId = toast.loading('signing in')
+        setIsPending(true)
+
         let userObj = { ...data }
 
         let res = await fetch('/api/auth/signin', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-type': 'application/json'
             },
             body: JSON.stringify(userObj)
         })
@@ -56,9 +96,13 @@ function SignIn() {
         console.log(res, resData)
 
         if ([422, 500].includes(res.status)) {
+            setIsPending(false)
+            toast.dismiss(toastId)
             errorNotify(resData.message)
             console.log(resData)
         } else {
+            setIsPending(false)
+            toast.dismiss(toastId)
             toast.success('You Logged in Successfully')
             setGetData(prev => !prev)
             localStorage.setItem('accessToken', resData.accessToken)
@@ -123,8 +167,11 @@ function SignIn() {
 
                     </div>
 
-                    <button className="w-full py-4 rounded-md cursor-pointer bg-sky-500 hover:bg-sky-600 transition-colors text-white font-bold disabled:!bg-sky-300">
-                        sign in
+                    <button
+                        className="w-full py-4 rounded-md cursor-pointer bg-amber-500 disabled:bg-amber-300 hover:bg-amber-600 transition-colors text-black font-bold disabled:!bg-sky-300"
+                        disabled={isPending}
+                    >
+                        {isPending ? 'Signing In' : 'Sign In'}
                     </button>
                     <div className="w-full flex items-center justify-between -mt-4">
                         <Link href="/SignUp" className="w-fit text-sm px-2 py-1 rounded-md cursor-pointer font-light bg-gray-200 dark:bg-black text-gray-500 dark:text-white">Register</Link>

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 // import api from "@/src/services/api";
+import {autoFetch} from '@/utils/autoFetch';
 
 const AuthContext = createContext(null);
 
@@ -12,7 +13,7 @@ export function AuthProvider({ children }) {
     // LOGOUT
     const logout = async () => {
         try {
-            let res = await fetch("/api/auth/logout")
+            let res = await autoFetch("/api/auth/logout")
             if (res.status == 200) {
                 localStorage.removeItem('accessToken')
                 location.reload()
@@ -28,12 +29,7 @@ export function AuthProvider({ children }) {
     // LOAD USER (ON REFRESH)
     const loadUser = async () => {
         try {
-            const res = await fetch("/api/auth/me", {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                }
-            });
+            const res = await autoFetch("/api/auth/me");
 
             const resData = await res.json()
             console.log(resData)
