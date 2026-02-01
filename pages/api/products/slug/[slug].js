@@ -1,5 +1,7 @@
 import connectToDB from "@/src/configs/db";
 import productsModel from "@/src/Models/Product";
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -14,6 +16,9 @@ export default async function handler(req, res) {
 
   try {
     await connectToDB();
+
+    let reqAuthorization = req.headers.authorization;
+    await middleware(reqAuthorization, res, authMiddleware);
 
     const product = await productsModel.findOne({ slug }).populate({
       path: "comments",

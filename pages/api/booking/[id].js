@@ -3,11 +3,18 @@ import Booking from "@/src/Models/Booking";
 import mongoose from "mongoose";
 import { isValidObjectId } from "mongoose";
 import { verifyAccessToken } from "@/src/utils/auth";
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 export default async function handler(req, res) {
     if (!['PATCH', "GET"].includes(req.method)) return res.status(405).json({ message: "Method not allowed" });
 
     try {
+        await connectToDB();
+
+        let reqAuthorization = req.headers.authorization;
+        await middleware(reqAuthorization, res, authMiddleware);
+
         const { id } = req.query;
 
         const user = verifyAccessToken(req, res);
@@ -22,7 +29,6 @@ export default async function handler(req, res) {
             });
         }
 
-        await connectToDB();
 
         switch (req.method) {
             case "GET": {
@@ -38,7 +44,7 @@ export default async function handler(req, res) {
             }
 
             case "PATCH": {
-                const { status , time } = req.body;
+                const { status, time } = req.body;
 
                 if (!["PENDING", "CONFIRMED", "CANCELED"].includes(status)) {
                     return res.status(400).json({
@@ -48,10 +54,10 @@ export default async function handler(req, res) {
 
                 const updated = await Booking.findByIdAndUpdate(
                     id,
-                    { status , time },
+                    { status, time },
                     { new: true }
                 );
-                console.log(id , updated)
+                console.log(id, updated)
 
                 if (!updated) {
                     return res.status(404).json({

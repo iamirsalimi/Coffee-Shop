@@ -75,6 +75,7 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
             toast.dismiss(toastId)
             toast.error(err.message)
         } finally {
+            toast.dismiss(toastId)
             setIsAdding(false)
         }
     }
@@ -187,7 +188,7 @@ function ProductContent({ _id, title, description, image, smallPrice, mediumPric
                         <button
                             onClick={addProductToBasket}
                             className="w-full h-16 rounded-3xl lg:rounded-full bg-green-500 disabled:bg-green-300 text-white font-bold flex items-center justify-center cursor-pointer hover:bg-green-600 transition-all duration-200 lg:text-sm xl:text-base"
-                            disabled={!user && isAdding}
+                            disabled={!user || isAdding}
                         >
                             {isAdding ? 'ADDING...' : 'ADD TO ORDERS'}
                         </button>

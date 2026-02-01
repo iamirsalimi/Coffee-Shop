@@ -2,12 +2,17 @@ import connectToDB from "@/src/configs/db";
 import Order from "@/src/Models/Order";
 import { isValidObjectId } from "mongoose";
 import { verifyAccessToken, requireRole } from "@/src/utils/auth";
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 export default async function handler(req, res) {
     if (!["POST", "GET"].includes(req.method)) return res.status(405).json({ message: "Method not allowed" })
 
     try {
         await connectToDB();
+
+        let reqAuthorization = req.headers.authorization;
+        await middleware(reqAuthorization, res, authMiddleware);
 
         const user = verifyAccessToken(req, res);
 

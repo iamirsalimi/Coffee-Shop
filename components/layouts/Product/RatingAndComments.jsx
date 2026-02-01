@@ -70,14 +70,14 @@ function RatingAndComments({ comments, _id }) {
                     <div className="w-full flex flex-col-reverse gap-2">
                         {comments.length > 5 ? (
                             <>
-                                {showMoreFlag ? comments.map(comment => (
+                                {showMoreFlag ? comments.filter(comment => comment.isApproved).map(comment => (
                                     <Comment key={comment._id} {...comment} />
                                 )) : comments.slice(-5).map(comment => (
                                     <Comment key={comment._id} {...comment} />
                                 ))}
 
                             </>
-                        ) : comments.map(comment => (
+                        ) : comments.filter(comment => comment.isApproved).map(comment => (
                             <Comment key={comment._id} {...comment} />
                         ))}
                     </div>

@@ -34,13 +34,16 @@ const verifyRefreshToken = token => {
     }
 }
 
-const verifyAccessToken = (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) return null;
+const verifyAccessToken = token => {
+    // try{
+        let accessToken = typeof token == 'string' ? token : token.headers.authorization.split(' ')[1]
+        console.log(token , accessToken)
 
-    const token = authHeader.split(" ")[1];
-
-    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        let tokenPayload = verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        return tokenPayload
+    // } catch(err){
+    //     return err
+    // }
 }
 
 const requireRole = (user, roles) => {

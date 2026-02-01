@@ -4,6 +4,8 @@ import path from "path";
 import connectToDB from "@/src/configs/db";
 import productsModel from "@/src/Models/Product";
 import { verifyAccessToken, requireRole } from "@/src/utils/auth";
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 export const config = {
     api: {
@@ -18,6 +20,9 @@ export default async function handler(req, res) {
 
     try {
         await connectToDB();
+
+        let reqAuthorization = req.headers.authorization;
+        await middleware(reqAuthorization, res, authMiddleware);
 
         const user = verifyAccessToken(req, res);
 

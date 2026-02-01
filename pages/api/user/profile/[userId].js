@@ -1,22 +1,27 @@
+import mongoose from "mongoose";
 
 import connectToDB from "@/src/configs/db";
 import User from "@/src/Models/User";
 import Comment from "@/src/Models/Comment";
 import Booking from "@/src/Models/Booking";
 import { hashPassword, verifyPassword } from "@/src/utils/auth";
-import mongoose from "mongoose";
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 export default async function handler(req, res) {
   if (req.method !== "PATCH") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  await connectToDB();
-
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
   try {
+    await connectToDB();
+
+    let reqAuthorization = req.headers.authorization;
+    await middleware(reqAuthorization, res, authMiddleware);
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     const { userId } = req.query;
 
     const {

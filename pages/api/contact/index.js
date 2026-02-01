@@ -1,11 +1,18 @@
 import connectToDB from "@/src/configs/db";
 import Contact from "@/src/Models/Contact";
 import { verifyAccessToken, requireRole } from "@/src/utils/auth";
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 export default async function handler(req, res) {
     if (!["POST", "GET"].includes(req.method)) return res.status(405).json({ message: "Method not allowed" })
-    
+
     try {
+        await connectToDB();
+
+        let reqAuthorization = req.headers.authorization;
+        await middleware(reqAuthorization, res, authMiddleware);
+
         switch (req.method) {
             case "GET": {
                 const messages = await Contact.find()
@@ -15,10 +22,9 @@ export default async function handler(req, res) {
             }
 
             case 'POST': {
-                await connectToDB();
 
                 const { name, email, message } = req.body;
-                
+
                 if (!name || !email || !message) {
                     return res.status(400).json({
                         message: "All fields are required",
@@ -31,7 +37,7 @@ export default async function handler(req, res) {
                     message
                 })
 
-                return res.status(201).json({data : contact})
+                return res.status(201).json({ data: contact })
             }
         }
     } catch (err) {

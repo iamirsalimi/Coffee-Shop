@@ -11,11 +11,12 @@ export default async function handler(req, res) {
 
     try {
         await connectToDB();
-
-        await middleware(req, res, authMiddleware);
+        
+        let reqAuthorization = req.headers.authorization;
+        await middleware(reqAuthorization , res, authMiddleware);
 
         const { userId } = req.query;
-        console.log('userId : ', userId)
+        // console.log('userId : ', userId)
 
         switch (req.method) {
             case "GET": {
@@ -58,14 +59,14 @@ export default async function handler(req, res) {
                 }
 
                 // console.log('updated basket : ', item)
-                const usersArray = user.cart.items.map(cart => {
+                const basketArray = user.cart.items.map(cart => {
                     if (cart.product == product && cart.size == size) {
                         cart.quantity = quantity;
                     }
                     return cart
                 })
 
-                // console.log(usersArray , user , product)
+                // console.log(basketArray , user , product)
 
                 await user.save();
 
@@ -78,12 +79,12 @@ export default async function handler(req, res) {
 
             case "DELETE": {
                 let { refreshToken } = req.cookies
-                // console.log('refresh Token : ', refreshToken)
+                console.log('refresh Token : ', refreshToken)
 
                 if (!refreshToken) return res.status(401).json({ message: "you're not logged in !!" }) // unauthorized
 
                 const tokenPayload = verifyRefreshToken(refreshToken)
-                // console.log('token payload : ', tokenPayload)
+                console.log('token payload : ', tokenPayload)
 
                 if (!tokenPayload) return res.status(422).json({ message: "token is not valid !!" })
 
@@ -106,7 +107,7 @@ export default async function handler(req, res) {
             }
         }
     } catch (err) {
-        console.log('error : ', err)
+        // console.log('error : ', err)
         return res.status(500).json({
             message: "Failed to add to cart",
             error: err

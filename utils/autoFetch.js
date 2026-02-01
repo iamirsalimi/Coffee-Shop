@@ -6,7 +6,7 @@ const tokenStore = {
 
 export async function autoFetch(url, options = {}, formDataFlag = false) {
     // First request
-    let response = null
+    let response = null;
 
     if (formDataFlag) {
         response = await fetch(url, {
@@ -28,7 +28,7 @@ export async function autoFetch(url, options = {}, formDataFlag = false) {
     }
 
     // If access token still valid → return response
-    if (response.status !== 401) {
+    if (response.status != 401) {
         return response;
     }
 
@@ -37,15 +37,16 @@ export async function autoFetch(url, options = {}, formDataFlag = false) {
         method: "POST",
         credentials: "include",
     });
-
+    
     // Refresh failed → logout
     if (!refreshResponse.ok) {
         tokenStore.clear();
         throw new Error("Session expired");
     }
-
-    const { accessToken } = await refreshResponse.json();
-    tokenStore.set(accessToken);
+    
+    const { token } = await refreshResponse.json();
+    console.log('refreshResponse' , refreshResponse , token)
+    tokenStore.set(token);
 
     // Retry original request
     if (formDataFlag) {
@@ -53,7 +54,7 @@ export async function autoFetch(url, options = {}, formDataFlag = false) {
             ...options,
             headers: {
                 ...(options.headers || {}),
-                Authorization: `Bearer ${tokenStore.get()}`
+                Authorization: `Bearer ${token}`
             },
         });
     } else {
@@ -61,7 +62,7 @@ export async function autoFetch(url, options = {}, formDataFlag = false) {
             ...options,
             headers: {
                 ...(options.headers || {}),
-                Authorization: `Bearer ${tokenStore.get()}`,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         });

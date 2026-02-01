@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
             const res = await autoFetch("/api/auth/me");
 
             const resData = await res.json()
-            console.log(resData)
+            // console.log(resData)
             if (res.status == 201) setUser(resData.data)
             // console.log("user details : ", resData.data, res)
 

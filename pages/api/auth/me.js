@@ -1,12 +1,17 @@
 import connectToDB from '@/src/configs/db'
 import usersModel from '@/src/Models/User'
 import { verifyRefreshToken } from '@/src/utils/auth'
+import { authMiddleware } from "@/src/middlewares/authmiddleware";
+import { middleware } from "@/src/utils/middleware";
 
 const handler = async (req, res) => {
     if (req.method != 'GET') return false
 
     try {
-        await connectToDB()
+        await connectToDB();
+
+        let reqAuthorization = req.headers.authorization;
+        await middleware(reqAuthorization, res, authMiddleware);
 
         let { refreshToken } = req.cookies
         // console.log('refresh Token : ', refreshToken)

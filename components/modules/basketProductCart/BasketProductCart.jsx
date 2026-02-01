@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useAuth } from '@/Context/AuthContext';
 import Image from 'next/image';
-import {autoFetch} from '@/utils/autoFetch';
+import { autoFetch } from '@/utils/autoFetch';
+import { useBasket } from '@/Context/BasketContext';
 
 let toastId = null;
 
 function BasketProductCart({ title, image, quantity, size, productId, price, borderFlag }) {
     const [removeFlag, setRemoveFlag] = useState(false)
     const { setGetData } = useAuth()
+    // const { setGetData } = useBasket()
+    // const { setBasket } = useBasket()
 
     // console.log(title  , id)
 
@@ -27,11 +30,13 @@ function BasketProductCart({ title, image, quantity, size, productId, price, bor
             if (res.status == 200) {
                 toast.dismiss(toastId)
                 toast.success('product Removed Successfully')
+                // setBasket(resData.cart)
                 setGetData(prev => !prev)
             }
         } catch (err) {
             toast.dismiss(toastId)
             toast.error('Unknown err in removing product')
+            console.log(err)
         } finally {
             setRemoveFlag(false)
         }
