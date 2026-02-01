@@ -50,7 +50,7 @@ function Footer() {
                         <p className="text-gray-400 font-sans text-center lg:text-left">Coffee Uni delivers freshly roasted beans crafted with reach flavors and sustainable sourcing. Each cup is designed to inspire warmth,energy and connection.</p>
                         <p className="text-gray-400 font-sans text-center lg:text-left">We craft premium coffee daily, delivering perfect brews with passion, quality and excellence that create memorable stories in every cup.</p>
 
-                        <button className="px-4 py-2 w-fit rounded-xl text-white font-bold bg-blue-500 cursor-pointer block mx-auto lg:mx-0">Get Started</button>
+                        <button className="px-4 py-2 w-fit rounded-2xl text-black font-bold bg-amber-500 hover:bg-amber-600 transition-all cursor-pointer block mx-auto lg:mx-0">Get Started</button>
                     </div>
                 </div>
                 <div className="mt-auto py-2 text-white font-bold text-center sm:gap-7 px-5 xs:px-0">

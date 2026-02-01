@@ -11,7 +11,7 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { useRef } from "react";
 
-function WhatOurCustomersSay() {
+function WhatOurCustomersSay({comments}) {
     let swiperRef = useRef(null)
 
     return (
@@ -68,9 +68,14 @@ function WhatOurCustomersSay() {
                                 spaceBetween: 20,
                             },
                         }}
-                        className="mySwiper h-full w-full !px-2 !pb-5"
+                        className="mySwiper h-full w-full !px-2 !py-5"
                     >
-                        <SwiperSlide>
+                        {comments.map(comment => (
+                            <SwiperSlide key={comment?._id}>
+                                <ClientComment {...comment} />
+                            </SwiperSlide>
+                        ))}
+                        {/* <SwiperSlide>
                             <ClientComment username="AlexGreen" commentText="the atmosphere and the taste of the coffee was perfect" score={4} />
                         </SwiperSlide>
                         <SwiperSlide>
@@ -93,10 +98,7 @@ function WhatOurCustomersSay() {
                         </SwiperSlide>
                         <SwiperSlide>
                             <ClientComment username="AlexGreen" commentText="the atmosphere and the taste of the coffee was perfect" score={4} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <ClientComment username="AlexGreen" commentText="the atmosphere and the taste of the coffee was perfect" score={4} />
-                        </SwiperSlide>
+                        </SwiperSlide> */}
                     </Swiper>
                     <button
                         onClick={() => swiperRef?.current.swiper.slideNext()}

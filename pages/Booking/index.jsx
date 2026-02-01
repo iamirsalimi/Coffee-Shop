@@ -1,12 +1,30 @@
+import Head from 'next/head';
+
 import Header from '@/components/layouts/Booking/Header'
 import BookingForm from '@/components/layouts/Booking/BookingForm'
 import React from 'react'
+import { Toaster } from 'react-hot-toast';
+
+export const getStaticProps = () => {
+  return {
+    props: {
+
+    }
+  }
+}
 
 function Booking() {
   return (
     <div className="w-full h-full flex flex-col">
-        <Header />
-        <BookingForm />
+      <Head>
+        <title>Coffee Uni | Booking</title>
+      </Head>
+      <Header />
+      <BookingForm />
+      <Toaster
+        position="top-left"
+        reverseOrder={false}
+      />
     </div>
   )
 }
